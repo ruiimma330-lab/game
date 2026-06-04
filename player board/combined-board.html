@@ -10,10 +10,10 @@ html{overflow:auto}
 body{
   background:linear-gradient(135deg,#2c1810,#4a2c17 50%,#2c1810);
   font-family:'Georgia','Noto Serif SC','SimSun','STSong',serif;
-  display:flex;flex-direction:column;align-items:center;padding:20px
+  padding:20px;position:relative
 }
-h1{color:#e8d5b7;font-size:20px;margin-bottom:16px;text-shadow:1px 1px 3px rgba(0,0,0,.7);letter-spacing:2px}
-.container{position:relative;width:2400px;min-height:1900px;overflow:visible;background:rgba(0,0,0,.15);border-radius:16px;border:2px solid #5a3d2b}
+h1{color:#e8d5b7;font-size:20px;margin:0 auto 16px;text-align:center;text-shadow:1px 1px 3px rgba(0,0,0,.7);letter-spacing:2px;display:block}
+.container{position:fixed;left:0;top:0;width:2400px;min-height:1900px;overflow:visible;background:rgba(0,0,0,.15);border-radius:16px;border:2px solid #5a3d2b;transform-origin:0 0}
 
 /* Center board */
 .cb-wrap{position:absolute;left:700px;top:595px;width:1000px}
@@ -31,10 +31,15 @@ h1{color:#e8d5b7;font-size:20px;margin-bottom:16px;text-shadow:1px 1px 3px rgba(
   transform-origin:center center
 }
 .player-slot .plabel{
-  position:absolute;top:-4px;left:50%;transform:translateX(-50%);
-  background:#b33;color:#fff;font-size:11px;font-weight:bold;padding:2px 14px;
-  border-radius:0 0 8px 8px;letter-spacing:2px;z-index:10
+  position:absolute;top:-6px;left:50%;transform:translateX(-50%);
+  color:#fff;font-size:16px;font-weight:bold;padding:4px 20px;
+  border-radius:0 0 10px 10px;letter-spacing:3px;z-index:10;
+  box-shadow:0 3px 10px rgba(0,0,0,.3)
 }
+.p1 .plabel{background:#d32f2f}
+.p2 .plabel{background:#1976d2}
+.p3 .plabel{background:#388e3c}
+.p4 .plabel{background:#f57c00}
 .player-slot.p1 .board{transform:scale(0.65) rotate(0deg)}
 .player-slot.p2 .board{transform:scale(0.65) rotate(270deg)}
 .player-slot.p3 .board{transform:scale(0.65) rotate(180deg)}
@@ -148,11 +153,62 @@ h1{color:#e8d5b7;font-size:20px;margin-bottom:16px;text-shadow:1px 1px 3px rgba(
 /* Tooltip */
 .tt{position:fixed;background:rgba(40,24,15,.96);color:#e8d5b7;padding:10px 14px;border-radius:8px;font-size:13px;max-width:260px;pointer-events:none;z-index:999;display:none;border:1px solid #c9a96e;line-height:1.6;box-shadow:0 4px 16px rgba(0,0,0,.4)}
 .tt b{color:#f0d68a}
+
+/* Demo mode */
+.demo-btn{
+  position:fixed;top:20px;right:20px;z-index:1000;
+  background:linear-gradient(135deg,#c0392b,#962d22);color:#fff;
+  border:none;border-radius:30px;padding:10px 24px;
+  font-size:15px;font-weight:bold;cursor:pointer;
+  box-shadow:0 4px 16px rgba(0,0,0,.4);
+  letter-spacing:2px;font-family:inherit;
+  transition:transform .2s,box-shadow .2s
+}
+.demo-btn:hover{transform:scale(1.05);box-shadow:0 6px 24px rgba(192,57,43,.5)}
+.demo-text{
+  position:fixed;bottom:80px;left:50%;transform:translateX(-50%);
+  z-index:1000;pointer-events:none;
+  display:flex;flex-direction:column;align-items:center;gap:8px
+}
+.dt-item{
+  background:rgba(44,24,16,.94);color:#e8d5b7;
+  border:1px solid #c9a96e;border-radius:12px;
+  padding:12px 28px;font-size:16px;line-height:1.6;
+  text-align:center;max-width:700px;
+  box-shadow:0 8px 32px rgba(0,0,0,.5);
+  opacity:0;transform:translateY(20px);
+  transition:opacity .4s ease,transform .4s ease
+}
+.dt-item.show{opacity:1;transform:translateY(0)}
+.dt-item.hide{opacity:0;transform:translateY(-10px);transition:opacity .3s,transform .3s}
+.dt-item b{color:#f0d68a}
+.dt-item .dt-title{font-size:22px;font-weight:bold;color:#f0d68a;display:block;margin-bottom:4px}
+.demo-nav{
+  position:fixed;bottom:30px;left:50%;transform:translateX(-50%);
+  z-index:1001;display:none;align-items:center;gap:12px
+}
+.demo-nav.show{display:flex}
+.demo-nav .dn-btn{
+  background:rgba(44,24,16,.9);color:#e8d5b7;
+  border:1px solid #c9a96e;border-radius:8px;
+  padding:8px 20px;font-size:14px;font-weight:bold;cursor:pointer;
+  font-family:inherit;transition:background .2s
+}
+.demo-nav .dn-btn:hover{background:rgba(80,50,30,.9)}
+.demo-nav .dn-dots{display:flex;gap:6px}
+.demo-nav .dn-dot{width:10px;height:10px;border-radius:50%;background:#5a3d2b;border:1px solid #8B7355;transition:background .3s}
+.demo-nav .dn-dot.active{background:#f0d68a;border-color:#f0d68a}
+.demo-nav .dn-close{
+  background:transparent;color:#a08060;border:none;
+  font-size:12px;cursor:pointer;padding:4px 8px;font-family:inherit
+}
+.demo-nav .dn-close:hover{color:#e8d5b7}
+.demo-highlight{filter:drop-shadow(0 0 12px rgba(255,215,0,.8));transition:filter .5s}
 </style>
 </head>
 <body>
-<h1>勃艮第城堡 — 完整版图</h1>
 <div class="container">
+  <h1 style="color:#e8d5b7;font-size:20px;margin:12px 0 8px;text-align:center;text-shadow:1px 1px 3px rgba(0,0,0,.7);letter-spacing:2px">勃艮第城堡 — 完整版图</h1>
   <!-- Center board -->
   <div class="cb-wrap" id="center-wrap"></div>
 
@@ -164,6 +220,15 @@ h1{color:#e8d5b7;font-size:20px;margin-bottom:16px;text-shadow:1px 1px 3px rgba(
 </div>
 
 <div class="tt" id="global-tt"></div>
+
+<button class="demo-btn" id="demo-btn">▶ 流程演示</button>
+<div class="demo-text" id="demo-text"></div>
+<div class="demo-nav" id="demo-nav">
+  <button class="dn-btn" id="dn-prev">← 上一步</button>
+  <div class="dn-dots" id="dn-dots"></div>
+  <button class="dn-btn" id="dn-next">下一步 →</button>
+  <button class="dn-close" id="dn-close">✕ 关闭</button>
+</div>
 
 <script>
 // ═══════════════════════════════════════════════════════════
@@ -429,6 +494,16 @@ wrap.innerHTML=`<div class="wrap"><svg viewBox="0 0 1140 810" id="cb-svg" xmlns=
     const m=el('text',{x:s0.x+s0.w/2,y:s0.y+s0.h+9,'text-anchor':'middle','font-size':'8',fill:'#c9a96e','font-family':'Georgia,serif'});
     m.textContent='▲ START';
     g.appendChild(m);
+
+    // Player pieces on scoring track
+    const playerColors=['#d32f2f','#1976d2','#388e3c','#f57c00'];
+    const sPos={x:s0.x+s0.w/2,y:s0.y+s0.h/2};
+    function hexPts8(cx,cy){const w=8,h=7,qw=2,hh=3.5;return (cx)+','+(cy-hh)+' '+(cx+qw)+','+(cy-hh/2)+' '+(cx+qw)+','+(cy+hh/2)+' '+cx+','+(cy+hh)+' '+(cx-qw)+','+(cy+hh/2)+' '+(cx-qw)+','+(cy-hh/2);}
+    playerColors.forEach((c,i)=>{
+      const ox=(i%2===0?-1:1)*5,oy=(i<2?-1:1)*4;
+      const pg=el('polygon',{points:hexPts8(sPos.x+ox,sPos.y+oy),fill:c,stroke:'#fff','stroke-width':'1',cursor:'pointer','data-tip':'<b>P'+(i+1)+'</b> · 得分 0','class':'player-piece','data-player':i+1});
+      g.appendChild(pg);
+    });
   })();
 
   // Depot layout
@@ -543,21 +618,32 @@ wrap.innerHTML=`<div class="wrap"><svg viewBox="0 0 1140 810" id="cb-svg" xmlns=
   // Tooltip for center board
   const tt=document.getElementById('global-tt');
   document.querySelectorAll('#cb-svg [data-tip]').forEach(e=>{
-    e.addEventListener('mouseenter',()=>{tt.innerHTML=e.getAttribute('data-tip');tt.style.display='block';});
-    e.addEventListener('mousemove',ev=>{tt.style.left=Math.min(ev.clientX+12,innerWidth-280)+'px';tt.style.top=Math.min(ev.clientY+12,innerHeight-100)+'px';});
+    e.addEventListener('mouseenter',()=>{if(window.isDemoActive&&window.isDemoActive())return;tt.innerHTML=e.getAttribute('data-tip');tt.style.display='block';});
+    e.addEventListener('mousemove',ev=>{if(window.isDemoActive&&window.isDemoActive())return;tt.style.left=Math.min(ev.clientX+12,innerWidth-280)+'px';tt.style.top=Math.min(ev.clientY+12,innerHeight-100)+'px';});
     e.addEventListener('mouseleave',()=>{tt.style.display='none';});
   });
 })();
 
 // ═══════════════════════════════════════════════════════════
-// Infinite canvas — 按住 Alt+左键拖拽
+// Infinite canvas — 按住 Alt+左键拖拽 + 演示缩放
 // ═══════════════════════════════════════════════════════════
 (function(){
   let altDown=false, dragging=false;
-  let sx=0, sy=0, ox=0, oy=0;
+  let sx=0, sy=0, ox=0, oy=0, zoomS=1;
+  let demoActive=false, savedOX=0, savedOY=0;
   const c=document.querySelector('.container');
+  function updateTransform(){
+    c.style.transform='translate('+ox+'px,'+oy+'px) scale('+zoomS+')';
+  }
+  // Center game content on load (zoom out slightly to fit all boards)
+  const initS=0.8;
+  const contentCx=1200, contentCy=950;
+  ox=window.innerWidth/2-contentCx*initS;
+  oy=window.innerHeight/2-contentCy*initS;
+  zoomS=initS;
+  updateTransform();
   window.addEventListener('keydown',e=>{
-    if(e.key==='Alt'&&!e.repeat){
+    if(e.key==='Alt'&&!e.repeat&&!demoActive){
       altDown=true;
       document.body.style.cursor='grab';
       e.preventDefault();
@@ -566,27 +652,218 @@ wrap.innerHTML=`<div class="wrap"><svg viewBox="0 0 1140 810" id="cb-svg" xmlns=
   window.addEventListener('keyup',e=>{
     if(e.key==='Alt'){
       altDown=false;dragging=false;
-      document.body.style.cursor='';
+      if(!demoActive)document.body.style.cursor='';
     }
   });
   document.addEventListener('mousedown',e=>{
-    if(altDown&&e.button===0){
+    if(altDown&&e.button===0&&!demoActive){
       dragging=true;sx=e.clientX-ox;sy=e.clientY-oy;
       document.body.style.cursor='grabbing';
       e.preventDefault();
     }
   });
   document.addEventListener('mousemove',e=>{
-    if(dragging&&altDown){
+    if(dragging&&altDown&&!demoActive){
       ox=e.clientX-sx;oy=e.clientY-sy;
-      c.style.transform='translate('+ox+'px,'+oy+'px)';
+      updateTransform();
     }
   });
   document.addEventListener('mouseup',()=>{
-    if(dragging){dragging=false;document.body.style.cursor=altDown?'grab':'';}
+    if(dragging){dragging=false;document.body.style.cursor=altDown&&!demoActive?'grab':'';}
   });
   window.addEventListener('keyup',e=>{
-    if(e.key==='Alt')document.body.style.cursor='';
+    if(e.key==='Alt'&&!demoActive)document.body.style.cursor='';
+  });
+
+  // Zoom to focus point
+  window.animateZoom=function(cx,cy,s,instant){
+    zoomS=s;
+    ox=window.innerWidth/2-cx*s;
+    oy=window.innerHeight/2-cy*s;
+    if(instant){
+      c.style.transition='none';
+      updateTransform();
+      void c.offsetHeight;
+      c.style.transition='';
+    }else{
+      updateTransform();
+    }
+  };
+
+  // Demo mode control
+  window.enterDemo=function(){
+    demoActive=true;
+    savedOX=ox; savedOY=oy;
+    c.style.transition='transform 0.8s cubic-bezier(0.4,0,0.2,1)';
+  };
+  window.exitDemo=function(){
+    demoActive=false;
+    ox=savedOX; oy=savedOY; zoomS=1;
+    c.style.transition='transform 0.5s cubic-bezier(0.4,0,0.2,1)';
+    updateTransform();
+    setTimeout(()=>{c.style.transition='';},500);
+  };
+  window.isDemoActive=function(){return demoActive;};
+})();
+
+// ═══════════════════════════════════════════════════════════
+// 流程演示 — 步骤数据 + 动画
+// ═══════════════════════════════════════════════════════════
+(function(){
+  const steps=[
+    {
+      title:'勃艮第城堡 — 完整版图',
+      lines:[
+        '包含 <b>1 个中心公共版图</b> 和 <b>4 个玩家版图</b>',
+        '支持 <b>2-4 人</b>游戏，共 <b>5 阶段 × 5 轮 = 25 回合</b>'
+      ],
+      zoom:{cx:1200,cy:950,s:0.8},
+      hl:'.container'
+    },
+    {
+      title:'中心公共版图',
+      lines:[
+        '<b>6 个仓库</b> 对应骰子点数 1-6<br>存放城堡🏰、船只🚢、矿场⛏️、建筑🏛️、知识📚、动物🐑',
+        '<b>黑市</b> — 花费 2 银币可购买任意板块',
+        '四周 <b>得分轨道</b> — 1 分/格，顺时针递增'
+      ],
+      zoom:{cx:1200,cy:950,s:1.5},
+      hl:'.cb-wrap .wrap'
+    },
+    {
+      title:'全景总览',
+      lines:['接下来让我们聚焦 <b>玩家版图</b>'],
+      zoom:{cx:1200,cy:950,s:0.8},
+      hl:''
+    },
+    {
+      title:'玩家版图 — P1',
+      lines:[
+        '每位玩家拥有一张 <b>6×7 六边形网格</b> 版图',
+        '左侧 <b>资源区</b>：工人 👷 和 银币 🪙',
+        '顶部 <b>货物存储格</b>：🍇 🍷 🍲',
+        '底部 <b>六角片仓库</b> 和 <b>订单卷轴</b>'
+      ],
+      zoom:{cx:1200,cy:1470,s:2.0},
+      hl:'.p1 .board'
+    }
+  ];
+
+  let currentStep=-1, running=false;
+  const textEl=document.getElementById('demo-text');
+  const navEl=document.getElementById('demo-nav');
+  const dotsEl=document.getElementById('dn-dots');
+  const btn=document.getElementById('demo-btn');
+  const style=document.createElement('style');
+
+  function buildDots(){
+    dotsEl.innerHTML='';
+    steps.forEach((_,i)=>{
+      const d=document.createElement('span');d.className='dn-dot'+(i===currentStep?' active':'');
+      dotsEl.appendChild(d);
+    });
+  }
+
+  function showLines(title,lines,callback){
+    let idx=-1;
+    textEl.innerHTML='';
+    function showNext(){
+      if(!running){if(callback)callback();return;}
+      const item=document.createElement('div');item.className='dt-item';
+      if(idx===-1){
+        item.innerHTML='<span class="dt-title">'+title+'</span>';
+        idx=0;
+      }else{
+        if(idx>=lines.length){if(callback)callback();return;}
+        item.innerHTML=lines[idx];
+        idx++;
+      }
+      textEl.appendChild(item);
+      void item.offsetHeight;
+      item.classList.add('show');
+      const stay=idx===lines.length-1?2200:1800;
+      setTimeout(()=>{
+        item.classList.remove('show');
+        item.classList.add('hide');
+        setTimeout(()=>{item.remove();idx++;showNext();},300);
+      },stay);
+    }
+    showNext();
+  }
+
+  function clearHL(){
+    document.querySelectorAll('.demo-highlight').forEach(e=>e.classList.remove('demo-highlight'));
+  }
+  function applyHL(sel){
+    if(!sel)return;
+    document.querySelectorAll(sel).forEach(e=>e.classList.add('demo-highlight'));
+  }
+
+  function goToStep(i){
+    if(i<0||i>=steps.length)return;
+    clearHL();
+    currentStep=i;
+    running=true;
+    const step=steps[i];
+    // Apply highlight
+    setTimeout(()=>applyHL(step.hl),100);
+    // Zoom
+    window.animateZoom(step.zoom.cx,step.zoom.cy,step.zoom.s);
+    // Show lines
+    showLines(step.title,step.lines,()=>{
+      // Lines done → show nav
+      navEl.classList.add('show');
+      buildDots();
+    });
+    // Build title item (always shown)
+  }
+
+  function startDemo(){
+    if(window.isDemoActive())return;
+    window.enterDemo();
+    document.getElementById('global-tt').style.display='none';
+    btn.textContent='⏹ 结束演示';
+    currentStep=-1;
+    navEl.classList.remove('show');
+    goToStep(0);
+  }
+
+  function endDemo(){
+    running=false;
+    textEl.innerHTML='';
+    navEl.classList.remove('show');
+    window.exitDemo();
+    btn.textContent='▶ 流程演示';
+    currentStep=-1;
+  }
+
+  function nextStep(){
+    if(currentStep<steps.length-1){
+      navEl.classList.remove('show');
+      goToStep(currentStep+1);
+    }
+  }
+
+  function prevStep(){
+    if(currentStep>0){
+      navEl.classList.remove('show');
+      goToStep(currentStep-1);
+    }
+  }
+
+  // Events
+  btn.addEventListener('click',()=>{
+    window.isDemoActive()?endDemo():startDemo();
+  });
+  document.getElementById('dn-next').addEventListener('click',nextStep);
+  document.getElementById('dn-prev').addEventListener('click',prevStep);
+  document.getElementById('dn-close').addEventListener('click',endDemo);
+  // Keyboard
+  document.addEventListener('keydown',e=>{
+    if(!window.isDemoActive())return;
+    if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();nextStep();}
+    if(e.key==='ArrowLeft'){e.preventDefault();prevStep();}
+    if(e.key==='Escape'){endDemo();}
   });
 })();
 </script>
