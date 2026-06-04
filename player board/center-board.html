@@ -30,6 +30,14 @@ svg{width:100%;height:auto;display:block}
 <linearGradient id="pE" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#8e44ad"/><stop offset="100%" stop-color="#6c3483"/></linearGradient>
 <linearGradient id="d6g" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="50%" stop-color="#7fa87f"/><stop offset="50%" stop-color="#b0b0b0"/></linearGradient>
 <linearGradient id="edge" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#a08060"/><stop offset="100%" stop-color="#7a6040"/></linearGradient>
+<!-- Terrain-style gradients (matching player board palette) -->
+<linearGradient id="g-castle" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e74c3c"/><stop offset="100%" stop-color="#c0392b"/></linearGradient>
+<linearGradient id="g-ship" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#5dade2"/><stop offset="100%" stop-color="#2471a3"/></linearGradient>
+<linearGradient id="g-know" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ffb74d"/><stop offset="100%" stop-color="#e65100"/></linearGradient>
+<linearGradient id="g-mine" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#bdc3c7"/><stop offset="100%" stop-color="#7f8c8d"/></linearGradient>
+<linearGradient id="g-animal" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#8bc34a"/><stop offset="100%" stop-color="#33691e"/></linearGradient>
+<linearGradient id="g-build" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ffd54f"/><stop offset="100%" stop-color="#f9a825"/></linearGradient>
+<linearGradient id="g-knowledge-hex" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ffcc80"/><stop offset="100%" stop-color="#bf6a0a"/></linearGradient>
 <marker id="arr" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0,0 7,2.5 0,5" fill="#c9a96e"/></marker>
 </defs>
 
@@ -264,6 +272,8 @@ function el(tag,attrs){
 
     // Card background
     dg.appendChild(el('rect',{x:cx0,y:cy0,width:CW,height:CH,rx:'10',fill:'#f0e8d0',stroke:'#a08060','stroke-width':'1.4'}));
+    // Subtle top highlight for bevel
+    dg.appendChild(el('rect',{x:cx0+2,y:cy0+2,width:CW-4,height:4,rx:'5',fill:'rgba(255,255,240,.4)','pointer-events':'none'}));
 
     // Depot number + label — vertically centered in card
     const fill=num===6?'url(#d6g)':'#5a3d2b';
@@ -312,14 +322,16 @@ function el(tag,attrs){
     }
 
     hPositions.forEach((hp,hi)=>{
-      let style='';
-      let tip='板块位';
+      let fill='#f5edd6', stroke='#8B7355', tip='板块位';
       if(num===6){
-        style=hi%2===0?'fill:#d4e8d4;stroke:#7fa87f':'fill:#d8d8d8;stroke:#999';
+        fill=hi%2===0?'url(#g-castle)':'url(#g-mine)';
+        stroke=hi%2===0?'#1b5e20':'#555';
         tip=hi%2===0?'城堡位 · A/C/E':'矿场位 · B/D';
       }
-      const poly=el('polygon',{points:hexPts(hp.cx,hp.cy,hexW,hexH),fill:num===6?'':'#f5edd6',stroke:'#8B7355','stroke-width':'1.4',style:style||'fill:#f5edd6;stroke:#8B7355;stroke-width:1.4',cursor:'pointer','data-tip':tip});
+      const poly=el('polygon',{points:hexPts(hp.cx,hp.cy,hexW,hexH),fill,stroke,'stroke-width':'1.4',cursor:'pointer','data-tip':tip});
       dg.appendChild(poly);
+      // Inner border for definition (player board ::after style)
+      dg.appendChild(el('polygon',{points:hexPts(hp.cx,hp.cy,hexW-4,hexH-4),fill:'none',stroke:'rgba(0,0,0,.08)','stroke-width':'1','pointer-events':'none'}));
     });
 
     // Goods circle — inside card corner, avoid overlapping the number
@@ -340,11 +352,11 @@ function el(tag,attrs){
     // Depot 6 special legend
     if(num===6){
       const lx=cx0+CW-30, ly=cy0+3;
-      dg.appendChild(el('rect',{x:lx,y:ly,width:26,height:10,rx:'2',fill:'#7fa87f'}));
+      dg.appendChild(el('rect',{x:lx,y:ly,width:26,height:10,rx:'2',fill:'url(#g-castle)'}));
       const t1=el('text',{x:lx+13,y:ly+7.5,'text-anchor':'middle','font-size':'5.5',fill:'#fff','font-family':'Georgia,serif'});
       t1.textContent='城堡';
       dg.appendChild(t1);
-      dg.appendChild(el('rect',{x:lx,y:ly+12,width:26,height:10,rx:'2',fill:'#aaa'}));
+      dg.appendChild(el('rect',{x:lx,y:ly+12,width:26,height:10,rx:'2',fill:'url(#g-mine)'}));
       const t2=el('text',{x:lx+13,y:ly+19.5,'text-anchor':'middle','font-size':'5.5',fill:'#fff','font-family':'Georgia,serif'});
       t2.textContent='矿场';
       dg.appendChild(t2);
@@ -389,6 +401,12 @@ function el(tag,attrs){
       fill:'#3a3a3a', stroke:'#c9a96e','stroke-width':'1.6',
       cursor:'pointer','data-tip':'黑市板块 · 2银币'
     }));
+    // Inner border for definition
+    bg.appendChild(el('polygon',{
+      points:hexPts(bh.cx, bh.cy, bHW-4, bHH-4),
+      fill:'none',stroke:'rgba(255,255,255,.06)','stroke-width':'1',
+      'pointer-events':'none'
+    }));
   });
 
   // Silver coin
@@ -418,9 +436,19 @@ function el(tag,attrs){
     const op=i>=6?'0.5':'1';
     g.appendChild(el('polygon',{
       points:hexPts(p[0],p[1],hw,hh),
-      fill:'#fff3b0',stroke:'#d4a017','stroke-width':'1.4',
+      fill:'url(#g-knowledge-hex)',stroke:'#8B4513','stroke-width':'1.4',
       opacity:op,cursor:'pointer','data-tip':'知识板块'
     }));
+    // Inner border
+    g.appendChild(el('polygon',{
+      points:hexPts(p[0],p[1],hw-4,hh-4),
+      fill:'none',stroke:'rgba(0,0,0,.1)','stroke-width':'1',
+      opacity:op,'pointer-events':'none'
+    }));
+    // Knowledge emoji icon
+    const ic=el('text',{x:p[0],y:p[1]-2,'text-anchor':'middle','font-family':'Apple Color Emoji,Segoe UI Emoji,Noto Color Emoji,sans-serif','font-size':'14','fill':'#fff','filter':'drop-shadow(0 1px 2px rgba(0,0,0,.4))','opacity':op,'pointer-events':'none'});
+    ic.textContent='📚';
+    g.appendChild(ic);
   });
 })();
 
@@ -435,24 +463,32 @@ function el(tag,attrs){
   }
   const hexW=32, hexH=36;
   const items=[
-    {label:'城堡',val:'8',color:'#c0392b',x:870,y:674},
-    {label:'船只',val:'8',color:'#2471a3',x:928,y:674},
-    {label:'知识',val:'8',color:'#7d6608',x:986,y:674},
-    {label:'矿场',val:'5',color:'#888',x:870,y:707},
-    {label:'动物',val:'5',color:'#2e7d32',x:928,y:707},
-    {label:'建筑',val:'5',color:'#8B6914',x:986,y:707},
+    {label:'城堡',val:'8',icon:'🏰',grad:'g-castle',x:870,y:674},
+    {label:'船只',val:'8',icon:'🚢',grad:'g-ship',x:928,y:674},
+    {label:'知识',val:'8',icon:'📚',grad:'g-know',x:986,y:674},
+    {label:'矿场',val:'5',icon:'⛏️',grad:'g-mine',x:870,y:707},
+    {label:'动物',val:'5',icon:'🐑',grad:'g-animal',x:928,y:707},
+    {label:'建筑',val:'5',icon:'🏛️',grad:'g-build',x:986,y:707},
   ];
   items.forEach(it=>{
     const cx=it.x+26, cy=it.y+16;
     g.appendChild(el('polygon',{
       points:hexPts(cx,cy,hexW,hexH),
-      fill:it.color,stroke:'#fff','stroke-width':'1.5',
+      fill:'url(#'+it.grad+')',stroke:'#fff','stroke-width':'1.5',
       cursor:'pointer','data-tip':'<b>'+it.label+'</b> 区域奖励 '+it.val+'分'
     }));
-    const lb=el('text',{x:cx,y:cy-3,'text-anchor':'middle','font-family':'Georgia,serif','font-size':'7','font-weight':'bold',fill:'#fff','pointer-events':'none'});
-    lb.textContent=it.label;
-    g.appendChild(lb);
-    const vt=el('text',{x:cx,y:cy+11,'text-anchor':'middle','font-family':'Georgia,serif','font-size':'11','font-weight':'bold',fill:'#fff','pointer-events':'none'});
+    // Inner border for definition (player board ::after style)
+    g.appendChild(el('polygon',{
+      points:hexPts(cx,cy,hexW-4,hexH-4),
+      fill:'none',stroke:'rgba(0,0,0,.12)','stroke-width':'1.2',
+      'pointer-events':'none'
+    }));
+    // Emoji icon
+    const ic=el('text',{x:cx,y:cy-4,'text-anchor':'middle','font-family':'Apple Color Emoji,Segoe UI Emoji,Noto Color Emoji,sans-serif','font-size':'13','fill':'#fff','filter':'drop-shadow(0 1px 2px rgba(0,0,0,.4))','pointer-events':'none'});
+    ic.textContent=it.icon;
+    g.appendChild(ic);
+    // Value
+    const vt=el('text',{x:cx,y:cy+13,'text-anchor':'middle','font-family':'Georgia,serif','font-size':'12','font-weight':'bold',fill:'#fff','filter':'drop-shadow(0 1px 2px rgba(0,0,0,.4))','pointer-events':'none'});
     vt.textContent=it.val;
     g.appendChild(vt);
   });
