@@ -10,9 +10,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - **`board-game-mat.html`**: 唯一生产文件。所有 CSS、HTML、JS 内联在一个文件中。浏览器直接打开即可查看。
 - **`35cd6588fd40ea9ab8d2601220114595.png`**: 参考图片（原版版图截图 565×754），用于网格定位和颜色提取。
-- **分析脚本** (Node.js): `analyze_grid.js`, `find_hex_grid.js`, `scan_grid.js`, `optimize_grid.js`, `hex_raw.js`, `refine_grid.js`, `find_bounds.js`, `analyze_colors.js` — 从参考图片提取六边形位置和地形颜色的工具，非生产代码。
-- **`analyze_board.py`**: Python 图像分析脚本（需 Pillow），作用同上。
-- **`package.json`**: 仅依赖 `pngjs`，用于分析脚本。
+- **分析脚本** (Node.js): 从参考图片提取六边形位置和地形颜色的工具链，非生产代码。
+  - `analyze_grid.js` / `find_hex_grid.js` / `scan_grid.js` — 初始扫描和检测
+  - `refine_grid.js` / `optimize_grid.js` — 精调和参数优化（依赖 pngjs）
+  - `hex_raw.js` / `find_bounds.js` — 原始数据和边界检测
+  - `analyze_colors.js` — 各地形颜色提取
+- **`analyze_board.py`**: Python/Pillow 简易图像分析脚本，作用同上。
+- **`package.json`**: 仅依赖 `pngjs`。
 
 ## Hex Grid — 0.5 精度坐标系统
 
@@ -26,7 +30,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | H | 83 | Hex height (px) |
 | VG | H*3/4 = 62.25 | Vertical gap between rows |
 | HO | W/2 = 36 | (保留但不再用于渲染) |
-| BX | 100 | Board X offset |
+| BX | 65 | Board X offset（与标题中心对齐） |
 | BY | 18 | Board Y offset |
 
 ### 渲染公式
@@ -95,9 +99,9 @@ CSS 类 `.t-*` 控制背景色（渐变）。如需调整色值，同时更新 C
 
 ## 如何修改
 
-1. 改地形布局 → 编辑 `DATA` 数组中的 terrainKey
+1. 改地形布局 → 编辑 `DATA` 数组中的 terrainKey（注意保持行对称性）
 2. 改颜色 → 同时更新 CSS `.t-*` 的 `background` 和 JS `T` 中对应的 `dc`
-3. 加骰子标记 → 在 DATA 条目中添加 `dieValue` 和/或 `mark` 参数
+3. 加骰子/标记 → 在 DATA 条目中添加 `dieValue` 和/或 `mark` 参数
 4. 调整位置 → 修改 `BX` / `BY`（整体偏移）或 DATA 中的 `col` 值
 5. 查看效果 → 浏览器打开 `board-game-mat.html`
 6. 图片分析校准 → `node optimize_grid.js`
