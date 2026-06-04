@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1280" height="720" viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@700&family=Roboto+Mono:wght@400;700&display=swap');
+  text { font-family: 'Noto Sans SC', 'Microsoft YaHei', sans-serif; }
+  .title { font-family: 'Noto Serif SC', 'SimSun', serif; font-weight: 700; font-size: 22px; fill: #1A1A1A; }
+  .section { font-size: 11px; fill: #888888; }
+  .brand { font-size: 11px; font-weight: 700; fill: #1677FF; }
+  .footer { font-size: 11px; fill: #888888; }
+  .num { font-family: 'Roboto Mono', monospace; }
+</style>
+<!-- Top brand line -->
+<rect x="0" y="0" width="1280" height="3" fill="#1677FF"/>
+<!-- Header -->
+<text x="40" y="22" class="section">一、空间与人群</text>
+<text x="1240" y="22" text-anchor="end" class="brand">桌游调研报告</text>
+<line x1="40" y1="30" x2="1240" y2="30" stroke="#E2E2E2" stroke-width="0.5"/>
+<!-- Action Title -->
+<rect x="40" y="36" width="3" height="52" fill="#1677FF"/>
+<text x="52" y="70" class="title">中国桌游市场规模达 273.8 亿元，社交玩家占最大份额</text>
+<line x1="40" y1="94" x2="1240" y2="94" stroke="#E2E2E2" stroke-width="0.5"/>
+<line x1="100" y1="130" x2="100" y2="590" stroke="#888888" stroke-width="0.5"/>
+<line x1="100" y1="590" x2="760" y2="590" stroke="#888888" stroke-width="0.5"/>
+<line x1="100" y1="590.0" x2="760" y2="590.0" stroke="#E2E2E2" stroke-width="0.5" stroke-dasharray="2,2"/>
+<text x="94" y="594.0" text-anchor="end" class="footer" font-size="10">0</text>
+<line x1="100" y1="513.3333333333334" x2="760" y2="513.3333333333334" stroke="#E2E2E2" stroke-width="0.5" stroke-dasharray="2,2"/>
+<text x="94" y="517.3333333333334" text-anchor="end" class="footer" font-size="10">50</text>
+<line x1="100" y1="436.6666666666667" x2="760" y2="436.6666666666667" stroke="#E2E2E2" stroke-width="0.5" stroke-dasharray="2,2"/>
+<text x="94" y="440.6666666666667" text-anchor="end" class="footer" font-size="10">100</text>
+<line x1="100" y1="360.0" x2="760" y2="360.0" stroke="#E2E2E2" stroke-width="0.5" stroke-dasharray="2,2"/>
+<text x="94" y="364.0" text-anchor="end" class="footer" font-size="10">150</text>
+<line x1="100" y1="283.33333333333337" x2="760" y2="283.33333333333337" stroke="#E2E2E2" stroke-width="0.5" stroke-dasharray="2,2"/>
+<text x="94" y="287.33333333333337" text-anchor="end" class="footer" font-size="10">200</text>
+<line x1="100" y1="206.66666666666663" x2="760" y2="206.66666666666663" stroke="#E2E2E2" stroke-width="0.5" stroke-dasharray="2,2"/>
+<text x="94" y="210.66666666666663" text-anchor="end" class="footer" font-size="10">250</text>
+<line x1="100" y1="130.0" x2="760" y2="130.0" stroke="#E2E2E2" stroke-width="0.5" stroke-dasharray="2,2"/>
+<text x="94" y="134.0" text-anchor="end" class="footer" font-size="10">300</text>
+<text x="60" y="120" font-size="10" fill="#888888">亿元</text>
+<rect x="118.5625" y="523.1466666666666" width="45.37500000000001" height="66.85333333333334" fill="#1677FF" rx="2" opacity="0.85"/>
+<text x="141.25" y="515.1466666666666" text-anchor="middle" font-size="11" font-weight="700" class="num" fill="#1A1A1A">43.6</text>
+<text x="141.25" y="608" text-anchor="middle" font-size="11" fill="#555555">2017</text>
+<rect x="201.0625" y="503.06" width="45.37500000000001" height="86.94" fill="#1677FF" rx="2" opacity="0.85"/>
+<text x="223.75" y="608" text-anchor="middle" font-size="11" fill="#555555">2018</text>
+<rect x="283.5625" y="476.99333333333334" width="45.37500000000001" height="113.00666666666667" fill="#1677FF" rx="2" opacity="0.85"/>
+<text x="306.25" y="468.99333333333334" text-anchor="middle" font-size="11" font-weight="700" class="num" fill="#1A1A1A">73.7</text>
+<text x="306.25" y="608" text-anchor="middle" font-size="11" fill="#555555">2019</text>
+<rect x="366.0625" y="443.1066666666667" width="45.37500000000001" height="146.89333333333332" fill="#1677FF" rx="2" opacity="0.85"/>
+<text x="388.75" y="608" text-anchor="middle" font-size="11" fill="#555555">2020</text>
+<rect x="448.5625" y="398.94666666666666" width="45.37500000000001" height="191.05333333333334" fill="#1677FF" rx="2" opacity="0.85"/>
+<text x="471.25" y="390.94666666666666" text-anchor="middle" font-size="11" font-weight="700" class="num" fill="#1A1A1A">124.6</text>
+<text x="471.25" y="608" text-anchor="middle" font-size="11" fill="#555555">2021</text>
+<rect x="531.0625" y="341.6" width="45.37500000000001" height="248.4" fill="#1677FF" rx="2" opacity="0.85"/>
+<text x="553.75" y="608" text-anchor="middle" font-size="11" fill="#555555">2022</text>
+<rect x="613.5625" y="267.08000000000004" width="45.37500000000001" height="322.91999999999996" fill="#1677FF" rx="2" opacity="0.85"/>
+<text x="636.25" y="259.08000000000004" text-anchor="middle" font-size="11" font-weight="700" class="num" fill="#1A1A1A">210.6</text>
+<text x="636.25" y="608" text-anchor="middle" font-size="11" fill="#555555">2023</text>
+<rect x="696.0625" y="170.1733333333333" width="45.37500000000001" height="419.8266666666667" fill="#1677FF" rx="2" opacity="0.85"/>
+<text x="718.75" y="162.1733333333333" text-anchor="middle" font-size="11" font-weight="700" class="num" fill="#1A1A1A">273.8</text>
+<text x="718.75" y="608" text-anchor="middle" font-size="11" fill="#555555">2024</text>
+<rect x="692.0625" y="166.1733333333333" width="53.37500000000001" height="427.8266666666667" rx="3" fill="none" stroke="#1677FF" stroke-width="1.5"/>
+<rect x="820" y="100" width="420" height="540" rx="4" fill="#F5F5F5"/>
+<text x="844" y="140" font-size="11" fill="#1677FF" letter-spacing="2">市场规模</text>
+<line x1="844" y1="150" x2="940" y2="150" stroke="#1677FF" stroke-width="1.5"/>
+<text x="844" y="210" font-size="48" font-weight="700" class="num" fill="#1677FF">273.8</text>
+<text x="1030" y="205" font-size="14" fill="#888888">亿元</text>
+<text x="844" y="240" font-size="13" fill="#1A1A1A">2017-2024 年复合增长率</text>
+<text x="844" y="270" font-size="28" font-weight="700" class="num" fill="#1677FF">29.97%</text>
+<line x1="844" y1="300" x2="1216" y2="300" stroke="#E2E2E2" stroke-width="0.5"/>
+<text x="844" y="340" font-size="11" fill="#1677FF" letter-spacing="2">用户结构</text>
+<line x1="844" y1="350" x2="920" y2="350" stroke="#1677FF" stroke-width="1.5"/>
+<rect x="844" y="370" width="243.91304347826085" height="16" rx="2" fill="#1677FF"/>
+<text x="1095.9130434782608" y="383" font-size="12" font-weight="700" class="num" fill="#1A1A1A">33%</text>
+<text x="844" y="408" font-size="12" fill="#333333">社交玩家 — 核心消费群体</text>
+<rect x="844" y="425" width="155.2173913043478" height="16" rx="2" fill="#4096FF"/>
+<text x="1007.2173913043478" y="438" font-size="12" font-weight="700" class="num" fill="#1A1A1A">21%</text>
+<text x="844" y="463" font-size="12" fill="#333333">核心玩家 — 重度策略爱好者</text>
+<rect x="844" y="480" width="340.0" height="16" rx="2" fill="#91CAFF"/>
+<text x="1192.0" y="493" font-size="12" font-weight="700" class="num" fill="#1A1A1A">46%</text>
+<text x="844" y="518" font-size="12" fill="#333333">轻度尝鲜者 — 其余占比</text>
+<rect x="844" y="540" width="372" height="70" rx="4" fill="#E8F0FA" stroke="#1677FF" stroke-width="0.5"/>
+<text x="860" y="568" font-size="12" font-weight="700" fill="#1677FF">关键洞察</text>
+<text x="860" y="590" font-size="12" fill="#333333">桌游吧真正赚钱靠的是社交型轻度玩家</text>
+<text x="860" y="608" font-size="12" fill="#333333">降低信息获取门槛是核心设计方向</text>
+<!-- Footer -->
+<line x1="40" y1="690" x2="1240" y2="690" stroke="#E2E2E2" stroke-width="0.5"/>
+<text x="40" y="708" class="footer">来源：华经产业研究院《2025年中国桌游行业发展现状及趋势分析》 · 2026-06</text>
+<text x="1240" y="708" text-anchor="end" class="footer">1 / 4</text>
+</svg>

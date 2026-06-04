@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>玩家版图</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#3a2a1a;
+  font-family:'Georgia','Noto Serif SC','SimSun','STSong',serif;
+  padding:20px
+}
+.board{
+  position:relative;
+  width: 800px;
+  background:#f0debc;
+  border-radius:18px;
+  padding:18px 20px 14px;
+  box-shadow:0 10px 40px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,245,225,.6)
+}
+/* top bar */
+.top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:2px}
+.title-top{font-size:13px;color:#b33;font-weight:bold;letter-spacing:4px}
+/* goods */
+.goods-wrap{display:flex;flex-direction:column;align-items:center;gap:3px}
+.goods-wrap>label{font-size:10px;color:#b33;font-weight:bold;letter-spacing:1px}
+.goods-row{display:flex;gap:5px}
+.goods-cell{
+  width:48px;height:52px;border:2px solid #6b4226;border-radius:4px;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;gap:2px;
+  box-shadow:inset 0 2px 4px rgba(0,0,0,.06)
+}
+.goods-cell:nth-child(1){background:#b8a0d0}
+.goods-cell:nth-child(2){background:#c4a882}
+.goods-cell:nth-child(3){background:#dba870}
+.goods-cell .g-icon{font-size:20px;line-height:1}
+.g-die-face{
+  display:inline-block;width:14px;height:14px;border-radius:2px;
+  background:#f0f0f0;color:#333;font-size:9px;font-weight:bold;
+  text-align:center;line-height:14px;box-shadow:0 1px 2px rgba(0,0,0,.12),inset 0 1px 0 #fff
+}
+/* score+dice */
+.score-area{display:flex;align-items:center;gap:10px}
+.dice-strip{display:flex;align-items:center;gap:6px}
+.die{
+  width:30px;height:30px;border-radius:4px;
+  display:flex;justify-content:center;align-items:center;
+  font-size:14px;font-weight:bold;color:#fff;
+  box-shadow:0 2px 4px rgba(0,0,0,.15),inset 0 1px 0 rgba(255,255,255,.25)
+}
+.die-blue{background:linear-gradient(135deg,#4a8fd4,#1a4a7a)}
+.die-green{background:linear-gradient(135deg,#5cb85c,#2d7a2d)}
+.score-box{
+  background:#faf6ee;border:2px solid #6b4226;border-radius:6px;
+  padding:2px 10px 4px;text-align:center;min-width:56px
+}
+.score-box label{font-size:9px;color:#b33;font-weight:bold;display:block}
+.score-box .val{font-size:28px;font-weight:bold;color:#1f1208;line-height:1.1}
+/* main area */
+.main-area{display:flex;position:relative;min-height:400px}
+/* left sidebar */
+.left-sidebar{
+  position:absolute;left:2px;top:50%;transform:translateY(-50%);
+  display:flex;flex-direction:column;gap:12px;z-index:3
+}
+.res-card{
+  background:rgba(250,246,238,.85);border:2px solid #6b4226;border-radius:8px;
+  padding:6px 4px;text-align:center;min-width:48px;
+  display:flex;flex-direction:column;align-items:center;gap:1px;
+  box-shadow:0 2px 5px rgba(0,0,0,.08)
+}
+.res-card .r-icon{font-size:20px;line-height:1.2}
+.res-card .r-label{font-size:8px;color:#b33;font-weight:bold;line-height:1.2}
+.res-card .r-val{font-size:17px;font-weight:bold;color:#1f1208;line-height:1.1}
+/* hex grid */
+.hex-wrap{flex:1;display:flex;justify-content:center;align-items:center}
+.hex-grid{position:relative;width:540px;height:450px;margin:0 auto}
+.hex{
+  position:absolute;
+  width:72px;height:83px;
+  clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  user-select:none;cursor:default
+}
+.hex::after{
+  content:'';position:absolute;inset:2px;
+  clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+  border:1.5px solid rgba(0,0,0,.08);pointer-events:none;z-index:0
+}
+.hex-in{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:0px;pointer-events:none}
+.hex-in .h-icon{font-size:14px;line-height:1.1;filter:drop-shadow(0 1px 2px rgba(0,0,0,.3))}
+.hex-in .h-lbl{font-size:10px;font-weight:bold;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.5);line-height:1.1}
+.hex-in .h-die{
+  width:16px;height:16px;border-radius:2px;
+  display:flex;justify-content:center;align-items:center;
+  font-size:8px;font-weight:bold;color:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);margin-top:1px
+}
+/* terrain colors */
+.t-pasture{background:linear-gradient(160deg,#8bc34a,#33691e)}
+.t-river{background:linear-gradient(160deg,#64b5f6,#1565c0)}
+.t-city{background:linear-gradient(160deg,#ffd54f,#f9a825)}
+.t-knowledge{background:linear-gradient(160deg,#ffb74d,#e65100)}
+.t-castle{background:linear-gradient(160deg,#66bb6a,#1b5e20)}
+.t-mine{background:linear-gradient(160deg,#bdbdbd,#616161)}
+.t-special{background:linear-gradient(160deg,#ef5350,#b71c1c)}
+/* bottom */
+.bottom-area{display:flex;justify-content:center;align-items:center;margin-top:4px;gap:40px}
+.storage-wrap{display:flex;flex-direction:column;align-items:center;gap:3px}
+.storage-wrap>label{font-size:10px;color:#b33;font-weight:bold;letter-spacing:1px}
+.storage-row{display:flex;gap:3px}
+.s-hex{
+  width:50px;height:58px;
+  clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+  background:rgba(160,120,80,.04);border:2px dashed #a08060
+}
+/* scroll */
+.scroll{
+  position:relative;
+  background:linear-gradient(180deg,#faf3e0,#efe4c6);
+  border:2px solid #7a4a2a;
+  border-radius:4px 10px 10px 4px;
+  padding:4px 12px;
+  display:flex;align-items:center;gap:8px;
+  box-shadow:0 2px 6px rgba(0,0,0,.08),inset 0 1px 0 rgba(255,255,240,.5)
+}
+.scroll::before,.scroll::after{
+  content:'';position:absolute;top:-2px;bottom:-2px;width:8px;
+  background:linear-gradient(180deg,#c4a87a,#a08050,#8a6a3a,#c4a87a);
+  border-radius:50%;border:1px solid #5a3420
+}
+.scroll::before{left:-5px}.scroll::after{right:-5px}
+.scroll-item{display:flex;align-items:center;gap:2px;font-size:11px;font-weight:bold;color:#2a1a0a}
+.scroll-item .s-die{width:18px;height:18px;border-radius:2px;display:flex;justify-content:center;align-items:center;font-size:9px;font-weight:bold;color:#fff;box-shadow:0 1px 2px rgba(0,0,0,.2)}
+.scroll-item .s-mult{font-size:10px;color:#b33;font-weight:bold;border:1px solid #b8a080;border-radius:2px;padding:0 3px;background:rgba(255,248,235,.5)}
+.scroll-item .s-dot{width:7px;height:7px;border-radius:50%;background:#333}
+</style>
+</head>
+<body>
+<div class="board">
+
+  <!-- top -->
+  <div class="top-bar">
+    <div class="goods-wrap">
+      <label>个人货物存储格</label>
+      <div class="goods-row">
+        <div class="goods-cell"><span class="g-icon">🍇</span><span class="g-die-face">1</span></div>
+        <div class="goods-cell"><span class="g-icon">🍷</span><span class="g-die-face">2</span></div>
+        <div class="goods-cell"><span class="g-icon">🍲</span><span class="g-die-face">3</span></div>
+      </div>
+    </div>
+    <div class="title-top">玩家版图</div>
+    <div class="score-area">
+      <div class="dice-strip">
+        <div class="die die-blue">3</div>
+        <div class="die die-green">5</div>
+      </div>
+      <div class="score-box">
+        <label>个人得分</label>
+        <div class="val">0</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- main -->
+  <div class="main-area">
+    <div class="left-sidebar">
+      <div class="res-card"><span class="r-icon">👷</span><span class="r-label">工人片</span><span class="r-val">2</span></div>
+      <div class="res-card"><span class="r-icon">🪙</span><span class="r-label">银币</span><span class="r-val">1</span></div>
+    </div>
+    <div class="hex-wrap"><div class="hex-grid" id="grid"></div></div>
+  </div>
+
+  <!-- bottom -->
+  <div class="bottom-area">
+    <div class="storage-wrap">
+      <label>个人六角片仓库</label>
+      <div class="storage-row">
+        <div class="s-hex"></div><div class="s-hex"></div><div class="s-hex"></div>
+      </div>
+    </div>
+    <div class="scroll">
+      <div class="scroll-item"><div class="s-die die-green">1</div><span class="s-mult">1x</span></div>
+      <div class="scroll-item"><span class="s-dot"></span><span class="s-mult">1x</span></div>
+      <div class="scroll-item"><div class="s-die die-green">2</div><span class="s-mult">2x</span></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// Hexagon-shaped map: 4,5,6,7,6,5,4 rows (37 hexes total)
+// Forms a large regular hexagon
+const W=72,H=83,VG=H*3/4,HO=W/2;
+const BX=100,BY=18;
+
+// Terrain configs
+const T={
+  pasture:{i:'🌿',l:'牧场',c:'t-pasture',dc:'linear-gradient(135deg,#66bb6a,#2e7d32)'},
+  river:{i:'🌊',l:'河流',c:'t-river',dc:'linear-gradient(135deg,#42a5f5,#0d47a1)'},
+  city:{i:'🏙️',l:'城市',c:'t-city',dc:'linear-gradient(135deg,#ffca28,#f57f17)'},
+  knowledge:{i:'📚',l:'知识',c:'t-knowledge',dc:'linear-gradient(135deg,#ffa726,#e65100)'},
+  castle:{i:'🏰',l:'城堡',c:'t-castle',dc:'linear-gradient(135deg,#66bb6a,#1b5e20)'},
+  mine:{i:'⛏️',l:'矿坑',c:'t-mine',dc:'linear-gradient(135deg,#90a4ae,#455a64)'},
+};
+
+// Hex data: [row, col, terrainKey, dieValue?, mark?, special?]
+// Row offsets: odd rows (1,3,5) shift right by HO, even rows (0,2,4,6) no offset
+const ROW_COUNTS=[4,5,6,7,6,5,4];
+
+// Board 1 layout — 37 hexes in a large hexagon
+const DATA=[
+  // Row 0 (4 hexes): 牧场 城堡 城堡 知识
+  [0,1.5,'pasture'],[0,2.5,'castle'],[0,3.5,'castle'],[0,4.5,'knowledge'],
+  // Row 1 (5 hexes): 牧场 牧场 城堡 知识 城市
+  [1,1.0,'pasture'],[1,2.0,'pasture'],[1,3.0,'castle'],[1,4.0,'knowledge'],[1,5.0,'city'],
+  // Row 2 (6 hexes): 牧场 牧场 城市 知识 城市 城市
+  [2,0.5,'pasture'],[2,1.5,'pasture'],[2,2.5,'city'],[2,3.5,'knowledge'],[2,4.5,'city'],[2,5.5,'city'],
+  // Row 3 (7 hexes): 河流 河流 河流 城堡 河流 河流 河流
+  [3,0.0,'river'],[3,1.0,'river'],[3,2.0,'river'],[3,3.0,'castle'],[3,4.0,'river'],[3,5.0,'river'],[3,6.0,'river'],
+  // Row 4 (6 hexes): 城市 城市 矿坑 城市 城市 牧场
+  [4,0.5,'city'],[4,1.5,'city'],[4,2.5,'mine'],[4,3.5,'city'],[4,4.5,'city'],[4,5.5,'pasture'],
+  // Row 5 (5 hexes): 城市 矿坑 知识 城市 城市
+  [5,1.0,'city'],[5,2.0,'mine'],[5,3.0,'knowledge'],[5,4.0,'city'],[5,5.0,'city'],
+  // Row 6 (4 hexes): 矿坑 知识 知识 城市
+  [6,1.5,'mine'],[6,2.5,'knowledge'],[6,3.5,'knowledge'],[6,4.5,'city'],
+];
+
+function render(){
+  const g=document.getElementById('grid');
+  if(!g)return;
+  for(const d of DATA){
+    const[r,c,tk,dv,mark,sp]=d,t=T[tk];
+    const isSp=!!sp;
+    const cx=BX+c*W;
+    const cy=BY+r*VG;
+
+    const el=document.createElement('div');
+    el.className='hex '+t.c;
+    if(isSp)el.classList.add('t-special');
+    el.style.left=(cx-W/2)+'px';el.style.top=(cy-H/2)+'px';
+
+    const inner=document.createElement('div');inner.className='hex-in';
+
+    const ic=document.createElement('span');ic.className='h-icon';
+    ic.textContent=isSp?'🔥':(mark==='①'?'🏰':t.i);
+    inner.appendChild(ic);
+
+    const lb=document.createElement('span');lb.className='h-lbl';lb.textContent=t.l;
+    inner.appendChild(lb);
+
+    if(dv!==undefined){
+      const die=document.createElement('div');die.className='h-die';
+      die.textContent=dv;
+      die.style.background=t.dc;
+      inner.appendChild(die);
+    }
+
+    el.appendChild(inner);
+
+    if(mark){
+      const mk=document.createElement('div');
+      mk.style.cssText='position:absolute;bottom:0;right:2px;font-size:13px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.5));pointer-events:none;z-index:2';
+      mk.textContent=mark;
+      el.appendChild(mk);
+    }
+    g.appendChild(el);
+  }
+}
+render();
+</script>
+</body>
+</html>

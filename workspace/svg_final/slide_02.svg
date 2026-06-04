@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1280" height="720" viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@700&family=Roboto+Mono:wght@400;700&display=swap');
+  text { font-family: 'Noto Sans SC', 'Microsoft YaHei', sans-serif; }
+  .title { font-family: 'Noto Serif SC', 'SimSun', serif; font-weight: 700; font-size: 22px; fill: #1A1A1A; }
+  .section { font-size: 11px; fill: #888888; }
+  .brand { font-size: 11px; font-weight: 700; fill: #1677FF; }
+  .footer { font-size: 11px; fill: #888888; }
+  .num { font-family: 'Roboto Mono', monospace; }
+</style>
+<!-- Top brand line -->
+<rect x="0" y="0" width="1280" height="3" fill="#1677FF"/>
+<!-- Header -->
+<text x="40" y="22" class="section">一、空间与人群</text>
+<text x="1240" y="22" text-anchor="end" class="brand">桌游调研报告</text>
+<line x1="40" y1="30" x2="1240" y2="30" stroke="#E2E2E2" stroke-width="0.5"/>
+<!-- Action Title -->
+<rect x="40" y="36" width="3" height="52" fill="#1677FF"/>
+<text x="52" y="70" class="title">社交型轻度玩家是核心消费群体，降低信息门槛为设计方向</text>
+<line x1="40" y1="94" x2="1240" y2="94" stroke="#E2E2E2" stroke-width="0.5"/>
+<rect x="40" y="100" width="380" height="540" rx="4" fill="#FFFFFF" stroke="#E2E2E2" stroke-width="0.5"/>
+<text x="56" y="128" font-size="14" font-weight="700" fill="#1677FF">用户类型分层</text>
+<text x="56" y="172" font-size="12" fill="#333333">轻度尝鲜者 / 收藏党</text>
+<rect x="56" y="180" width="260.0" height="22" rx="3" fill="#91CAFF"/>
+<text x="324.0" y="196" font-size="14" font-weight="700" class="num" fill="#1A1A1A">46%</text>
+<text x="56" y="242" font-size="12" fill="#333333">社交玩家</text>
+<rect x="56" y="250" width="186.52173913043478" height="22" rx="3" fill="#1677FF"/>
+<text x="250.52173913043478" y="266" font-size="14" font-weight="700" class="num" fill="#1A1A1A">33%</text>
+<text x="56" y="312" font-size="12" fill="#333333">核心玩家</text>
+<rect x="56" y="320" width="118.69565217391303" height="22" rx="3" fill="#4096FF"/>
+<text x="182.69565217391303" y="336" font-size="14" font-weight="700" class="num" fill="#1A1A1A">21%</text>
+<rect x="56" y="410" width="348" height="80" rx="4" fill="#E8F0FA" stroke="#1677FF" stroke-width="0.5"/>
+<text x="72" y="438" font-size="12" font-weight="700" fill="#1677FF">核心洞察</text>
+<text x="72" y="462" font-size="12" fill="#333333">社交玩家是桌游店"现金牛"</text>
+<text x="72" y="482" font-size="12" fill="#333333">核心玩家自带圈子，难变现</text>
+<rect x="440" y="100" width="380" height="540" rx="4" fill="#FFFFFF" stroke="#E2E2E2" stroke-width="0.5"/>
+<text x="456" y="128" font-size="14" font-weight="700" fill="#1677FF">消费动机排序</text>
+<text x="456" y="182" font-size="12" fill="#333333">找个地方和朋友聚会</text>
+<rect x="456" y="160" width="260.0" height="28" rx="3" fill="#1677FF" opacity="1.0"/>
+<text x="456" y="260" font-size="12" fill="#333333">逃离'屏幕孤独'</text>
+<rect x="456" y="238" width="195.0" height="28" rx="3" fill="#1677FF" opacity="0.875"/>
+<text x="456" y="338" font-size="12" fill="#333333">破冰 / 团建需求</text>
+<rect x="456" y="316" width="130.0" height="28" rx="3" fill="#1677FF" opacity="0.75"/>
+<text x="456" y="416" font-size="12" fill="#333333">尝鲜体验新游戏</text>
+<rect x="456" y="394" width="65.0" height="28" rx="3" fill="#1677FF" opacity="0.625"/>
+<rect x="456" y="520" width="348" height="90" rx="4" fill="#F5F5F5"/>
+<text x="472" y="548" font-size="11" fill="#1677FF" letter-spacing="2">时段特征</text>
+<text x="472" y="572" font-size="12" fill="#333333">旺季：周末 / 节假日（翻台 3-4 轮）</text>
+<text x="472" y="596" font-size="12" fill="#333333">淡季：工作日白天</text>
+<text x="472" y="614" font-size="12" fill="#333333">"潮汐现象"是经营核心挑战</text>
+<rect x="840" y="100" width="400" height="540" rx="4" fill="#FFFFFF" stroke="#E2E2E2" stroke-width="0.5"/>
+<text x="856" y="128" font-size="14" font-weight="700" fill="#1677FF">人群画像</text>
+<text x="856" y="160" font-size="12" font-weight="700" fill="#1A1A1A">性别分布</text>
+<text x="856" y="187" font-size="11" fill="#555555">男性</text>
+<rect x="920" y="175" width="300.0" height="18" rx="2" fill="#1677FF"/>
+<text x="1226.0" y="189" font-size="11" font-weight="700" class="num" fill="#1A1A1A">60%</text>
+<text x="856" y="217" font-size="11" fill="#555555">女性</text>
+<rect x="920" y="205" width="200.0" height="18" rx="2" fill="#91CAFF"/>
+<text x="1126.0" y="219" font-size="11" font-weight="700" class="num" fill="#1A1A1A">40%</text>
+<line x1="856" y1="245" x2="1224" y2="245" stroke="#E2E2E2" stroke-width="0.5"/>
+<text x="856" y="270" font-size="12" font-weight="700" fill="#1A1A1A">年龄分布</text>
+<text x="856" y="302" font-size="11" fill="#555555">18-24 岁</text>
+<rect x="920" y="290" width="300.0" height="18" rx="2" fill="#1677FF"/>
+<text x="1226.0" y="304" font-size="11" font-weight="700" class="num" fill="#1A1A1A">40%</text>
+<text x="856" y="332" font-size="11" fill="#555555">25-30 岁</text>
+<rect x="920" y="320" width="240.0" height="18" rx="2" fill="#1677FF"/>
+<text x="1166.0" y="334" font-size="11" font-weight="700" class="num" fill="#1A1A1A">32%</text>
+<text x="856" y="362" font-size="11" fill="#555555">31-35 岁</text>
+<rect x="920" y="350" width="112.5" height="18" rx="2" fill="#91CAFF"/>
+<text x="1038.5" y="364" font-size="11" font-weight="700" class="num" fill="#1A1A1A">15%</text>
+<text x="856" y="392" font-size="11" fill="#555555">35 岁以上</text>
+<rect x="920" y="380" width="97.5" height="18" rx="2" fill="#91CAFF"/>
+<text x="1023.5" y="394" font-size="11" font-weight="700" class="num" fill="#1A1A1A">13%</text>
+<line x1="856" y1="430" x2="1224" y2="430" stroke="#E2E2E2" stroke-width="0.5"/>
+<text x="856" y="455" font-size="12" font-weight="700" fill="#1A1A1A">身份与地域</text>
+<rect x="856" y="479" width="3" height="14" rx="1" fill="#1677FF"/>
+<text x="866" y="489" font-size="12" fill="#333333">高校学生 + 都市白领为主</text>
+<rect x="856" y="503" width="3" height="14" rx="1" fill="#1677FF"/>
+<text x="866" y="513" font-size="12" fill="#333333">集中于城市商圈、大学城周边</text>
+<rect x="856" y="527" width="3" height="14" rx="1" fill="#1677FF"/>
+<text x="866" y="537" font-size="12" fill="#333333">18-35 岁占 70% 以上</text>
+<rect x="856" y="570" width="368" height="46" rx="4" fill="#E8F0FA" stroke="#1677FF" stroke-width="0.5"/>
+<text x="872" y="598" font-size="12" fill="#1677FF">女性比例近年持续上升</text>
+<!-- Footer -->
+<line x1="40" y1="690" x2="1240" y2="690" stroke="#E2E2E2" stroke-width="0.5"/>
+<text x="40" y="708" class="footer">来源：华经产业研究院《2025年中国桌游行业发展现状及趋势分析》 · 2026-06</text>
+<text x="1240" y="708" text-anchor="end" class="footer">2 / 4</text>
+</svg>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1280" height="720" viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@700&family=Roboto+Mono:wght@400;700&display=swap');
+  text { font-family: 'Noto Sans SC', 'Microsoft YaHei', sans-serif; }
+  .title { font-family: 'Noto Serif SC', 'SimSun', serif; font-weight: 700; font-size: 22px; fill: #1A1A1A; }
+  .section { font-size: 11px; fill: #888888; }
+  .brand { font-size: 11px; font-weight: 700; fill: #1677FF; }
+  .footer { font-size: 11px; fill: #888888; }
+  .num { font-family: 'Roboto Mono', monospace; }
+</style>
+<!-- Top brand line -->
+<rect x="0" y="0" width="1280" height="3" fill="#1677FF"/>
+<!-- Header -->
+<text x="40" y="22" class="section">二、游戏与信息流</text>
+<text x="1240" y="22" text-anchor="end" class="brand">桌游调研报告</text>
+<line x1="40" y1="30" x2="1240" y2="30" stroke="#E2E2E2" stroke-width="0.5"/>
+<!-- Action Title -->
+<rect x="40" y="36" width="3" height="52" fill="#1677FF"/>
+<text x="52" y="70" class="title">规则教学环节信息保真度不足 30%，是最大交互瓶颈</text>
+<line x1="40" y1="94" x2="1240" y2="94" stroke="#E2E2E2" stroke-width="0.5"/>
+<rect x="40" y="100" width="720" height="250" rx="4" fill="#FFFFFF" stroke="#E2E2E2" stroke-width="0.5"/>
+<text x="56" y="128" font-size="14" font-weight="700" fill="#1677FF">三种教学路径对比</text>
+<line x1="120" y1="150" x2="120" y2="320" stroke="#888888" stroke-width="0.5"/>
+<line x1="120" y1="320" x2="740" y2="320" stroke="#888888" stroke-width="0.5"/>
+<line x1="120" y1="286.0" x2="740" y2="286.0" stroke="#E2E2E2" stroke-width="0.5" stroke-dasharray="2,2"/>
+<text x="114" y="290.0" text-anchor="end" font-size="10" fill="#888888">1</text>
+<line x1="120" y1="252.0" x2="740" y2="252.0" stroke="#E2E2E2" stroke-width="0.5" stroke-dasharray="2,2"/>
+<text x="114" y="256.0" text-anchor="end" font-size="10" fill="#888888">2</text>
+<line x1="120" y1="218.0" x2="740" y2="218.0" stroke="#E2E2E2" stroke-width="0.5" stroke-dasharray="2,2"/>
+<text x="114" y="222.0" text-anchor="end" font-size="10" fill="#888888">3</text>
+<line x1="120" y1="184.0" x2="740" y2="184.0" stroke="#E2E2E2" stroke-width="0.5" stroke-dasharray="2,2"/>
+<text x="114" y="188.0" text-anchor="end" font-size="10" fill="#888888">4</text>
+<line x1="120" y1="150.0" x2="740" y2="150.0" stroke="#E2E2E2" stroke-width="0.5" stroke-dasharray="2,2"/>
+<text x="114" y="154.0" text-anchor="end" font-size="10" fill="#888888">5</text>
+<rect x="140.66666666666666" y="184.0" width="18.666666666666664" height="136.0" rx="1" fill="#1677FF" opacity="0.85"/>
+<rect x="161.33333333333331" y="286.0" width="18.666666666666664" height="34.0" rx="1" fill="#4096FF" opacity="0.85"/>
+<rect x="182.0" y="218.0" width="18.666666666666664" height="102.0" rx="1" fill="#91CAFF" opacity="0.85"/>
+<text x="192.33333333333331" y="336" text-anchor="middle" font-size="10" fill="#555555">启动速度</text>
+<rect x="243.99999999999997" y="218.0" width="18.666666666666664" height="102.0" rx="1" fill="#1677FF" opacity="0.85"/>
+<rect x="264.66666666666663" y="150.0" width="18.666666666666664" height="170.0" rx="1" fill="#4096FF" opacity="0.85"/>
+<rect x="285.3333333333333" y="184.0" width="18.666666666666664" height="136.0" rx="1" fill="#91CAFF" opacity="0.85"/>
+<text x="295.66666666666663" y="336" text-anchor="middle" font-size="10" fill="#555555">信息准确性</text>
+<rect x="347.3333333333333" y="150.0" width="18.666666666666664" height="170.0" rx="1" fill="#1677FF" opacity="0.85"/>
+<rect x="368.0" y="286.0" width="18.666666666666664" height="34.0" rx="1" fill="#4096FF" opacity="0.85"/>
+<rect x="388.66666666666663" y="252.0" width="18.666666666666664" height="68.0" rx="1" fill="#91CAFF" opacity="0.85"/>
+<text x="399.0" y="336" text-anchor="middle" font-size="10" fill="#555555">互动反馈</text>
+<rect x="450.6666666666667" y="252.0" width="18.666666666666664" height="68.0" rx="1" fill="#1677FF" opacity="0.85"/>
+<rect x="471.33333333333337" y="150.0" width="18.666666666666664" height="170.0" rx="1" fill="#4096FF" opacity="0.85"/>
+<rect x="492.0" y="150.0" width="18.666666666666664" height="170.0" rx="1" fill="#91CAFF" opacity="0.85"/>
+<text x="502.33333333333337" y="336" text-anchor="middle" font-size="10" fill="#555555">一致性</text>
+<rect x="553.9999999999999" y="252.0" width="18.666666666666664" height="68.0" rx="1" fill="#1677FF" opacity="0.85"/>
+<rect x="574.6666666666665" y="150.0" width="18.666666666666664" height="170.0" rx="1" fill="#4096FF" opacity="0.85"/>
+<rect x="595.3333333333333" y="184.0" width="18.666666666666664" height="136.0" rx="1" fill="#91CAFF" opacity="0.85"/>
+<text x="605.6666666666665" y="336" text-anchor="middle" font-size="10" fill="#555555">成本(低)</text>
+<rect x="657.3333333333333" y="218.0" width="18.666666666666664" height="102.0" rx="1" fill="#1677FF" opacity="0.85"/>
+<rect x="677.9999999999999" y="252.0" width="18.666666666666664" height="68.0" rx="1" fill="#4096FF" opacity="0.85"/>
+<rect x="698.6666666666666" y="150.0" width="18.666666666666664" height="170.0" rx="1" fill="#91CAFF" opacity="0.85"/>
+<text x="708.9999999999999" y="336" text-anchor="middle" font-size="10" fill="#555555">认知负荷(低)</text>
+<rect x="60" y="360" width="12" height="12" rx="1" fill="#1677FF"/>
+<text x="78" y="371" font-size="11" fill="#333333">店员教学</text>
+<rect x="180" y="360" width="12" height="12" rx="1" fill="#4096FF"/>
+<text x="198" y="371" font-size="11" fill="#333333">规则书</text>
+<rect x="300" y="360" width="12" height="12" rx="1" fill="#91CAFF"/>
+<text x="318" y="371" font-size="11" fill="#333333">视频教学</text>
+<rect x="40" y="380" width="1200" height="280" rx="4" fill="#FFFFFF" stroke="#E2E2E2" stroke-width="0.5"/>
+<text x="56" y="408" font-size="14" font-weight="700" fill="#1677FF">信息衰减链路 — 保真度不到 30%</text>
+<rect x="70" y="460" width="110" height="70" rx="4" fill="#1677FF" opacity="0.8"/>
+<rect x="70" y="460" width="110" height="3" fill="#1677FF" opacity="0.8"/>
+<text x="125.0" y="490" text-anchor="middle" font-size="12" font-weight="700" fill="#1A1A1A">设计师</text>
+<text x="125.0" y="512" text-anchor="middle" font-size="12" font-weight="700" fill="#1A1A1A">意图</text>
+<text x="125.0" y="548" text-anchor="middle" font-size="11" class="num" fill="#1677FF">100%</text>
+<line x1="182" y1="495.0" x2="192" y2="495.0" stroke="#E2E2E2" stroke-width="1.5"/>
+<polygon points="192,490.0 196,495.0 192,500.0" fill="#E2E2E2"/>
+<rect x="196" y="460" width="110" height="70" rx="4" fill="#1677FF" opacity="0.7"/>
+<rect x="196" y="460" width="110" height="3" fill="#1677FF" opacity="0.7"/>
+<text x="251.0" y="490" text-anchor="middle" font-size="12" font-weight="700" fill="#1A1A1A">规则书</text>
+<text x="251.0" y="512" text-anchor="middle" font-size="12" font-weight="700" fill="#1A1A1A">文字</text>
+<text x="251.0" y="548" text-anchor="middle" font-size="11" class="num" fill="#1677FF">85%</text>
+<line x1="308" y1="495.0" x2="318" y2="495.0" stroke="#E2E2E2" stroke-width="1.5"/>
+<polygon points="318,490.0 322,495.0 318,500.0" fill="#E2E2E2"/>
+<rect x="322" y="460" width="110" height="70" rx="4" fill="#1677FF" opacity="0.6"/>
+<rect x="322" y="460" width="110" height="3" fill="#1677FF" opacity="0.6"/>
+<text x="377.0" y="490" text-anchor="middle" font-size="12" font-weight="700" fill="#1A1A1A">店员</text>
+<text x="377.0" y="512" text-anchor="middle" font-size="12" font-weight="700" fill="#1A1A1A">理解</text>
+<text x="377.0" y="548" text-anchor="middle" font-size="11" class="num" fill="#1677FF">70%</text>
+<line x1="434" y1="495.0" x2="444" y2="495.0" stroke="#E2E2E2" stroke-width="1.5"/>
+<polygon points="444,490.0 448,495.0 444,500.0" fill="#E2E2E2"/>
+<rect x="448" y="460" width="110" height="70" rx="4" fill="#1677FF" opacity="0.6"/>
+<rect x="448" y="460" width="110" height="3" fill="#1677FF" opacity="0.6"/>
+<text x="503.0" y="490" text-anchor="middle" font-size="12" font-weight="700" fill="#1A1A1A">店员</text>
+<text x="503.0" y="512" text-anchor="middle" font-size="12" font-weight="700" fill="#1A1A1A">表达</text>
+<text x="503.0" y="548" text-anchor="middle" font-size="11" class="num" fill="#1677FF">55%</text>
+<line x1="560" y1="495.0" x2="570" y2="495.0" stroke="#E2E2E2" stroke-width="1.5"/>
+<polygon points="570,490.0 574,495.0 570,500.0" fill="#E2E2E2"/>
+<rect x="574" y="460" width="110" height="70" rx="4" fill="#1677FF" opacity="0.5"/>
+<rect x="574" y="460" width="110" height="3" fill="#1677FF" opacity="0.5"/>
+<text x="629.0" y="490" text-anchor="middle" font-size="12" font-weight="700" fill="#1A1A1A">玩家</text>
+<text x="629.0" y="512" text-anchor="middle" font-size="12" font-weight="700" fill="#1A1A1A">理解</text>
+<text x="629.0" y="548" text-anchor="middle" font-size="11" class="num" fill="#1677FF">40%</text>
+<line x1="686" y1="495.0" x2="696" y2="495.0" stroke="#E2E2E2" stroke-width="1.5"/>
+<polygon points="696,490.0 700,495.0 696,500.0" fill="#E2E2E2"/>
+<rect x="700" y="460" width="110" height="70" rx="4" fill="#1677FF" opacity="0.4"/>
+<rect x="700" y="460" width="110" height="3" fill="#1677FF" opacity="0.4"/>
+<text x="755.0" y="490" text-anchor="middle" font-size="12" font-weight="700" fill="#1A1A1A">玩家</text>
+<text x="755.0" y="512" text-anchor="middle" font-size="12" font-weight="700" fill="#1A1A1A">记住</text>
+<text x="755.0" y="548" text-anchor="middle" font-size="11" class="num" fill="#1677FF">30%</text>
+<line x1="812" y1="495.0" x2="822" y2="495.0" stroke="#E2E2E2" stroke-width="1.5"/>
+<polygon points="822,490.0 826,495.0 822,500.0" fill="#E2E2E2"/>
+<rect x="826" y="460" width="110" height="70" rx="4" fill="#1677FF" opacity="0.4"/>
+<rect x="826" y="460" width="110" height="3" fill="#1677FF" opacity="0.4"/>
+<text x="881.0" y="490" text-anchor="middle" font-size="12" font-weight="700" fill="#1A1A1A">玩家</text>
+<text x="881.0" y="512" text-anchor="middle" font-size="12" font-weight="700" fill="#1A1A1A">执行</text>
+<text x="881.0" y="548" text-anchor="middle" font-size="11" class="num" fill="#1677FF">25%</text>
+<text x="56" y="587" font-size="11" fill="#555555">保真度：</text>
+<rect x="120" y="575" width="1100" height="20" rx="10" fill="#F5F5F5"/>
+<rect x="120" y="575" width="330.0" height="20" rx="10" fill="#1677FF" opacity="0.8"/>
+<text x="462.0" y="591" font-size="12" font-weight="700" class="num" fill="#B01C1C">30%</text>
+<text x="56" y="630" font-size="12" fill="#555555">24% 受访者因规则学习成本高而不愿推荐桌游</text>
+<rect x="56" y="645" width="1168" height="42" rx="4" fill="#E8F0FA" stroke="#1677FF" stroke-width="0.5"/>
+<text x="72" y="671" font-size="12" fill="#1677FF">分层信息投递：动机层 → 规则层 → 参考层，避免一次性全量灌输</text>
+<!-- Footer -->
+<line x1="40" y1="690" x2="1240" y2="690" stroke="#E2E2E2" stroke-width="0.5"/>
+<text x="40" y="708" class="footer">来源：华经产业研究院《2025年中国桌游行业发展现状及趋势分析》 · 2026-06</text>
+<text x="1240" y="708" text-anchor="end" class="footer">3 / 4</text>
+</svg>
