@@ -10,29 +10,6 @@ body{background:linear-gradient(135deg,#2c1810,#4a2c17 50%,#2c1810);display:flex
 h1{color:#e8d5b7;font-size:20px;margin-bottom:12px;text-shadow:1px 1px 3px rgba(0,0,0,.7);letter-spacing:2px}
 .wrap{background:#5a3d2b;padding:14px;border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.08);max-width:1180px;width:100%}
 svg{width:100%;height:auto;display:block}
-.hex{fill:#f5edd6;stroke:#8B7355;stroke-width:1.4;transition:all .2s;cursor:pointer}
-.hex:hover{fill:#fff8e1;stroke:#c9a96e;stroke-width:2.2;filter:drop-shadow(0 0 4px rgba(201,169,110,.5))}
-.gc{fill:#fff5e6;stroke:#c9a96e;stroke-width:1.4;stroke-dasharray:5 3;transition:all .2s;cursor:pointer}
-.gc:hover{fill:#ffe8c2;stroke:#b8860b}
-.bk{fill:#3a3a3a;stroke:#c9a96e;stroke-width:1.6;transition:all .2s;cursor:pointer}
-.bk:hover{fill:#505050;filter:drop-shadow(0 0 5px rgba(201,169,110,.6))}
-.dp{fill:#f0e8d0;stroke:#a08060;stroke-width:1.4;rx:12;transition:all .2s}
-.dp:hover{stroke:#c9a96e;stroke-width:2.2}
-.dn{font-size:38px;font-weight:bold;fill:#5a3d2b;text-anchor:middle;pointer-events:none}
-.dl{font-size:10px;fill:#8B7355;text-anchor:middle;pointer-events:none}
-.lb{fill:#5a3d2b;text-anchor:middle;pointer-events:none}
-.ps{stroke:#8B7355;stroke-width:1.4;rx:6;cursor:pointer;transition:all .2s}
-.ps:hover{filter:brightness(1.15)}
-.pl{font-size:17px;font-weight:bold;fill:#fff;text-anchor:middle;dominant-baseline:central;pointer-events:none}
-.rb{fill:#fff;stroke:#8B7355;stroke-width:1.4;rx:5;cursor:pointer;transition:all .2s}
-.rb:hover{fill:#fff8e1;stroke:#c9a96e}
-.rn{font-size:13px;fill:#5a3d2b;text-anchor:middle;dominant-baseline:central;pointer-events:none}
-.bs{fill:#faf6ed;stroke:#c9a96e;stroke-width:1;rx:6;cursor:pointer;transition:all .2s}
-.bs:hover{fill:#fff8e1;stroke:#b8860b}
-.tp{fill:#fff;stroke:#8B7355;stroke-width:1.4;rx:7;cursor:pointer;transition:all .2s}
-.tp:hover{fill:#fff8e1;stroke:#c9a96e}
-.kh{fill:#fff3b0;stroke:#d4a017;stroke-width:1.4;cursor:pointer;transition:all .2s}
-.kh:hover{fill:#ffe680}
 .tt{position:fixed;background:rgba(40,24,15,.96);color:#e8d5b7;padding:10px 14px;border-radius:8px;font-size:13px;max-width:260px;pointer-events:none;z-index:999;display:none;border:1px solid #c9a96e;line-height:1.6;box-shadow:0 4px 16px rgba(0,0,0,.4)}
 .tt b{color:#f0d68a}
 .leg{color:#c9a96e;font-size:11px;margin-top:10px;text-align:center;max-width:1180px;line-height:1.8}
@@ -43,7 +20,7 @@ svg{width:100%;height:auto;display:block}
 <body>
 <h1>勃艮第城堡 — 中心公共版图</h1>
 <div class="wrap">
-<svg viewBox="0 0 1140 800" id="board" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 1140 810" id="board" xmlns="http://www.w3.org/2000/svg">
 <defs>
 <linearGradient id="parch" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#faf6ed"/><stop offset="40%" stop-color="#f2ead4"/><stop offset="100%" stop-color="#e8d8bc"/></linearGradient>
 <linearGradient id="pA" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#c0392b"/><stop offset="100%" stop-color="#962d22"/></linearGradient>
@@ -57,403 +34,422 @@ svg{width:100%;height:auto;display:block}
 </defs>
 
 <!-- Board frame -->
-<rect x="6" y="6" width="1128" height="788" rx="16" fill="url(#edge)"/>
-<rect x="10" y="10" width="1120" height="780" rx="14" fill="url(#parch)"/>
+<rect x="6" y="6" width="1128" height="798" rx="16" fill="url(#edge)"/>
+<rect x="10" y="10" width="1120" height="790" rx="14" fill="url(#parch)"/>
 
-<!-- ============================================================ -->
-<!-- SCORING TRACK — JS generated, 1 point per box               -->
-<!-- ============================================================ -->
+<!-- Scoring track (JS) -->
 <g id="track"></g>
 
 <!-- ============================================================ -->
-<!-- PHASE + ROUND (y=84)                                         -->
+<!-- PHASE + ROUND (y=82)                                         -->
 <!-- ============================================================ -->
-<text x="108" y="100" class="lb" font-size="11" font-weight="bold">阶段</text>
-<rect x="138" y="86" width="46" height="34" fill="url(#pA)" class="ps" data-tip="&lt;b&gt;阶段 A&lt;/b&gt; · 区域奖励 +10"/><text x="161" y="103" class="pl">A</text>
-<rect x="238" y="86" width="46" height="34" fill="url(#pB)" class="ps" data-tip="&lt;b&gt;阶段 B&lt;/b&gt; · 区域奖励 +8"/><text x="261" y="103" class="pl">B</text>
-<rect x="338" y="86" width="46" height="34" fill="url(#pC)" class="ps" data-tip="&lt;b&gt;阶段 C&lt;/b&gt; · 区域奖励 +6"/><text x="361" y="103" class="pl">C</text>
-<rect x="438" y="86" width="46" height="34" fill="url(#pD)" class="ps" data-tip="&lt;b&gt;阶段 D&lt;/b&gt; · 区域奖励 +4"/><text x="461" y="103" class="pl">D</text>
-<rect x="538" y="86" width="46" height="34" fill="url(#pE)" class="ps" data-tip="&lt;b&gt;阶段 E&lt;/b&gt; · 最终 · 区域奖励 +2"/><text x="561" y="103" class="pl">E</text>
-<text x="161" y="130" class="lb" font-size="8" fill="#962d22">+10</text>
-<text x="261" y="130" class="lb" font-size="8" fill="#1f6894">+8</text>
-<text x="361" y="130" class="lb" font-size="8" fill="#1e8449">+6</text>
-<text x="461" y="130" class="lb" font-size="8" fill="#c87f0a">+4</text>
-<text x="561" y="130" class="lb" font-size="8" fill="#6c3483">+2</text>
+<!-- Phase track: vertical left side, 1→5 top to bottom -->
+<text x="88" y="156" text-anchor="middle" font-family="Georgia,serif" font-size="10" font-weight="bold" fill="#5a3d2b">阶段</text>
+<rect x="68" y="162" width="40" height="36" rx="6" fill="url(#pA)" style="cursor:pointer" data-tip="&lt;b&gt;阶段 1&lt;/b&gt; · 区域奖励 +10"/>
+<text x="88" y="180" text-anchor="middle" dominant-baseline="central" font-size="16" font-weight="bold" fill="#fff" pointer-events="none">1</text>
+<text x="88" y="206" text-anchor="middle" font-size="8" fill="#962d22" font-family="Georgia,serif">+10</text>
+<path d="M88,214 L88,222" stroke="#c9a96e" stroke-width="1" marker-end="url(#arr)" opacity=".5"/>
+<rect x="68" y="226" width="40" height="36" rx="6" fill="url(#pB)" style="cursor:pointer" data-tip="&lt;b&gt;阶段 2&lt;/b&gt; · 区域奖励 +8"/>
+<text x="88" y="244" text-anchor="middle" dominant-baseline="central" font-size="16" font-weight="bold" fill="#fff" pointer-events="none">2</text>
+<text x="88" y="270" text-anchor="middle" font-size="8" fill="#1f6894" font-family="Georgia,serif">+8</text>
+<path d="M88,278 L88,286" stroke="#c9a96e" stroke-width="1" marker-end="url(#arr)" opacity=".5"/>
+<rect x="68" y="290" width="40" height="36" rx="6" fill="url(#pC)" style="cursor:pointer" data-tip="&lt;b&gt;阶段 3&lt;/b&gt; · 区域奖励 +6"/>
+<text x="88" y="308" text-anchor="middle" dominant-baseline="central" font-size="16" font-weight="bold" fill="#fff" pointer-events="none">3</text>
+<text x="88" y="334" text-anchor="middle" font-size="8" fill="#1e8449" font-family="Georgia,serif">+6</text>
+<path d="M88,342 L88,350" stroke="#c9a96e" stroke-width="1" marker-end="url(#arr)" opacity=".5"/>
+<rect x="68" y="354" width="40" height="36" rx="6" fill="url(#pD)" style="cursor:pointer" data-tip="&lt;b&gt;阶段 4&lt;/b&gt; · 区域奖励 +4"/>
+<text x="88" y="372" text-anchor="middle" dominant-baseline="central" font-size="16" font-weight="bold" fill="#fff" pointer-events="none">4</text>
+<text x="88" y="398" text-anchor="middle" font-size="8" fill="#c87f0a" font-family="Georgia,serif">+4</text>
+<path d="M88,406 L88,414" stroke="#c9a96e" stroke-width="1" marker-end="url(#arr)" opacity=".5"/>
+<rect x="68" y="418" width="40" height="36" rx="6" fill="url(#pE)" style="cursor:pointer" data-tip="&lt;b&gt;阶段 5&lt;/b&gt; · 最终阶段 · 区域奖励 +2"/>
+<text x="88" y="436" text-anchor="middle" dominant-baseline="central" font-size="16" font-weight="bold" fill="#fff" pointer-events="none">5</text>
+<text x="88" y="462" text-anchor="middle" font-size="8" fill="#6c3483" font-family="Georgia,serif">+2</text>
 
-<text x="640" y="100" class="lb" font-size="11" font-weight="bold">轮次</text>
-<rect x="670" y="88" width="30" height="28" class="rb" data-tip="&lt;b&gt;第 1 轮&lt;/b&gt;"><text x="685" y="102" class="rn">1</text></rect>
-<rect x="706" y="88" width="30" height="28" class="rb" data-tip="&lt;b&gt;第 2 轮&lt;/b&gt;"><text x="721" y="102" class="rn">2</text></rect>
-<rect x="742" y="88" width="30" height="28" class="rb" data-tip="&lt;b&gt;第 3 轮&lt;/b&gt;"><text x="757" y="102" class="rn">3</text></rect>
-<rect x="778" y="88" width="30" height="28" class="rb" data-tip="&lt;b&gt;第 4 轮&lt;/b&gt;"><text x="793" y="102" class="rn">4</text></rect>
-<rect x="814" y="88" width="30" height="28" class="rb" data-tip="&lt;b&gt;第 5 轮&lt;/b&gt;"><text x="829" y="102" class="rn">5</text></rect>
+<text x="620" y="97" text-anchor="middle" font-family="Georgia,serif" font-size="11" font-weight="bold" fill="#5a3d2b">轮次</text>
+<rect x="650" y="84" width="28" height="28" rx="5" fill="#fff" stroke="#8B7355" stroke-width="1.4" style="cursor:pointer" data-tip="&lt;b&gt;第 1 轮&lt;/b&gt;"/><text x="664" y="98" text-anchor="middle" dominant-baseline="central" font-size="13" fill="#5a3d2b" pointer-events="none">1</text></rect>
+<rect x="684" y="84" width="28" height="28" rx="5" fill="#fff" stroke="#8B7355" stroke-width="1.4" style="cursor:pointer" data-tip="&lt;b&gt;第 2 轮&lt;/b&gt;"/><text x="698" y="98" text-anchor="middle" dominant-baseline="central" font-size="13" fill="#5a3d2b" pointer-events="none">2</text></rect>
+<rect x="718" y="84" width="28" height="28" rx="5" fill="#fff" stroke="#8B7355" stroke-width="1.4" style="cursor:pointer" data-tip="&lt;b&gt;第 3 轮&lt;/b&gt;"/><text x="732" y="98" text-anchor="middle" dominant-baseline="central" font-size="13" fill="#5a3d2b" pointer-events="none">3</text></rect>
+<rect x="752" y="84" width="28" height="28" rx="5" fill="#fff" stroke="#8B7355" stroke-width="1.4" style="cursor:pointer" data-tip="&lt;b&gt;第 4 轮&lt;/b&gt;"/><text x="766" y="98" text-anchor="middle" dominant-baseline="central" font-size="13" fill="#5a3d2b" pointer-events="none">4</text></rect>
+<rect x="786" y="84" width="28" height="28" rx="5" fill="#fff" stroke="#8B7355" stroke-width="1.4" style="cursor:pointer" data-tip="&lt;b&gt;第 5 轮&lt;/b&gt;"/><text x="800" y="98" text-anchor="middle" dominant-baseline="central" font-size="13" fill="#5a3d2b" pointer-events="none">5</text></rect>
 
-<line x1="66" y1="142" x2="1074" y2="142" stroke="#c9a96e" stroke-width="1" opacity=".35"/>
-
-<!-- ============================================================ -->
-<!-- TOP ROW DEPOTS 1-2-3  (y=154 → y=348)                       -->
-<!-- ============================================================ -->
-<!-- Depot 1 -->
-<g data-tip="&lt;b&gt;仓库 1&lt;/b&gt; · 骰子点数 1">
-  <rect x="66" y="154" width="256" height="194" class="dp"/>
-  <text x="194" y="182" class="dn">1</text><text x="194" y="196" class="dl">DEPOT</text>
-  <polygon points="154,210 174,222 174,244 154,256 134,244 134,222" class="hex" data-tip="板块位"/>
-  <polygon points="194,210 214,222 214,244 194,256 174,244 174,222" class="hex" data-tip="板块位"/>
-  <polygon points="234,210 254,222 254,244 234,256 214,244 214,222" class="hex" data-tip="板块位"/>
-  <polygon points="194,260 214,272 214,294 194,306 174,294 174,272" class="hex" data-tip="板块位"/>
-  <circle cx="194" cy="330" r="14" class="gc" data-tip="&lt;b&gt;货物区&lt;/b&gt; · 放置船只时拿取全部货物"/>
-  <text x="194" y="330" class="lb" font-size="8" fill="#b08050">货物</text>
-</g>
-<!-- Depot 2 -->
-<g data-tip="&lt;b&gt;仓库 2&lt;/b&gt; · 骰子点数 2">
-  <rect x="338" y="154" width="256" height="194" class="dp"/>
-  <text x="466" y="182" class="dn">2</text><text x="466" y="196" class="dl">DEPOT</text>
-  <polygon points="426,210 446,222 446,244 426,256 406,244 406,222" class="hex" data-tip="板块位"/>
-  <polygon points="466,210 486,222 486,244 466,256 446,244 446,222" class="hex" data-tip="板块位"/>
-  <polygon points="506,210 526,222 526,244 506,256 486,244 486,222" class="hex" data-tip="板块位"/>
-  <polygon points="466,260 486,272 486,294 466,306 446,294 446,272" class="hex" data-tip="板块位"/>
-  <circle cx="466" cy="330" r="14" class="gc" data-tip="&lt;b&gt;货物区&lt;/b&gt;"/>
-  <text x="466" y="330" class="lb" font-size="8" fill="#b08050">货物</text>
-</g>
-<!-- Depot 3 -->
-<g data-tip="&lt;b&gt;仓库 3&lt;/b&gt; · 骰子点数 3">
-  <rect x="610" y="154" width="256" height="194" class="dp"/>
-  <text x="738" y="182" class="dn">3</text><text x="738" y="196" class="dl">DEPOT</text>
-  <polygon points="698,210 718,222 718,244 698,256 678,244 678,222" class="hex" data-tip="板块位"/>
-  <polygon points="738,210 758,222 758,244 738,256 718,244 718,222" class="hex" data-tip="板块位"/>
-  <polygon points="778,210 798,222 798,244 778,256 758,244 758,222" class="hex" data-tip="板块位"/>
-  <polygon points="738,260 758,272 758,294 738,306 718,294 718,272" class="hex" data-tip="板块位"/>
-  <circle cx="738" cy="330" r="14" class="gc" data-tip="&lt;b&gt;货物区&lt;/b&gt;"/>
-  <text x="738" y="330" class="lb" font-size="8" fill="#b08050">货物</text>
-</g>
+<line x1="64" y1="136" x2="1076" y2="136" stroke="#c9a96e" stroke-width="1" opacity=".3"/>
 
 <!-- ============================================================ -->
-<!-- KNOWLEDGE DISPLAY (right, top) y=154→348                     -->
+<!-- KNOWLEDGE (right-top) & BONUS (right-bottom)                 -->
 <!-- ============================================================ -->
+<!-- Knowledge -->
 <g data-tip="&lt;b&gt;知识展示区&lt;/b&gt; · 4人局展示 8 张">
-  <rect x="882" y="154" width="186" height="194" rx="10" fill="#fdf8e8" stroke="#d4a017" stroke-width="1.4" stroke-dasharray="6 3"/>
-  <text x="975" y="176" class="lb" font-size="11" font-weight="bold" fill="#b8860b">知识展示</text>
-  <text x="975" y="190" class="lb" font-size="8" fill="#b8860b">Knowledge · 8张(4人)</text>
-  <polygon points="942,204 957,213 957,229 942,238 927,229 927,213" class="kh" data-tip="知识板块"/>
-  <polygon points="978,204 993,213 993,229 978,238 963,229 963,213" class="kh" data-tip="知识板块"/>
-  <polygon points="942,244 957,253 957,269 942,278 927,269 927,253" class="kh" data-tip="知识板块"/>
-  <polygon points="978,244 993,253 993,269 978,278 963,269 963,253" class="kh" data-tip="知识板块"/>
-  <polygon points="942,284 957,293 957,309 942,318 927,309 927,293" class="kh" data-tip="知识板块"/>
-  <polygon points="978,284 993,293 993,309 978,318 963,309 963,293" class="kh" data-tip="知识板块"/>
-  <polygon points="942,324 957,333 957,349 942,358 927,349 927,333" class="kh" data-tip="知识板块" opacity=".55"/>
-  <polygon points="978,324 993,333 993,349 978,358 963,349 963,333" class="kh" data-tip="知识板块" opacity=".55"/>
+  <rect x="880" y="150" width="186" height="210" rx="10" fill="#fdf8e8" stroke="#d4a017" stroke-width="1.4" stroke-dasharray="6 3"/>
+  <text x="973" y="172" text-anchor="middle" font-size="11" font-weight="bold" fill="#b8860b" font-family="Georgia,serif">知识展示</text>
+  <text x="973" y="186" text-anchor="middle" font-size="8" fill="#b8860b" font-family="Georgia,serif">Knowledge · 8张(4人)</text>
+  <g id="know-hexes"></g>
 </g>
-
-<!-- ============================================================ -->
-<!-- BLACK MARKET — 8 hexes, 3-2-3 (center, y=370→484)           -->
-<!-- ============================================================ -->
-<g data-tip="&lt;b&gt;黑市&lt;/b&gt; · 2银币买任意板块 · 8格(3-2-3)">
-  <rect x="478" y="370" width="184" height="114" rx="12" fill="#333" stroke="#c9a96e" stroke-width="2"/>
-  <text x="570" y="390" text-anchor="middle" font-size="13" font-weight="bold" fill="#c9a96e" font-family="Georgia,serif">黑 市</text>
-  <text x="570" y="404" text-anchor="middle" font-size="9" fill="#908070" font-family="Georgia,serif">2 银币 → 任意板块</text>
-  <!-- Row 1: 3 -->
-  <polygon points="530,400 547,410 547,430 530,440 513,430 513,410" class="bk" data-tip="黑市板块 · 2银币"/>
-  <polygon points="570,400 587,410 587,430 570,440 553,430 553,410" class="bk" data-tip="黑市板块 · 2银币"/>
-  <polygon points="610,400 627,410 627,430 610,440 593,430 593,410" class="bk" data-tip="黑市板块 · 2银币"/>
-  <!-- Row 2: 2 -->
-  <polygon points="550,430 567,440 567,460 550,470 533,460 533,440" class="bk" data-tip="黑市板块 · 2银币"/>
-  <polygon points="590,430 607,440 607,460 590,470 573,460 573,440" class="bk" data-tip="黑市板块 · 2银币"/>
-  <!-- Row 3: 3 -->
-  <polygon points="530,460 547,470 547,490 530,500 513,490 513,470" class="bk" data-tip="黑市板块 · 2银币"/>
-  <polygon points="570,460 587,470 587,490 570,500 553,490 553,470" class="bk" data-tip="黑市板块 · 2银币"/>
-  <polygon points="610,460 627,470 627,490 610,500 593,490 593,470" class="bk" data-tip="黑市板块 · 2银币"/>
-  <!-- Coin -->
-  <circle cx="500" cy="475" r="9" fill="#bbb" stroke="#888" stroke-width="1"/>
-  <text x="500" y="478" text-anchor="middle" font-size="8" font-weight="bold" fill="#555" font-family="Georgia,serif">2</text>
-</g>
-
-<!-- ============================================================ -->
-<!-- BOTTOM ROW DEPOTS 4-5-6  (y=504 → y=698)                    -->
-<!-- ============================================================ -->
-<!-- Depot 4 -->
-<g data-tip="&lt;b&gt;仓库 4&lt;/b&gt; · 骰子点数 4">
-  <rect x="66" y="504" width="256" height="194" class="dp"/>
-  <text x="194" y="532" class="dn">4</text><text x="194" y="546" class="dl">DEPOT</text>
-  <polygon points="154,560 174,572 174,594 154,606 134,594 134,572" class="hex" data-tip="板块位"/>
-  <polygon points="194,560 214,572 214,594 194,606 174,594 174,572" class="hex" data-tip="板块位"/>
-  <polygon points="234,560 254,572 254,594 234,606 214,594 214,572" class="hex" data-tip="板块位"/>
-  <polygon points="194,610 214,622 214,644 194,656 174,644 174,622" class="hex" data-tip="板块位"/>
-  <circle cx="194" cy="680" r="14" class="gc" data-tip="&lt;b&gt;货物区&lt;/b&gt;"/>
-  <text x="194" y="680" class="lb" font-size="8" fill="#b08050">货物</text>
-</g>
-<!-- Depot 5 -->
-<g data-tip="&lt;b&gt;仓库 5&lt;/b&gt; · 骰子点数 5">
-  <rect x="338" y="504" width="256" height="194" class="dp"/>
-  <text x="466" y="532" class="dn">5</text><text x="466" y="546" class="dl">DEPOT</text>
-  <polygon points="426,560 446,572 446,594 426,606 406,594 406,572" class="hex" data-tip="板块位"/>
-  <polygon points="466,560 486,572 486,594 466,606 446,594 446,572" class="hex" data-tip="板块位"/>
-  <polygon points="506,560 526,572 526,594 506,606 486,594 486,572" class="hex" data-tip="板块位"/>
-  <polygon points="466,610 486,622 486,644 466,656 446,644 446,622" class="hex" data-tip="板块位"/>
-  <circle cx="466" cy="680" r="14" class="gc" data-tip="&lt;b&gt;货物区&lt;/b&gt;"/>
-  <text x="466" y="680" class="lb" font-size="8" fill="#b08050">货物</text>
-</g>
-<!-- Depot 6 (special) -->
-<g data-tip="&lt;b&gt;仓库 6 (特殊)&lt;/b&gt; · 阶段A/C/E→城堡 · 阶段B/D→矿场">
-  <rect x="610" y="504" width="256" height="194" class="dp"/>
-  <text x="738" y="532" class="dn" fill="url(#d6g)">6</text><text x="738" y="546" class="dl">DEPOT (特殊)</text>
-  <polygon points="698,560 718,572 718,594 698,606 678,594 678,572" class="hex" style="fill:#d4e8d4;stroke:#7fa87f" data-tip="城堡位 · 阶段 A/C/E"/>
-  <polygon points="738,560 758,572 758,594 738,606 718,594 718,572" class="hex" style="fill:#d8d8d8;stroke:#999" data-tip="矿场位 · 阶段 B/D"/>
-  <polygon points="778,560 798,572 798,594 778,606 758,594 758,572" class="hex" style="fill:#d4e8d4;stroke:#7fa87f" data-tip="城堡位 · 阶段 A/C/E"/>
-  <polygon points="738,610 758,622 758,644 738,656 718,644 718,622" class="hex" style="fill:#d8d8d8;stroke:#999" data-tip="矿场位 · 阶段 B/D"/>
-  <circle cx="738" cy="680" r="14" class="gc" data-tip="&lt;b&gt;货物区&lt;/b&gt;"/>
-  <text x="738" y="680" class="lb" font-size="8" fill="#b08050">货物</text>
-  <rect x="830" y="518" width="30" height="13" rx="3" fill="#7fa87f"/><text x="845" y="528" text-anchor="middle" font-size="7" fill="#fff">城堡</text>
-  <rect x="830" y="534" width="30" height="13" rx="3" fill="#aaa"/><text x="845" y="544" text-anchor="middle" font-size="7" fill="#fff">矿场</text>
-</g>
-
-<!-- ============================================================ -->
-<!-- BONUS TILE AREA (right, bottom) y=504→698                    -->
-<!-- ============================================================ -->
+<!-- Bonus -->
 <g data-tip="&lt;b&gt;区域完成奖励&lt;/b&gt; · 最先完成对应区域的玩家获得奖励分">
-  <rect x="882" y="504" width="186" height="194" rx="10" fill="#faf6ed" stroke="#a08060" stroke-width="1.4"/>
-  <text x="975" y="526" class="lb" font-size="11" font-weight="bold">区域奖励</text>
-  <text x="975" y="540" class="lb" font-size="8" fill="#8B7355">Region Bonuses</text>
-  <rect x="892" y="550" width="56" height="32" class="bs"/><text x="920" y="562" text-anchor="middle" font-size="7" fill="#c0392b">城堡</text><text x="920" y="576" text-anchor="middle" font-size="12" font-weight="bold" fill="#5a3d2b">8</text>
-  <rect x="954" y="550" width="56" height="32" class="bs"/><text x="982" y="562" text-anchor="middle" font-size="7" fill="#2471a3">船只</text><text x="982" y="576" text-anchor="middle" font-size="12" font-weight="bold" fill="#5a3d2b">8</text>
-  <rect x="892" y="590" width="56" height="32" class="bs"/><text x="920" y="602" text-anchor="middle" font-size="7" fill="#7d6608">知识</text><text x="920" y="616" text-anchor="middle" font-size="12" font-weight="bold" fill="#5a3d2b">8</text>
-  <rect x="954" y="590" width="56" height="32" class="bs"/><text x="982" y="602" text-anchor="middle" font-size="7" fill="#888">矿场</text><text x="982" y="616" text-anchor="middle" font-size="12" font-weight="bold" fill="#5a3d2b">5</text>
-  <rect x="892" y="630" width="56" height="32" class="bs"/><text x="920" y="642" text-anchor="middle" font-size="7" fill="#2e7d32">动物</text><text x="920" y="656" text-anchor="middle" font-size="12" font-weight="bold" fill="#5a3d2b">5</text>
-  <rect x="954" y="630" width="56" height="32" class="bs"/><text x="982" y="642" text-anchor="middle" font-size="7" fill="#8B6914">建筑</text><text x="982" y="656" text-anchor="middle" font-size="12" font-weight="bold" fill="#5a3d2b">5</text>
-  <rect x="910" y="670" width="50" height="26" class="bs" opacity=".55"/><text x="935" y="683" text-anchor="middle" font-size="7" fill="#8B7355">第2名</text><text x="935" y="694" text-anchor="middle" font-size="9" fill="#8B7355">6</text>
-  <rect x="968" y="670" width="50" height="26" class="bs" opacity=".55"/><text x="993" y="683" text-anchor="middle" font-size="7" fill="#8B7355">第2名</text><text x="993" y="694" text-anchor="middle" font-size="9" fill="#8B7355">6</text>
+  <rect x="880" y="380" width="186" height="180" rx="10" fill="#faf6ed" stroke="#a08060" stroke-width="1.4"/>
+  <text x="973" y="402" text-anchor="middle" font-size="11" font-weight="bold" fill="#5a3d2b" font-family="Georgia,serif">区域奖励</text>
+  <text x="973" y="416" text-anchor="middle" font-size="8" fill="#8B7355" font-family="Georgia,serif">Region Bonuses · 6种</text>
+  <g id="bonus-slots"></g>
 </g>
 
 <!-- ============================================================ -->
-<!-- TURN ORDER TRACK (bottom center, y=720)                      -->
+<!-- DEPOTS + BLACK MARKET (JS generated, hexagonal layout)       -->
+<!-- ============================================================ -->
+<g id="hex-area"></g>
+
+<!-- ============================================================ -->
+<!-- TURN ORDER (bottom)                                          -->
 <!-- ============================================================ -->
 <g>
-  <text x="310" y="728" class="lb" font-size="10" font-weight="bold">顺位轨道 Turn Order</text>
-  <text x="610" y="728" class="lb" font-size="9" fill="#8B7355">放置船只 → 前移 1 格</text>
-  <rect x="200" y="736" width="86" height="30" class="tp" data-tip="&lt;b&gt;顺位 1&lt;/b&gt;（先手）"/>
-  <text x="243" y="751" text-anchor="middle" font-size="11" font-weight="bold" fill="#5a3d2b">1st 先手</text>
-  <rect x="306" y="736" width="86" height="30" class="tp" data-tip="&lt;b&gt;顺位 2&lt;/b&gt;"/>
-  <text x="349" y="751" text-anchor="middle" font-size="11" font-weight="bold" fill="#5a3d2b">2nd</text>
-  <rect x="412" y="736" width="86" height="30" class="tp" data-tip="&lt;b&gt;顺位 3&lt;/b&gt;"/>
-  <text x="455" y="751" text-anchor="middle" font-size="11" font-weight="bold" fill="#5a3d2b">3rd</text>
-  <rect x="518" y="736" width="86" height="30" class="tp" data-tip="&lt;b&gt;顺位 4&lt;/b&gt;（末手）"/>
-  <text x="561" y="751" text-anchor="middle" font-size="11" font-weight="bold" fill="#5a3d2b">4th 末手</text>
-  <path d="M286,751 L306,751" stroke="#c9a96e" stroke-width="1.3" fill="none" marker-end="url(#arr)"/>
-  <path d="M392,751 L412,751" stroke="#c9a96e" stroke-width="1.3" fill="none" marker-end="url(#arr)"/>
-  <path d="M498,751 L518,751" stroke="#c9a96e" stroke-width="1.3" fill="none" marker-end="url(#arr)"/>
+  <text x="350" y="738" text-anchor="middle" font-size="10" font-weight="bold" fill="#5a3d2b" font-family="Georgia,serif">顺位轨道 Turn Order</text>
+  <text x="660" y="738" text-anchor="middle" font-size="9" fill="#8B7355" font-family="Georgia,serif">放置船只 → 前移 1 格</text>
+  <rect x="220" y="746" width="86" height="30" rx="7" fill="#fff" stroke="#8B7355" stroke-width="1.4" style="cursor:pointer" data-tip="&lt;b&gt;顺位 1&lt;/b&gt;（先手）"/>
+  <text x="263" y="761" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="bold" fill="#5a3d2b" pointer-events="none">1st 先手</text>
+  <rect x="326" y="746" width="86" height="30" rx="7" fill="#fff" stroke="#8B7355" stroke-width="1.4" style="cursor:pointer" data-tip="&lt;b&gt;顺位 2&lt;/b&gt;"/>
+  <text x="369" y="761" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="bold" fill="#5a3d2b" pointer-events="none">2nd</text>
+  <rect x="432" y="746" width="86" height="30" rx="7" fill="#fff" stroke="#8B7355" stroke-width="1.4" style="cursor:pointer" data-tip="&lt;b&gt;顺位 3&lt;/b&gt;"/>
+  <text x="475" y="761" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="bold" fill="#5a3d2b" pointer-events="none">3rd</text>
+  <rect x="538" y="746" width="86" height="30" rx="7" fill="#fff" stroke="#8B7355" stroke-width="1.4" style="cursor:pointer" data-tip="&lt;b&gt;顺位 4&lt;/b&gt;（末手）"/>
+  <text x="581" y="761" text-anchor="middle" dominant-baseline="central" font-size="11" font-weight="bold" fill="#5a3d2b" pointer-events="none">4th 末手</text>
+  <path d="M306,761 L326,761" stroke="#c9a96e" stroke-width="1.3" fill="none" marker-end="url(#arr)"/>
+  <path d="M412,761 L432,761" stroke="#c9a96e" stroke-width="1.3" fill="none" marker-end="url(#arr)"/>
+  <path d="M518,761 L538,761" stroke="#c9a96e" stroke-width="1.3" fill="none" marker-end="url(#arr)"/>
 </g>
-
-<!-- Watermark -->
-<text x="570" y="500" text-anchor="middle" font-size="9" fill="#c9a96e" opacity=".25" letter-spacing="5">THE CASTLES OF BURGUNDY</text>
 
 </svg>
 </div>
-
 <div class="leg">
-  <span><span class="d" style="background:#c0392b"></span>A(+10)</span>
-  <span><span class="d" style="background:#2980b9"></span>B(+8)</span>
-  <span><span class="d" style="background:#27ae60"></span>C(+6)</span>
-  <span><span class="d" style="background:#f39c12"></span>D(+4)</span>
-  <span><span class="d" style="background:#8e44ad"></span>E(+2)</span>
-  <span>|</span>
-  <span>6仓库×4板块+1货物</span>
-  <span>|</span>
-  <span>黑市8格(3-2-3)</span>
-  <span>|</span>
-  <span>得分轨道环绕 · 1分/格</span>
+  <span><span class="d" style="background:#c0392b"></span>1(+10)</span>
+  <span><span class="d" style="background:#2980b9"></span>2(+8)</span>
+  <span><span class="d" style="background:#27ae60"></span>3(+6)</span>
+  <span><span class="d" style="background:#f39c12"></span>4(+4)</span>
+  <span><span class="d" style="background:#8e44ad"></span>5(+2)</span>
+  <span>|</span><span>6仓库·正六边形排列</span>
+  <span>|</span><span>黑市8格(3-2-3)</span>
+  <span>|</span><span>得分轨道1分/格</span>
 </div>
 
-<!-- ============================================================ -->
-<!-- JS: Scoring track + Tooltip                                   -->
-<!-- ============================================================ -->
 <script>
+const NS='http://www.w3.org/2000/svg';
+const svg=document.getElementById('board');
+
+function el(tag,attrs){
+  const e=document.createElementNS(NS,tag);
+  for(const[k,v]of Object.entries(attrs))e.setAttribute(k,v);
+  return e;
+}
+
+// ══════════════════════════════════════════════════════════
+// SCORING TRACK — 1 point per box, clockwise perimeter
+// ══════════════════════════════════════════════════════════
 (function(){
-  const NS='http://www.w3.org/2000/svg';
   const g=document.getElementById('track');
+  const BW=26, BH=20, HP=30, VP=24;
+  const xL=34, xR=1078, yT=34, yB=752;
 
-  // Scoring track params: 1 point per box, clockwise
-  const BW=28, BH=22, GAP=4;
-  const HP=BW+GAP, VP=BH+GAP; // pitch: 32, 26
-
-  // Board inner bounds for the track
-  const xL=36, xR=1076, yT=36, yB=746;
-
-  const boxes=[]; // {x, y, w, h}
-
-  // Top row: L→R
-  for(let x=xL; x+BW<=xR+10; x+=HP){
-    if(x>xR-BW/2) break;
-    boxes.push({x,y:yT,w:BW,h:BH});
-  }
+  const boxes=[];
+  // Top L→R
+  for(let x=xL; x+BW<=xR+8; x+=HP){ if(x>xR-BW) break; boxes.push({x,y:yT,w:BW,h:BH}); }
   const topN=boxes.length;
-
-  // Right column: T→B (skip corner)
-  const rX=xR-BW+2; // right edge aligned with top-right box
-  for(let y=yT+VP; y+BH<=yB+10; y+=VP){
-    if(y>yB-BH/2) break;
-    boxes.push({x:rX,y,w:BW,h:BH});
-  }
+  // Right T→B
+  const rX=xR-BW+2;
+  for(let y=yT+VP; y+BH<=yB+8; y+=VP){ if(y>yB-BH) break; boxes.push({x:rX,y,w:BW,h:BH}); }
   const rightN=boxes.length-topN;
-
-  // Bottom row: R→L (skip corner)
-  for(let x=xR-HP; x>=xL; x-=HP){
-    if(x+BW<xL+BW/2) break;
-    boxes.push({x,y:yB,w:BW,h:BH});
-  }
+  // Bottom R→L
+  for(let x=xR-HP; x>=xL; x-=HP){ if(x+BW<xL+BW) break; boxes.push({x,y:yB,w:BW,h:BH}); }
   const botN=boxes.length-topN-rightN;
-
-  // Left column: B→T (skip both corners)
-  for(let y=yB-VP; y>=yT+VP; y-=VP){
-    if(y<yT+VP/2) break;
-    boxes.push({x:xL,y,w:BW,h:BH});
-  }
+  // Left B→T
+  for(let y=yB-VP; y>=yT+VP; y-=VP){ if(y<yT+VP) break; boxes.push({x:xL,y,w:BW,h:BH}); }
 
   const total=boxes.length;
 
-  // Draw connecting arrows (subtle, between consecutive boxes)
+  // Arrows
   for(let i=0;i<total;i++){
     const a=boxes[i], b=boxes[(i+1)%total];
-    const ax=a.x+a.w/2, ay=a.y+a.h/2;
-    const bx=b.x+b.w/2, by=b.y+b.h/2;
-    const dx=bx-ax, dy=by-ay;
-    const len=Math.sqrt(dx*dx+dy*dy);
-    if(len<1) continue;
-    const ux=dx/len, uy=dy/len;
-    const shrink=Math.max(a.w,a.h)/2+2;
-    const shrinkB=Math.max(b.w,b.h)/2+2;
-
-    const line=document.createElementNS(NS,'line');
-    line.setAttribute('x1', ax+ux*shrink);
-    line.setAttribute('y1', ay+uy*shrink);
-    line.setAttribute('x2', bx-ux*shrinkB);
-    line.setAttribute('y2', by-uy*shrinkB);
-    line.setAttribute('stroke','#c9a96e');
-    line.setAttribute('stroke-width','1');
-    line.setAttribute('opacity','0.4');
-    g.appendChild(line);
+    const ax=a.x+a.w/2, ay=a.y+a.h/2, bx=b.x+b.w/2, by=b.y+b.h/2;
+    const dx=bx-ax, dy=by-ay, len=Math.hypot(dx,dy);
+    if(len<2) continue;
+    const ux=dx/len, uy=dy/len, s=Math.max(a.w,a.h)/2+1, s2=Math.max(b.w,b.h)/2+1;
+    g.appendChild(el('line',{x1:ax+ux*s,y1:ay+uy*s,x2:bx-ux*s2,y2:by-uy*s2,stroke:'#c9a96e','stroke-width':'0.8',opacity:'0.35'}));
   }
 
-  // Draw boxes
+  // Boxes
   boxes.forEach((p,i)=>{
-    const rect=document.createElementNS(NS,'rect');
-    rect.setAttribute('x',p.x);
-    rect.setAttribute('y',p.y);
-    rect.setAttribute('width',p.w);
-    rect.setAttribute('height',p.h);
-    rect.setAttribute('rx','4');
-    rect.setAttribute('stroke','#a08060');
-    rect.setAttribute('stroke-width','1');
-    rect.setAttribute('cursor','pointer');
+    const fill=i===0?'#e8d8b0':i%10===0?'#f5ead0':i>=100?'#faf4e8':'#f0e8d4';
+    const sw=i===0?'1.5':i%10===0?'1.2':'0.8';
+    const sc=i%10===0&&i>0?'#b8960b':'#a08060';
+    const r=el('rect',{x:p.x,y:p.y,width:p.w,height:p.h,rx:'3',fill,stroke:sc,'stroke-width':sw,cursor:'pointer','data-tip':'<b>得分 '+i+'</b>'+(i%10===0&&i>0?' · 十分节点':'')});
+    g.appendChild(r);
 
-    // Color scheme: decade highlight, start marker
+    let txt;
     if(i===0){
-      rect.setAttribute('fill','#e8d8b0');
-      rect.setAttribute('stroke','#c9a96e');
-      rect.setAttribute('stroke-width','1.5');
-    } else if(i%10===0){
-      rect.setAttribute('fill','#f5ead0');
-      rect.setAttribute('stroke','#b8960b');
-      rect.setAttribute('stroke-width','1.2');
-    } else if(i>=100){
-      rect.setAttribute('fill','#faf4e8');
-    } else {
-      rect.setAttribute('fill','#f0e8d4');
-    }
-    rect.setAttribute('data-tip','<b>得分 '+i+'</b>'+(i%10===0&&i>0?' · 十分节点':''));
-    g.appendChild(rect);
-
-    // Number text
-    const txt=document.createElementNS(NS,'text');
-    txt.setAttribute('x', p.x+p.w/2);
-    txt.setAttribute('y', p.y+p.h/2+1);
-    txt.setAttribute('text-anchor','middle');
-    txt.setAttribute('dominant-baseline','central');
-    txt.setAttribute('font-family','Georgia,serif');
-    txt.setAttribute('pointer-events','none');
-
-    if(i===0){
-      txt.setAttribute('font-size','9');
-      txt.setAttribute('font-weight','bold');
-      txt.setAttribute('fill','#8B6914');
+      txt=el('text',{x:p.x+p.w/2,y:p.y+p.h/2+1,'text-anchor':'middle','dominant-baseline':'central','font-family':'Georgia,serif','font-size':'7','font-weight':'bold',fill:'#8B6914','pointer-events':'none'});
       txt.textContent='START';
-    } else if(i%10===0){
-      txt.setAttribute('font-size','10');
-      txt.setAttribute('font-weight','bold');
-      txt.setAttribute('fill','#5a3d2b');
-      txt.textContent=i;
-    } else if(i>=100){
-      txt.setAttribute('font-size','8');
-      txt.setAttribute('fill','#6a5040');
-      txt.textContent=i;
     } else {
-      txt.setAttribute('font-size','9');
-      txt.setAttribute('fill','#6a5040');
+      const fs=i%10===0?'9':i>=100?'7':'8';
+      const fw=i%10===0?'bold':'normal';
+      const fc=i%10===0?'#5a3d2b':'#7a6a5a';
+      txt=el('text',{x:p.x+p.w/2,y:p.y+p.h/2+1,'text-anchor':'middle','dominant-baseline':'central','font-family':'Georgia,serif','font-size':fs,'font-weight':fw,fill:fc,'pointer-events':'none'});
       txt.textContent=i;
     }
     g.appendChild(txt);
   });
 
-  // START indicator arrow (below the start box)
+  // Title
+  const t=el('text',{x:'570',y:'24','text-anchor':'middle','font-family':'Georgia,serif','font-size':'9',fill:'#8B7355','letter-spacing':'3'});
+  t.textContent='得分轨道 · 顺时针 · 1分/格 · 共'+total+'格';
+  g.appendChild(t);
+
+  // START marker
   const s0=boxes[0];
-  const arrow=document.createElementNS(NS,'text');
-  arrow.setAttribute('x', s0.x+s0.w/2);
-  arrow.setAttribute('y', s0.y+s0.h+10);
-  arrow.setAttribute('text-anchor','middle');
-  arrow.setAttribute('font-size','10');
-  arrow.setAttribute('fill','#c9a96e');
-  arrow.setAttribute('font-family','Georgia,serif');
-  arrow.textContent='▲ START';
-  g.appendChild(arrow);
-
-  // Direction label on top-right (shows clockwise direction)
-  const corner=boxes[topN-1]; // last top box
-  const dirArrow=document.createElementNS(NS,'text');
-  dirArrow.setAttribute('x', corner.x+corner.w+8);
-  dirArrow.setAttribute('y', corner.y+corner.h/2+1);
-  dirArrow.setAttribute('text-anchor','start');
-  dirArrow.setAttribute('dominant-baseline','central');
-  dirArrow.setAttribute('font-size','9');
-  dirArrow.setAttribute('fill','#c9a96e');
-  dirArrow.setAttribute('font-family','Georgia,serif');
-  dirArrow.textContent='↓';
-  g.appendChild(dirArrow);
-
-  // Track title
-  const title=document.createElementNS(NS,'text');
-  title.setAttribute('x','570');
-  title.setAttribute('y','26');
-  title.setAttribute('text-anchor','middle');
-  title.setAttribute('font-family','Georgia,serif');
-  title.setAttribute('font-size','10');
-  title.setAttribute('fill','#8B7355');
-  title.setAttribute('letter-spacing','4');
-  title.textContent='得分轨道 · 顺时针 · 1分/格 · 共'+total+'格';
-  g.appendChild(title);
-
-  // Total label
-  const totalLabel=document.createElementNS(NS,'text');
-  totalLabel.setAttribute('x', boxes[Math.floor(total/2)].x+BW/2);
-  totalLabel.setAttribute('y', boxes[Math.floor(total/2)].y-6);
-  totalLabel.setAttribute('text-anchor','middle');
-  totalLabel.setAttribute('font-family','Georgia,serif');
-  totalLabel.setAttribute('font-size','8');
-  totalLabel.setAttribute('fill','#aaa');
-  totalLabel.textContent='满一圈后可继续';
-  g.appendChild(totalLabel);
+  const m=el('text',{x:s0.x+s0.w/2,y:s0.y+s0.h+9,'text-anchor':'middle','font-size':'8',fill:'#c9a96e','font-family':'Georgia,serif'});
+  m.textContent='▲ START';
+  g.appendChild(m);
 })();
 
-// Tooltip
+// ══════════════════════════════════════════════════════════
+// HEXAGONAL DEPOT LAYOUT — 6 depots around black market
+// ══════════════════════════════════════════════════════════
+(function(){
+  const g=document.getElementById('hex-area');
+
+  // Hex layout params — R=260 ensures tiles clear the perimeter scoring track
+  const CX=570, CY=430;   // center (black market)
+  const R=260;             // radius from center to depot card center
+  const CW=130, CH=104;   // depot card size
+
+  // Depot angles: top=0°, clockwise every 60°
+  const angles=[0, 60, 120, 180, 240, 300]; // degrees
+  const depotNums=[1,2,3,4,5,6];
+
+  // Hex tile helper
+  function hexPts(cx,cy,w,h){
+    const hw=w/2, hh=h/2, qw=w/4;
+    return `${cx},${cy-hh} ${cx+hw},${cy-qw} ${cx+hw},${cy+qw} ${cx},${cy+hh} ${cx-hw},${cy+qw} ${cx-hw},${cy-qw}`;
+  }
+
+  // Per-depot radius: depot 1 (top) and 4 (bottom) are 100px closer to center
+  const depotR=num=>(num===1||num===4)?R-100:R;
+
+  // Draw connection lines from center to each depot (subtle)
+  angles.forEach((deg,idx)=>{
+    const num=depotNums[idx];
+    const rad=deg*Math.PI/180;
+    const r=depotR(num);
+    const ex=CX+r*Math.sin(rad), ey=CY-r*Math.cos(rad);
+    g.appendChild(el('line',{x1:CX,y1:CY,x2:ex,y2:ey,stroke:'#c9a96e','stroke-width':'0.8',opacity:'0.15','stroke-dasharray':'4 4'}));
+  });
+
+  // Draw each depot
+  angles.forEach((deg,idx)=>{
+    const num=depotNums[idx];
+    const rad=deg*Math.PI/180;
+    const r=depotR(num);
+    const dx=CX+r*Math.sin(rad), dy=CY-r*Math.cos(rad);
+    const cx0=dx-CW/2, cy0=dy-CH/2;
+
+    const dg=el('g',{cursor:'pointer','data-tip':'<b>仓库 '+num+'</b> · 骰子点数 '+num});
+
+    // Card background
+    dg.appendChild(el('rect',{x:cx0,y:cy0,width:CW,height:CH,rx:'10',fill:'#f0e8d0',stroke:'#a08060','stroke-width':'1.4'}));
+
+    // Depot number + label — vertically centered in card
+    const fill=num===6?'url(#d6g)':'#5a3d2b';
+    const nt=el('text',{x:dx,y:dy,'text-anchor':'middle','dominant-baseline':'central','font-family':'Georgia,serif','font-size':'26','font-weight':'bold',fill,'pointer-events':'none'});
+    nt.textContent=num;
+    dg.appendChild(nt);
+    const lt=el('text',{x:dx,y:dy+18,'text-anchor':'middle','font-family':'Georgia,serif','font-size':'7',fill:'#8B7355','pointer-events':'none'});
+    lt.textContent='DEPOT';
+    dg.appendChild(lt);
+
+    // Hex tiles: 4 tiles in 2×2 diamond on OUTWARD side of each depot
+    // Tiles face away from center: 1→up, 4→down, 2/3→right, 5/6→left
+    const hexW=22, hexH=26;
+    const hGap=24, vGap=24;
+    let hPositions;
+    switch(num){
+      case 1: // ABOVE
+        hPositions=[
+          {cx:dx,      cy:cy0-6},
+          {cx:dx-hGap, cy:cy0-6-vGap},
+          {cx:dx+hGap, cy:cy0-6-vGap},
+          {cx:dx,      cy:cy0-6-vGap*2},
+        ];
+        break;
+      case 4: // BELOW
+        hPositions=[
+          {cx:dx,      cy:cy0+CH+6},
+          {cx:dx-hGap, cy:cy0+CH+6+vGap},
+          {cx:dx+hGap, cy:cy0+CH+6+vGap},
+          {cx:dx,      cy:cy0+CH+6+vGap*2},
+        ];
+        break;
+      case 2: case 3: // RIGHT
+        hPositions=[
+          {cx:cx0+CW+8,      cy:dy-vGap/2},
+          {cx:cx0+CW+8,      cy:dy+vGap/2},
+          {cx:cx0+CW+8+hGap, cy:dy-vGap/2},
+          {cx:cx0+CW+8+hGap, cy:dy+vGap/2},
+        ];
+        break;
+      case 5: case 6: // LEFT
+        hPositions=[
+          {cx:cx0-8,      cy:dy-vGap/2},
+          {cx:cx0-8,      cy:dy+vGap/2},
+          {cx:cx0-8-hGap, cy:dy-vGap/2},
+          {cx:cx0-8-hGap, cy:dy+vGap/2},
+        ];
+        break;
+    }
+
+    hPositions.forEach((hp,hi)=>{
+      let style='';
+      let tip='板块位';
+      if(num===6){
+        style=hi%2===0?'fill:#d4e8d4;stroke:#7fa87f':'fill:#d8d8d8;stroke:#999';
+        tip=hi%2===0?'城堡位 · A/C/E':'矿场位 · B/D';
+      }
+      const poly=el('polygon',{points:hexPts(hp.cx,hp.cy,hexW,hexH),fill:num===6?'':'#f5edd6',stroke:'#8B7355','stroke-width':'1.4',style:style||'fill:#f5edd6;stroke:#8B7355;stroke-width:1.4',cursor:'pointer','data-tip':tip});
+      dg.appendChild(poly);
+    });
+
+    // Goods circle — inside card corner, avoid overlapping the number
+    const goodsR=11;
+    let gx, gy;
+    switch(num){
+      case 1: gx=cx0+CW-16; gy=cy0+CH-16; break;  // bottom-right (tiles are above)
+      case 4: gx=cx0+CW-16; gy=cy0+CH-16; break;  // bottom-right (tiles are below)
+      case 2: case 3: gx=cx0+16; gy=cy0+CH-16; break; // bottom-left (tiles are right)
+      case 5: case 6: gx=cx0+CW-16; gy=cy0+CH-16; break; // bottom-right (tiles are left)
+    }
+
+    dg.appendChild(el('circle',{cx:gx,cy:gy,r:goodsR,fill:'#fff5e6',stroke:'#c9a96e','stroke-width':'1.4','stroke-dasharray':'5 3',cursor:'pointer','data-tip':'<b>货物区</b> · 放置船只时拿取全部货物'}));
+    const gl=el('text',{x:gx,y:gy+1,'text-anchor':'middle','dominant-baseline':'central','font-family':'Georgia,serif','font-size':'6',fill:'#b08050','pointer-events':'none'});
+    gl.textContent='货物';
+    dg.appendChild(gl);
+
+    // Depot 6 special legend
+    if(num===6){
+      const lx=cx0+CW-30, ly=cy0+3;
+      dg.appendChild(el('rect',{x:lx,y:ly,width:26,height:10,rx:'2',fill:'#7fa87f'}));
+      const t1=el('text',{x:lx+13,y:ly+7.5,'text-anchor':'middle','font-size':'5.5',fill:'#fff','font-family':'Georgia,serif'});
+      t1.textContent='城堡';
+      dg.appendChild(t1);
+      dg.appendChild(el('rect',{x:lx,y:ly+12,width:26,height:10,rx:'2',fill:'#aaa'}));
+      const t2=el('text',{x:lx+13,y:ly+19.5,'text-anchor':'middle','font-size':'5.5',fill:'#fff','font-family':'Georgia,serif'});
+      t2.textContent='矿场';
+      dg.appendChild(t2);
+    }
+
+    g.appendChild(dg);
+  });
+
+  // ══════════════════════════════════════════════════════
+  // BLACK MARKET (center) — 8 hexes, 3-2-3
+  // ══════════════════════════════════════════════════════
+  const bg=el('g',{'data-tip':'<b>黑市</b> · 2银币买任意板块 · 8格(3-2-3)'});
+
+  // Background
+  bg.appendChild(el('rect',{x:CX-78,y:CY-52,width:156,height:118,rx:'12',fill:'#333',stroke:'#c9a96e','stroke-width':'2'}));
+
+  // Title
+  const bt=el('text',{x:CX,y:CY-44,'text-anchor':'middle','font-family':'Georgia,serif','font-size':'13','font-weight':'bold',fill:'#c9a96e'});
+  bt.textContent='黑 市';
+  bg.appendChild(bt);
+  const bs=el('text',{x:CX,y:CY-30,'text-anchor':'middle','font-family':'Georgia,serif','font-size':'8',fill:'#908070'});
+  bs.textContent='2 银币 → 任意板块';
+  bg.appendChild(bs);
+
+  // 8 hexes: 3-2-3 arrangement
+  const bHW=32, bHH=36;
+  const bHexes=[
+    // Row 1: 3 (cy = CY-12)
+    {cx:CX-38, cy:CY-10},
+    {cx:CX,    cy:CY-10},
+    {cx:CX+38, cy:CY-10},
+    // Row 2: 2 (cy = CY+24)
+    {cx:CX-19, cy:CY+26},
+    {cx:CX+19, cy:CY+26},
+    // Row 3: 3 (cy = CY+60)
+    {cx:CX-38, cy:CY+58},
+    {cx:CX,    cy:CY+58},
+    {cx:CX+38, cy:CY+58},
+  ];
+  bHexes.forEach(bh=>{
+    bg.appendChild(el('polygon',{
+      points:hexPts(bh.cx, bh.cy, bHW, bHH),
+      fill:'#3a3a3a', stroke:'#c9a96e','stroke-width':'1.6',
+      cursor:'pointer','data-tip':'黑市板块 · 2银币'
+    }));
+  });
+
+  // Silver coin
+  bg.appendChild(el('circle',{cx:CX-68,cy:CY+56,r:8,fill:'#bbb',stroke:'#888','stroke-width':'1'}));
+  const ct=el('text',{x:CX-68,y:CY+59,'text-anchor':'middle','font-family':'Georgia,serif','font-size':'7','font-weight':'bold',fill:'#555'});
+  ct.textContent='2';
+  bg.appendChild(ct);
+
+  g.appendChild(bg);
+})();
+
+// ══════════════════════════════════════════════════════════
+// KNOWLEDGE HEXES (right-top panel)
+// ══════════════════════════════════════════════════════════
+(function(){
+  const g=document.getElementById('know-hexes');
+  const hw=28, hh=32;
+  function hexPts(cx,cy,w,h){
+    const qw=w/4, hw2=w/2, hh2=h/2;
+    return `${cx},${cy-hh2} ${cx+hw2},${cy-qw} ${cx+hw2},${cy+qw} ${cx},${cy+hh2} ${cx-hw2},${cy+qw} ${cx-hw2},${cy-qw}`;
+  }
+  const positions=[
+    [938,206],[973,206],[938,244],[973,244],
+    [938,282],[973,282],[938,320],[973,320]
+  ];
+  positions.forEach((p,i)=>{
+    const op=i>=6?'0.5':'1';
+    g.appendChild(el('polygon',{
+      points:hexPts(p[0],p[1],hw,hh),
+      fill:'#fff3b0',stroke:'#d4a017','stroke-width':'1.4',
+      opacity:op,cursor:'pointer','data-tip':'知识板块'
+    }));
+  });
+})();
+
+// ══════════════════════════════════════════════════════════
+// BONUS SLOTS (right-bottom panel)
+// ══════════════════════════════════════════════════════════
+(function(){
+  const g=document.getElementById('bonus-slots');
+  const items=[
+    {label:'城堡',val:'8',color:'#c0392b',x:892,y:430},
+    {label:'船只',val:'8',color:'#2471a3',x:948,y:430},
+    {label:'知识',val:'8',color:'#7d6608',x:892,y:470},
+    {label:'矿场',val:'5',color:'#888',x:948,y:470},
+    {label:'动物',val:'5',color:'#2e7d32',x:892,y:510},
+    {label:'建筑',val:'5',color:'#8B6914',x:948,y:510},
+  ];
+  items.forEach(it=>{
+    g.appendChild(el('rect',{x:it.x,y:it.y,width:52,height:32,rx:'5',fill:'#faf6ed',stroke:'#c9a96e','stroke-width':'1',cursor:'pointer','data-tip':'<b>'+it.label+'</b> 区域奖励 '+it.val+'分'}));
+    const lb=el('text',{x:it.x+26,y:it.y+13,'text-anchor':'middle','font-family':'Georgia,serif','font-size':'7',fill:it.color});
+    lb.textContent=it.label;
+    g.appendChild(lb);
+    const vt=el('text',{x:it.x+26,y:it.y+26,'text-anchor':'middle','font-family':'Georgia,serif','font-size':'12','font-weight':'bold',fill:'#5a3d2b'});
+    vt.textContent=it.val;
+    g.appendChild(vt);
+  });
+})();
+
+// ══════════════════════════════════════════════════════════
+// TOOLTIP
+// ══════════════════════════════════════════════════════════
 const tt=document.createElement('div');
 tt.className='tt';
 document.body.appendChild(tt);
-document.querySelectorAll('[data-tip]').forEach(el=>{
-  el.addEventListener('mouseenter',e=>{
-    tt.innerHTML=el.getAttribute('data-tip');
-    tt.style.display='block';
-  });
-  el.addEventListener('mousemove',e=>{
-    tt.style.left=Math.min(e.clientX+12,innerWidth-280)+'px';
-    tt.style.top=Math.min(e.clientY+12,innerHeight-100)+'px';
-  });
-  el.addEventListener('mouseleave',()=>{tt.style.display='none';});
+document.querySelectorAll('[data-tip]').forEach(e=>{
+  e.addEventListener('mouseenter',()=>{tt.innerHTML=e.getAttribute('data-tip');tt.style.display='block';});
+  e.addEventListener('mousemove',ev=>{tt.style.left=Math.min(ev.clientX+12,innerWidth-280)+'px';tt.style.top=Math.min(ev.clientY+12,innerHeight-100)+'px';});
+  e.addEventListener('mouseleave',()=>{tt.style.display='none';});
 });
 </script>
 </body>

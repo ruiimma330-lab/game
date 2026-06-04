@@ -22,9 +22,11 @@ game/
 ├── 信息交互设计（实践课作业要求）.docx        # 原始作业要求
 │
 ├── player board/                            # 勃艮第城堡玩家版图 HTML 复刻
-│   ├── board-game-mat.html                  # 唯一生产文件（单文件 HTML）
+│   ├── board-game-mat.html                  # 玩家版图（单文件 HTML，CSS+JS 内联）
+│   ├── center-board.html                    # 中心公共版图（单文件 SVG+JS）
+│   ├── 35cd6588fd40ea9ab8d2601220114595.png # 玩家版图参考图
 │   ├── ...分析脚本                          # Node.js/Python 六边形网格分析工具链
-│   └── see player board/CLAUDE.md           # 详细坐标系统 & 修改指南
+│   └── see player board/CLAUDE.md           # 玩家版图坐标系统 & 修改指南
 │
 └── workspace/                               # PPT 幻灯片生成
     ├── generate_slides.py                   # Python SVG 幻灯片生成（零依赖）
@@ -54,12 +56,48 @@ game/
 
 ### 2. player board/ — 勃艮第城堡版图复刻
 
+含两个独立的单文件 HTML 页面：
+
+#### board-game-mat.html（玩家版图）
+
 见 `player board/CLAUDE.md` 完整文档。核心要点：
 
 - 单文件 HTML，CSS+JS 内联
 - 37 个尖头六边形，`4-5-6-7-6-5-4` 布局
 - 坐标系统：`cx = BX + c * W`，`cy = BY + r * VG`
 - **当前 BX = 65**（已调整使标题与网格 X 中心对齐）
+
+#### center-board.html（中心公共版图）
+
+SVG 内联于 HTML，JS 动态生成部分元素。viewBox `0 0 1140 810`。
+
+**核心区域：**
+
+| 区域 | 位置 | 说明 |
+|------|------|------|
+| 得分轨道 | 四周边缘 | JS 生成，1 分/格，~130 格，顺时针 |
+| 阶段轨道 A-E | 顶部 y≈82 | 5 个彩色方块 + 区域奖励标注 |
+| 轮次轨道 1-5 | 顶部 y≈84 | 5 个白色方框 |
+| 6 个仓库 | 六角形分布 | 以黑市为中心，60° 间隔，R=218 |
+| 黑市 | 中央 (570,430) | 8 个六边形，3-2-3 菱形排列 |
+| 知识展示 | 右上 (880,150) | 8 个六边形格位（4 人局最大量） |
+| 奖励板块 | 右下 | 区域预留 |
+| 顺位轨道 | 底部 | 4 个玩家位置 |
+
+**关键常量（JS 中）：**
+
+```js
+const CX=570, CY=430;     // 版图中心（黑市位置）
+const R=218;               // 仓库到中心的半径
+const CW=156, CH=136;      // 仓库卡片尺寸
+const angles=[0, 60, 120, 180, 240, 300]; // 6 个仓库角度
+```
+
+**六边形渲染函数：** `hexPts(cx,cy,w,h)` — pointy-top，返回 SVG polygon points 字符串。
+
+**得分轨道生成：** JS 计算 4 条边的位置（HP=30 水平间距，VP=24 垂直间距），顺时针从左上角开始。每 10 格加粗标注。
+
+**交互：** `data-tip` 属性 + `mouseenter/mousemove/mouseleave` 事件实现 tooltip 悬浮提示。
 
 ## 分析脚本链（player board/）
 
@@ -87,8 +125,11 @@ game/
 ## 常用命令
 
 ```powershell
-# 浏览器打开版图
-start "player board/board-game-mat.html"
+# 浏览器打开玩家版图
+start "" "player board/board-game-mat.html"
+
+# 浏览器打开中心公共版图
+start "" "player board/center-board.html"
 
 # 查看调研报告前 100 行
 Get-Content "桌游调研报告.md" -TotalCount 100
@@ -96,8 +137,8 @@ Get-Content "桌游调研报告.md" -TotalCount 100
 # 生成幻灯片（workspace 目录下）
 python generate_slides.py
 
-# 校准六边形坐标（player board 目录下）
-node optimize_grid.js
+# 校准六边形坐标（player board 目录下，需 pngjs）
+cd "player board" && npm install && node optimize_grid.js
 
 # 查看作业要求（需 python-docx）
 pip install python-docx
