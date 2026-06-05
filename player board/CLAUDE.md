@@ -8,7 +8,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## File Structure
 
-- **`board-game-mat.html`**: 唯一生产文件。所有 CSS、HTML、JS 内联在一个文件中。浏览器直接打开即可查看。
+- **`combined-board.html`**: 主要生产文件。包含中心公共版图 + 4 个玩家版图 + 流程演示系统。所有 CSS、HTML、JS 内联。
+- **`board-game-mat.html`**: 玩家版图独立文件。旧版，仅含单玩家版图。
 - **`35cd6588fd40ea9ab8d2601220114595.png`**: 参考图片（原版版图截图 565×754），用于网格定位和颜色提取。
 - **分析脚本** (Node.js): 从参考图片提取六边形位置和地形颜色的工具链，非生产代码。
   - `analyze_grid.js` / `find_hex_grid.js` / `scan_grid.js` — 初始扫描和检测

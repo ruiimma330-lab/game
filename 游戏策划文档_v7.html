@@ -1,0 +1,3441 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>三方阵营沙盘策略游戏 — 完整策划文档 V7</title>
+<style>
+/* ========== CSS Variables ========== */
+:root {
+  --bg: #0d1117;
+  --bg-panel: #161b22;
+  --bg-card: #1c2333;
+  --bg-hover: #21283a;
+  --text: #c9d1d9;
+  --text-muted: #8b949e;
+  --text-bright: #e6edf3;
+  --border: #30363d;
+  --border-light: #21262d;
+  --accent: #e94560;
+  --accent-glow: #ff6b81;
+  --gold: #f0c040;
+  --human: #4488cc;
+  --human-bg: rgba(68,136,204,0.12);
+  --elf: #44aa55;
+  --elf-bg: rgba(68,170,85,0.12);
+  --orc: #cc5544;
+  --orc-bg: rgba(204,85,68,0.12);
+  --sidebar-w: 260px;
+  --font: "PingFang SC","Microsoft YaHei","Noto Sans SC",-apple-system,sans-serif;
+  --font-mono: "Cascadia Code","Fira Code","JetBrains Mono","SF Mono",monospace;
+}
+
+/* ========== Reset & Base ========== */
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; font-size:15px; }
+body {
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.7;
+  display:flex;
+  min-height:100vh;
+}
+
+/* ========== Sidebar ========== */
+#sidebar {
+  position:fixed; top:0; left:0; width:var(--sidebar-w); height:100vh;
+  background:var(--bg-panel);
+  border-right:1px solid var(--border);
+  overflow-y:auto; overflow-x:hidden;
+  z-index:100;
+  padding:24px 16px 40px 20px;
+  display:flex; flex-direction:column;
+  gap:2px;
+}
+#sidebar::-webkit-scrollbar { width:4px; }
+#sidebar::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
+.sidebar-logo {
+  font-size:17px; font-weight:700; color:var(--accent);
+  margin-bottom:16px; padding-bottom:12px;
+  border-bottom:1px solid var(--border);
+  letter-spacing:0.5px;
+}
+.sidebar-logo span { color:var(--text-muted); font-size:12px; font-weight:400; display:block; margin-top:2px; }
+.toc-item {
+  display:flex; align-items:center; gap:8px;
+  padding:6px 10px; border-radius:6px;
+  color:var(--text-muted); text-decoration:none;
+  font-size:13px; transition:all 0.15s;
+  white-space:nowrap;
+}
+.toc-item:hover { background:var(--bg-hover); color:var(--text-bright); }
+.toc-item.active { background:var(--accent); color:#fff; }
+.toc-num {
+  font-weight:700; min-width:22px; text-align:center;
+  font-size:11px; opacity:0.7;
+}
+.toc-label { overflow:hidden; text-overflow:ellipsis; }
+
+/* ========== Main Content ========== */
+#content {
+  margin-left:var(--sidebar-w);
+  padding:40px 48px 80px 48px;
+  max-width:1100px; width:100%;
+}
+
+/* ========== Typography ========== */
+.doc-title { font-size:2rem; color:var(--text-bright); margin-bottom:8px; font-weight:800; letter-spacing:0.5px; }
+.section-title {
+  font-size:1.5rem; color:var(--text-bright); margin-top:48px; margin-bottom:16px;
+  padding-bottom:10px; border-bottom:2px solid var(--border);
+  font-weight:700;
+}
+.subsection-title { font-size:1.15rem; color:var(--text-bright); margin-top:32px; margin-bottom:10px; font-weight:600; }
+.subsubsection-title { font-size:1rem; color:var(--text-muted); margin-top:24px; margin-bottom:8px; font-weight:600; }
+
+p { margin-bottom:12px; }
+a { color:var(--accent-glow); text-decoration:none; }
+a:hover { text-decoration:underline; }
+strong { color:var(--text-bright); font-weight:600; }
+code {
+  background:rgba(255,255,255,0.08); padding:2px 6px; border-radius:4px;
+  font-family:var(--font-mono); font-size:0.88em;
+  color:var(--gold);
+}
+
+/* ========== Blockquote ========== */
+blockquote {
+  border-left:3px solid var(--accent); padding:12px 16px;
+  margin:16px 0; background:var(--bg-card); border-radius:0 8px 8px 0;
+  color:var(--text-muted); font-size:0.95em;
+}
+blockquote p { margin:0; }
+.blockquote-highlight { border-left-color:var(--gold); background:rgba(240,192,64,0.06); }
+.blockquote-summary { border-left-color:var(--accent-glow); background:rgba(233,69,96,0.06); font-size:1em; color:var(--text); }
+.blockquote-example { border-left-color:#58a6ff; background:rgba(88,166,255,0.06); }
+
+/* ========== Tables ========== */
+.table-wrap { overflow-x:auto; margin:16px 0; border-radius:8px; border:1px solid var(--border); }
+table { width:100%; border-collapse:collapse; font-size:0.92em; }
+th, td { padding:9px 14px; text-align:left; border-bottom:1px solid var(--border-light); }
+th { background:var(--bg-panel); color:var(--text-bright); font-weight:600; font-size:0.85em; letter-spacing:0.5px; white-space:nowrap; }
+td { color:var(--text); }
+tr:last-child td { border-bottom:none; }
+tr:hover td { background:var(--bg-hover); }
+
+/* Faction-colored table cells */
+td:has(strong:contains("人类")), td:has(strong:contains("★")) {
+}
+.faction-human { color:var(--human); }
+.faction-elf { color:var(--elf); }
+.faction-orc { color:var(--orc); }
+
+/* ========== Code Blocks ========== */
+.code-block {
+  display:block; background:var(--bg-card); padding:16px 20px;
+  border-radius:8px; margin:16px 0; overflow-x:auto;
+  font-family:var(--font-mono); font-size:0.85em; line-height:1.6;
+  color:#a5d6ff; border:1px solid var(--border);
+  white-space:pre;
+}
+
+/* ========== Lists ========== */
+ul, ol { margin:8px 0 12px 24px; }
+li { margin-bottom:4px; }
+
+/* ========== Section Divider ========== */
+.section-divider {
+  border:none; border-top:1px solid var(--border);
+  margin:32px 0; opacity:0.5;
+}
+
+/* ========== ASCII Diagram ========== */
+.code-block.diagram {
+  color:#8bb4d0; text-align:center;
+  background:linear-gradient(135deg, #0d1520, #111d2b);
+  font-size:0.8em; line-height:1.25; letter-spacing:0.5px;
+  border:1px solid rgba(68,136,204,0.2);
+  box-shadow:0 0 40px rgba(0,0,0,0.3) inset;
+  padding:20px 24px;
+}
+
+/* ========== Scroll Progress ========== */
+#scroll-progress {
+  position:fixed; top:0; left:var(--sidebar-w); height:3px;
+  background:linear-gradient(90deg, var(--accent), var(--gold));
+  z-index:200; transition:width 0.1s;
+}
+
+/* ========== Badge / Tag ========== */
+.badge {
+  display:inline-block; padding:2px 8px; border-radius:4px;
+  font-size:0.82em; font-weight:600;
+}
+.badge-human { background:var(--human-bg); color:var(--human); }
+.badge-elf { background:var(--elf-bg); color:var(--elf); }
+.badge-orc { background:var(--orc-bg); color:var(--orc); }
+.badge-v7 { background:rgba(233,69,96,0.15); color:var(--accent-glow); }
+
+/* ========== Responsive ========== */
+@media (max-width:860px) {
+  #sidebar { display:none; }
+  #content { margin-left:0; padding:24px 20px 60px 20px; }
+  #scroll-progress { left:0; }
+  .doc-title { font-size:1.5rem; }
+  .section-title { font-size:1.25rem; }
+}
+
+/* ========== Print ========== */
+@media print {
+  #sidebar, #scroll-progress { display:none; }
+  #content { margin-left:0; padding:0; max-width:100%; }
+  body { font-size:11pt; color:#000; background:#fff; }
+  .section-title { border-bottom-color:#ccc; }
+  table { border:1px solid #ccc; }
+  th, td { border-color:#ccc; }
+}
+</style>
+</head>
+<body>
+
+<div id="scroll-progress"></div>
+
+<nav id="sidebar">
+  <div class="sidebar-logo">⚔ 三方沙盘策略<span>V7 完整策划文档</span></div>
+  <a href="#目录" class="toc-item"><span class="toc-num"></span><span class="toc-label">目录</span></a>
+<a href="#一游戏概述" class="toc-item"><span class="toc-num">一</span><span class="toc-label">游戏概述</span></a>
+<a href="#二地图与迷雾" class="toc-item"><span class="toc-num">二</span><span class="toc-label">地图与迷雾</span></a>
+<a href="#三开局初始状态" class="toc-item"><span class="toc-num">三</span><span class="toc-label">开局初始状态</span></a>
+<a href="#四回合与行动点" class="toc-item"><span class="toc-num">四</span><span class="toc-label">回合与行动点</span></a>
+<a href="#五资源体系" class="toc-item"><span class="toc-num">五</span><span class="toc-label">资源体系</span></a>
+<a href="#六科技树" class="toc-item"><span class="toc-num">六</span><span class="toc-label">科技树</span></a>
+<a href="#七龙族科技" class="toc-item"><span class="toc-num">七</span><span class="toc-label">龙族科技</span></a>
+<a href="#八建筑系统" class="toc-item"><span class="toc-num">八</span><span class="toc-label">建筑系统</span></a>
+<a href="#九单位系统" class="toc-item"><span class="toc-num">九</span><span class="toc-label">单位系统</span></a>
+<a href="#十中立生物" class="toc-item"><span class="toc-num">十</span><span class="toc-label">中立生物</span></a>
+<a href="#十一PvP-对战系统" class="toc-item"><span class="toc-num">十一</span><span class="toc-label">PvP 对战系统</span></a>
+<a href="#十二资源点与掠夺" class="toc-item"><span class="toc-num">十二</span><span class="toc-label">资源点与掠夺</span></a>
+<a href="#十三地精商人" class="toc-item"><span class="toc-num">十三</span><span class="toc-label">地精商人</span></a>
+<a href="#十四玩家外交" class="toc-item"><span class="toc-num">十四</span><span class="toc-label">玩家外交</span></a>
+<a href="#十五胜利条件" class="toc-item"><span class="toc-num">十五</span><span class="toc-label">胜利条件</span></a>
+<a href="#十六阵营节奏与策略" class="toc-item"><span class="toc-num">十六</span><span class="toc-label">阵营节奏与策略</span></a>
+<a href="#十七典型对局流程" class="toc-item"><span class="toc-num">十七</span><span class="toc-label">典型对局流程</span></a>
+<a href="#十八数值速查表" class="toc-item"><span class="toc-num">十八</span><span class="toc-label">数值速查表</span></a>
+</nav>
+
+<main id="content">
+<h2 class="doc-title" id="三方阵营沙盘策略游戏--完整策划文档-v7">三方阵营沙盘策略游戏 —— 完整策划文档 v7</h2>
+<blockquote class="blockquote">
+<p>参考：Civilization VI、Endless Legend、Heroes III、Northgard、Polytopia、Into the Breach</p>
+<p></p>
+<p><strong>v7 核心更新</strong>：地图 469→817 格（边长 13→17）；三阵营同图对抗明确定义；回合制重构为&quot;同步回合制&quot;（各自行动→各自结束→全部结束后推进）；势力范围+建筑不可见规则；全文档数值平衡审查。</p>
+</blockquote>
+<hr class="section-divider">
+<h3 class="section-title" id="目录">目录</h3>
+<ol>
+<li>[游戏概述](#一游戏概述)</li>
+</ul>
+<ol>
+<li>[地图与迷雾](#二地图与迷雾)</li>
+</ul>
+<ol>
+<li>[开局初始状态](#三开局初始状态)</li>
+</ul>
+<ol>
+<li>[回合与行动点](#四回合与行动点)</li>
+</ul>
+<ol>
+<li>[资源体系](#五资源体系)</li>
+</ul>
+<ol>
+<li>[科技树](#六科技树)</li>
+</ul>
+<ol>
+<li>[龙族科技](#七龙族科技)</li>
+</ul>
+<ol>
+<li>[建筑系统](#八建筑系统)</li>
+</ul>
+<ol>
+<li>[单位系统](#九单位系统)</li>
+</ul>
+<ol>
+<li>[中立生物](#十中立生物)</li>
+</ul>
+<ol>
+<li>[PvP 对战系统](#十一pvp-对战系统)</li>
+</ul>
+<ol>
+<li>[资源点与掠夺](#十二资源点与掠夺)</li>
+</ul>
+<ol>
+<li>[地精商人](#十三地精商人)</li>
+</ul>
+<ol>
+<li>[玩家外交](#十四玩家外交)</li>
+</ul>
+<ol>
+<li>[胜利条件](#十五胜利条件)</li>
+</ul>
+<ol>
+<li>[阵营节奏与策略](#十六阵营节奏与策略)</li>
+</ul>
+<ol>
+<li>[典型对局流程](#十七典型对局流程)</li>
+</ul>
+<ol>
+<li>[数值速查表](#十八数值速查表)</li>
+</ul>
+<hr class="section-divider">
+<h3 class="section-title" id="一游戏概述">一、游戏概述</h3>
+<h4 class="subsection-title" id="11-游戏定位">1.1 游戏定位</h4>
+<p>三人回合制沙盘策略游戏。非对称阵营 + 通用资源 + 迷雾探索 + 科技攀升 + 建筑经营 + PvP/PvE 战斗。单局约 150-240 分钟。</p>
+<h4 class="subsection-title" id="12-核心参数">1.2 核心参数</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>参数</th>
+<th>数值</th>
+</tr>
+<tr>
+<td>玩家人数</td>
+<td>3</td>
+</tr>
+<tr>
+<td>地图</td>
+<td>六边形网格，边长 17，约 817 格</td>
+</tr>
+<tr>
+<td>回合制</td>
+<td><strong>同步回合制</strong>：各玩家独立行动→各自结束→全部结束后推进下一回合</td>
+</tr>
+<tr>
+<td>AP</td>
+<td>每回合获得 6AP，最多累积 12AP，未用完保留</td>
+</tr>
+<tr>
+<td>胜利</td>
+<td>科技 / 资源垄断 / 征服</td>
+</tr>
+<tr>
+<td>单局回合数</td>
+<td>约 50-65 回合</td>
+</tr>
+<tr>
+<td>预计时长</td>
+<td>约 180-280 分钟</td>
+</tr>
+</table></div>
+<h4 class="subsection-title" id="13-三阵营同图对抗">1.3 三阵营同图对抗</h4>
+<p><strong>三个阵营在同一张六边形大地图上直接对抗</strong>，各自从地图三个角落出生。迷雾覆盖全图，每个玩家只能看到己方单位视野内的区域。</p>
+<ul>
+<li><strong>势力范围</strong>：地图上可见各阵营的领地边界（领地格以阵营颜色标示），但<strong>领地内的建筑细节仅对己方可见</strong>，敌方需派遣斥候靠近获得视野后才能看到具体建筑类型</li>
+<li><strong>中立区域</strong>：未被任何阵营占领的格子为中立，哥布林部落和亚龙分布其中</li>
+<li><strong>即时间谍</strong>：敌方只能通过①派遣单位靠近侦察 ②精灵科技/星界投影 ③遗迹奖励星图碎片来获取对手情报</li>
+</ul>
+<h4 class="subsection-title" id="14-阵营定位">1.4 阵营定位</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>阵营</th>
+<th>出生位置</th>
+<th>核心优势</th>
+<th>一句话</th>
+</tr>
+<tr>
+<td>人类</td>
+<td>西南角</td>
+<td>采矿+150%、建筑防御顶级</td>
+<td>工业产能碾压，后期不落城无懈可击</td>
+</tr>
+<tr>
+<td>精灵</td>
+<td>西北角</td>
+<td>采集+150%、视野+地图控制</td>
+<td>信息霸权，全图森林即我眼线</td>
+</tr>
+<tr>
+<td>兽人</td>
+<td>东南角</td>
+<td>战斗掉落+150%、掠夺效率顶级</td>
+<td>以战养战，抢来的比造出来的多</td>
+</tr>
+</table></div>
+<hr class="section-divider">
+<h3 class="section-title" id="二地图与迷雾">二、地图与迷雾</h3>
+<h4 class="subsection-title" id="21-地图规格">2.1 地图规格</h4>
+<pre class="code-block diagram"><code>
+               精灵 (西北角)
+                  ╲__________________╱
+                 /                    \
+                /    中央高原(扩大)     \
+               │     [亚龙×3]          │
+               │     [T3矿脉密集]       │
+               │     [远古遗迹群]        │
+               │     [废弃商站]          │
+               │     [哥布林酋长部落]     │
+                \                      /
+                 \____________________/
+         人类 (西南角)              兽人 (东南角)
+</code></pre>
+<div class="table-wrap"><table>
+<tr>
+<th>参数</th>
+<th>数值</th>
+</tr>
+<tr>
+<td>形状</td>
+<td>正六边形</td>
+</tr>
+<tr>
+<td>边长</td>
+<td><strong>17 格</strong>（v6 为 13 格）</td>
+</tr>
+<tr>
+<td>总格数</td>
+<td>3×17² - 3×17 + 1 = <strong>817 格</strong>（v6 为 469 格，+74%）</td>
+</tr>
+<tr>
+<td>角落→中心距离</td>
+<td>约 17 格（步行约 9 回合）</td>
+</tr>
+<tr>
+<td>两角落间距离</td>
+<td>约 28 格（步行约 15 回合）</td>
+</tr>
+<tr>
+<td>初始领地</td>
+<td>每阵营 5 格（1 中心 + 4 邻接）</td>
+</tr>
+<tr>
+<td>水域格</td>
+<td>约 5%（约 41 格），分布于边缘和内陆湖</td>
+</tr>
+<tr>
+<td>有效陆地</td>
+<td>约 776 格，三阵营各约 259 格理论活动空间</td>
+</tr>
+</table></div>
+<h4 class="subsection-title" id="22-地形分布与属性">2.2 地形分布与属性</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>地形</th>
+<th>占比</th>
+<th>约格数</th>
+<th>移耗</th>
+<th>防御</th>
+<th>视野</th>
+<th>可建造</th>
+<th>特殊</th>
+</tr>
+<tr>
+<td>平原</td>
+<td>40%</td>
+<td>~327</td>
+<td>1</td>
+<td>+0</td>
+<td>正常</td>
+<td>全部</td>
+<td>—</td>
+</tr>
+<tr>
+<td>森林</td>
+<td>25%</td>
+<td>~204</td>
+<td>2</td>
+<td>+1</td>
+<td>外不可看穿</td>
+<td>部分</td>
+<td>精灵移耗 1；敌方视野不穿透</td>
+</tr>
+<tr>
+<td>山地</td>
+<td>15%</td>
+<td>~123</td>
+<td>2</td>
+<td>+2</td>
+<td>站上方+1</td>
+<td>仅矿类</td>
+<td>人类矿场产量 +50%</td>
+</tr>
+<tr>
+<td>沼泽</td>
+<td>12%</td>
+<td>~98</td>
+<td>2</td>
+<td>-1</td>
+<td>正常</td>
+<td>不可</td>
+<td>兽人移耗 1</td>
+</tr>
+<tr>
+<td>水域/河</td>
+<td>5%</td>
+<td>~41</td>
+<td>+1</td>
+<td>渡方-1</td>
+<td>正常</td>
+<td>不可</td>
+<td>桥无惩罚</td>
+</tr>
+<tr>
+<td>遗迹</td>
+<td>3%</td>
+<td>~24</td>
+<td>1</td>
+<td>+0</td>
+<td>正常</td>
+<td>不可</td>
+<td>探索随机奖励</td>
+</tr>
+</table></div>
+<h4 class="subsection-title" id="23-迷雾与视野">2.3 迷雾与视野</h4>
+<h5 class="subsubsection-title" id="三层迷雾">三层迷雾</h5>
+<div class="table-wrap"><table>
+<tr>
+<th>层</th>
+<th>可见内容</th>
+<th>可交互</th>
+</tr>
+<tr>
+<td>黑（未探索）</td>
+<td>无（包括地形和领地归属）</td>
+<td>否</td>
+</tr>
+<tr>
+<td>灰（探索过无当前视野）</td>
+<td>地形 + <strong>领地归属（阵营颜色）</strong> + 已建成建筑的<strong>存在</strong>（不显示建筑类型）</td>
+<td>否</td>
+</tr>
+<tr>
+<td>亮（当前视野内）</td>
+<td>全部：地形 + 领地归属 + 建筑类型 + 单位 + 资源点</td>
+<td>是</td>
+</tr>
+</table></div>
+<h5 class="subsubsection-title" id="势力范围可见性">势力范围可见性</h5>
+<p><strong>这是 V7 的核心机制</strong>：领地归属（哪个阵营占领了该格）在灰层即可见，但建筑类型仅在亮层可见。</p>
+<div class="table-wrap"><table>
+<tr>
+<th>场景</th>
+<th>你能看到</th>
+<th>你看不到</th>
+</tr>
+<tr>
+<td>敌方领地曾被探索过，当前无视野（灰层）</td>
+<td>该格属于人类（阵营色块）</td>
+<td>格上具体是什么建筑（兵营？矿场？主城？）</td>
+</tr>
+<tr>
+<td>敌方领地当前有视野（亮层）</td>
+<td>全部细节</td>
+<td>—</td>
+</tr>
+<tr>
+<td>己方领地</td>
+<td>全部（永久亮层）</td>
+<td>—</td>
+</tr>
+</table></div>
+<blockquote class="blockquote blockquote-highlight">
+<p><strong>设计意图</strong>：玩家可以感知对手的势力范围扩张，但无法精确获知对手的城市规划——非精确信息迫使玩家派遣斥候侦察或依赖精灵科技弥补信息缺口。</p>
+</blockquote>
+<h5 class="subsubsection-title" id="视野规则">视野规则</h5>
+<ul>
+<li>普通单位 1 格 / 斥候类 3 格 / 瞭望建筑 +2 格</li>
+<li>站山地 +1 格 / 精灵森林中视野不减且可看穿</li>
+<li>同阵营所有单位视野取并集</li>
+<li>己方领地格始终处于亮层（建筑视野+1 格邻接）</li>
+</ul>
+<h4 class="subsection-title" id="24-领地扩张">2.4 领地扩张</h4>
+<p>玩家通过建造<strong>前哨站</strong>将中立地块转化为己方领地。</p>
+<div class="table-wrap"><table>
+<tr>
+<th>规则</th>
+<th>说明</th>
+</tr>
+<tr>
+<td>建造条件</td>
+<td>工人在与己方领地相邻的中立地块上</td>
+</tr>
+<tr>
+<td>消耗</td>
+<td>50金 + 30木 + 2AP</td>
+</tr>
+<tr>
+<td>建造周期</td>
+<td>放置后 1 回合完成（当回合不计，完成前地块仍为中立）</td>
+</tr>
+<tr>
+<td>完成效果</td>
+<td>该地块变为己方领地，可正常建造建筑</td>
+</tr>
+<tr>
+<td>拆除</td>
+<td>前哨站不可拆除（领地一旦扩张不可逆）</td>
+</tr>
+<tr>
+<td>限制</td>
+<td>不可在沼泽、水域、已有资源点、敌方领地邻接格上建造</td>
+</tr>
+<tr>
+<td>领土上限</td>
+<td>每阵营最多 <strong>40 格</strong>领地（含初始 5 格，占陆地约 15%）</td>
+</tr>
+</table></div>
+<blockquote class="blockquote">
+<p>领土上限可通过特定科技或建筑提升（见科技树）。</p>
+</blockquote>
+<h4 class="subsection-title" id="25-遗迹探索">2.5 遗迹探索</h4>
+<p>任意单位移动到遗迹格上，消耗 2AP 进行探索。每个遗迹仅可探索 1 次，探索后地块变为&quot;已探索遗迹&quot;（无进一步收益）。</p>
+<p><strong>探索奖励表</strong>（随机抽取）：</p>
+<div class="table-wrap"><table>
+<tr>
+<th>概率</th>
+<th>奖励</th>
+<th>内容</th>
+</tr>
+<tr>
+<td>35%</td>
+<td>古代金币</td>
+<td>金币 +100 ~ 200</td>
+</tr>
+<tr>
+<td>25%</td>
+<td>遗留物资</td>
+<td>随机 T2 资源 ×3（铁矿/魔力尘/古木各 1/3 概率）</td>
+</tr>
+<tr>
+<td>15%</td>
+<td>远古符文</td>
+<td>获得&quot;符文石&quot;×1（消耗品：使用后当前研究立即 +2 回合进度，不消耗 AP）</td>
+</tr>
+<tr>
+<td>10%</td>
+<td>稀有遗物</td>
+<td>随机 T3 资源 ×1（星晶/世界树之心/龙晶各 1/3 概率）</td>
+</tr>
+<tr>
+<td>10%</td>
+<td>星图碎片</td>
+<td>揭示以该遗迹为中心 4 格半径内所有迷雾</td>
+</tr>
+<tr>
+<td>5%</td>
+<td>空无一物</td>
+<td>已被前人洗劫</td>
+</tr>
+</table></div>
+<hr class="section-divider">
+<h3 class="section-title" id="三开局初始状态">三、开局初始状态</h3>
+<h4 class="subsection-title" id="31-人类西南角">3.1 人类（西南角）</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>类别</th>
+<th>初始配置</th>
+</tr>
+<tr>
+<td>领地</td>
+<td>5 格（1 中心平原 + 4 邻接：平原×2、森林×1、山地×1）</td>
+</tr>
+<tr>
+<td>金币</td>
+<td>350</td>
+</tr>
+<tr>
+<td>T1 资源</td>
+<td>木材 60、石料 80、食物 50</td>
+</tr>
+<tr>
+<td>T2 资源</td>
+<td>铁矿 10、魔力尘 5、古木 5</td>
+</tr>
+<tr>
+<td>T3 资源</td>
+<td>星晶 0、世界树之心 0、龙晶 0</td>
+</tr>
+<tr>
+<td>建筑</td>
+<td>市政厅(中心)、伐木场×1、采石场×1、农场×1</td>
+</tr>
+<tr>
+<td>单位</td>
+<td>工人×1、斥候×1、守卫×1、工程师×1</td>
+</tr>
+<tr>
+<td>初始视野</td>
+<td>中心格周围 2 格明亮</td>
+</tr>
+</table></div>
+<h4 class="subsection-title" id="32-精灵西北角">3.2 精灵（西北角）</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>类别</th>
+<th>初始配置</th>
+</tr>
+<tr>
+<td>领地</td>
+<td>5 格（1 中心森林 + 4 邻接：森林×2、平原×1、山地×1）</td>
+</tr>
+<tr>
+<td>金币</td>
+<td>350</td>
+</tr>
+<tr>
+<td>T1 资源</td>
+<td>木材 80、石料 50、食物 60</td>
+</tr>
+<tr>
+<td>T2 资源</td>
+<td>铁矿 5、魔力尘 10、古木 10</td>
+</tr>
+<tr>
+<td>T3 资源</td>
+<td>星晶 0、世界树之心 0、龙晶 0</td>
+</tr>
+<tr>
+<td>建筑</td>
+<td>树灵厅(中心)、伐木场×1、采石场×1、农场×1</td>
+</tr>
+<tr>
+<td>单位</td>
+<td>工人×1、斥候×1、守卫×1、巡林者×1</td>
+</tr>
+<tr>
+<td>初始视野</td>
+<td>中心格周围 2 格明亮（可看穿森林）</td>
+</tr>
+</table></div>
+<h4 class="subsection-title" id="33-兽人东南角">3.3 兽人（东南角）</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>类别</th>
+<th>初始配置</th>
+</tr>
+<tr>
+<td>领地</td>
+<td>5 格（1 中心平原 + 4 邻接：平原×2、沼泽×1、山地×1）</td>
+</tr>
+<tr>
+<td>金币</td>
+<td>300</td>
+</tr>
+<tr>
+<td>T1 资源</td>
+<td>木材 60、石料 50、食物 80</td>
+</tr>
+<tr>
+<td>T2 资源</td>
+<td>铁矿 8、魔力尘 5、古木 8</td>
+</tr>
+<tr>
+<td>T3 资源</td>
+<td>星晶 0、世界树之心 0、龙晶 0</td>
+</tr>
+<tr>
+<td>建筑</td>
+<td>酋长大厅(中心)、伐木场×1、农场×1</td>
+</tr>
+<tr>
+<td>单位</td>
+<td>工人×1、斥候×1、守卫×1、掠夺者×1</td>
+</tr>
+<tr>
+<td>初始视野</td>
+<td>中心格周围 2 格明亮</td>
+</tr>
+</table></div>
+<blockquote class="blockquote">
+<p>兽人初始少 1 座建筑、少 50 金币，但掠夺者初始即拥有掠夺能力，且食物储备更充裕——&quot;生存压力驱动扩张掠夺&quot;。</p>
+</blockquote>
+<hr class="section-divider">
+<h3 class="section-title" id="四回合与行动点">四、回合与行动点</h3>
+<h4 class="subsection-title" id="41-同步回合制V7-核心机制">4.1 同步回合制（V7 核心机制）</h4>
+<p>本游戏采用<strong>&quot;同步回合制&quot;</strong>：一回合 = 三名玩家各自在自己的行动窗口中独立操作，全部结束后统一进入下一回合。</p>
+<pre class="code-block diagram"><code>
+┌──────────────────────────────────────────────────────────┐
+│                    第 N 回合开始                          │
+│  ┌─────────────┐                                        │
+│  │ 回合开始阶段  │  收入自动到账（所有建筑产出）             │
+│  │  (自动)      │  科技进度自动+1                         │
+│  │             │  状态效果更新                            │
+│  └──────┬──────┘                                        │
+│         ▼                                                │
+│  ┌─────────────────────────────────────────────────┐    │
+│  │           行动阶段（三玩家各自独立）                  │    │
+│  │                                                 │    │
+│  │  玩家A窗口    │  玩家B窗口    │  玩家C窗口       │    │
+│  │  (人类)      │  (精灵)      │  (兽人)         │    │
+│  │              │              │                 │    │
+│  │  自由行动     │  自由行动     │  自由行动        │    │
+│  │  消耗AP/保留  │  消耗AP/保留  │  消耗AP/保留     │    │
+│  │  ↓ 结束回合  │  ↓ 结束回合  │  ↓ 结束回合     │    │
+│  │              │              │                 │    │
+│  └──────────────┴──────────────┴─────────────────┘    │
+│         │              │              │                 │
+│         └──────────────┼──────────────┘                 │
+│                        ▼                                │
+│              ┌─────────────────┐                        │
+│              │ 全部玩家已结束？  │── 否 → 等待            │
+│              └────────┬────────┘                        │
+│                       │ 是                               │
+│                       ▼                                  │
+│  ┌─────────────┐                                        │
+│  │ 回合结束阶段  │  食物扣除（单位维护费）                 │
+│  │  (自动)      │  领地扩张结算                           │
+│  │             │  建筑建造完成                            │
+│  │             │  中立生物刷新判定                        │
+│  │             │  检查胜利条件                            │
+│  │             │  回合数 +1                              │
+│  └─────────────┘                                        │
+└──────────────────────────────────────────────────────────┘
+</code></pre>
+<h4 class="subsection-title" id="42-行动窗口">4.2 行动窗口</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>规则</th>
+<th>说明</th>
+</tr>
+<tr>
+<td>操作主体</td>
+<td>每个玩家在自己的&quot;行动窗口&quot;内操作己方单位和建筑</td>
+</tr>
+<tr>
+<td>操作顺序</td>
+<td>无强制顺序——玩家可自由决定先移动哪个单位、先建造还是先战斗</td>
+</tr>
+<tr>
+<td>AP 策略</td>
+<td>可消耗全部 AP 进行密集操作，也可保留部分 AP 至下回合（用于爆发）</td>
+</tr>
+<tr>
+<td>结束时机</td>
+<td>玩家随时可点击&quot;结束回合&quot;按钮；AP 归零 + 所有单位已行动时按钮自动高亮提示</td>
+</tr>
+<tr>
+<td>等待机制</td>
+<td>已结束的玩家不可再操作，需等待其余玩家全部结束</td>
+</tr>
+<tr>
+<td>回合推进</td>
+<td>三名玩家<strong>全部</strong>点击结束后，系统自动进入下一回合</td>
+</tr>
+<tr>
+<td>掉线/超时</td>
+<td>若某玩家 5 分钟内未结束且无操作，系统自动代为结束（保留剩余 AP）</td>
+</tr>
+</table></div>
+<h4 class="subsection-title" id="43-行动点">4.3 行动点</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>参数</th>
+<th>数值</th>
+</tr>
+<tr>
+<td>每回合获得</td>
+<td><strong>6 AP</strong>（回合开始时自动补满至 6，与上回合保留值无关）</td>
+</tr>
+<tr>
+<td>最大累积</td>
+<td><strong>12 AP</strong>（龙族 T2 提升至 13；领土最少补偿 +3）</td>
+</tr>
+<tr>
+<td>继承规则</td>
+<td>未用完的 AP 自动保留至下一回合（上限 12）</td>
+</tr>
+<tr>
+<td>策略含义</td>
+<td>可&quot;蓄力&quot;一回合（仅花 0-2 AP）→ 下一回合拥有 12 AP 进行爆发操作</td>
+</tr>
+</table></div>
+<blockquote class="blockquote blockquote-example">
+<p><strong>示例</strong>：第 5 回合精灵仅花费 2AP 移动斥候，保留 4AP → 第 6 回合精灵拥有 6+4=10AP。可进行大型操作：3AP建造+2AP招募+2AP研究+3AP移动=10AP 一口气完成。</p>
+</blockquote>
+<h4 class="subsection-title" id="44-单位移动规则">4.4 单位移动规则</h4>
+<p>单位卡牌上的<strong>&quot;移&quot;属性 = 每回合最大可移动格数上限</strong>。具体消耗：</p>
+<ul>
+<li>每移动 1 格消耗 AP（平原/遗迹 1AP，复杂地形 2AP，跨河 +1AP）</li>
+<li>总移动格数 ≤ 单位的&quot;移&quot;值</li>
+<li>示例：斥候（移=3）在平原上最多移动 3 格（消耗 3AP）；工人（移=1）无论地形最多移动 1 格/回合</li>
+<li>种族减免：精灵在森林中消耗 1AP/格（非 2AP）；兽人在沼泽中消耗 1AP/格（非 2AP）</li>
+</ul>
+<h4 class="subsection-title" id="45-行动消耗表">4.5 行动消耗表</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>操作</th>
+<th>AP</th>
+<th>执行条件</th>
+</tr>
+<tr>
+<td>移动 1 格（平原/遗迹）</td>
+<td>1</td>
+<td>未超过单位移上限</td>
+</tr>
+<tr>
+<td>移动 1 格（森林/山地/沼泽）</td>
+<td>2</td>
+<td>种族减免另计；未超过移上限</td>
+</tr>
+<tr>
+<td>跨河</td>
+<td>+1</td>
+<td>叠加于移动</td>
+</tr>
+<tr>
+<td>建造建筑（含前哨站）</td>
+<td>3</td>
+<td>工人在目标格</td>
+</tr>
+<tr>
+<td>招募单位</td>
+<td>2</td>
+<td>对应招募建筑存在</td>
+</tr>
+<tr>
+<td>研究科技（推进 1 回合）</td>
+<td>2</td>
+<td>无</td>
+</tr>
+<tr>
+<td>工人协助研究（消耗 2AP → 研究额外 +1 回合）</td>
+<td>2</td>
+<td>最多 1 名工人协助</td>
+</tr>
+<tr>
+<td>占领资源点</td>
+<td>3</td>
+<td>斥候在资源点上</td>
+</tr>
+<tr>
+<td>探索遗迹</td>
+<td>2</td>
+<td>任意单位在遗迹上</td>
+</tr>
+<tr>
+<td>攻击中立生物</td>
+<td>3</td>
+<td>战斗单位</td>
+</tr>
+<tr>
+<td>掠夺敌方</td>
+<td>4（兽 3）</td>
+<td>战斗单位在敌方边界</td>
+</tr>
+<tr>
+<td>攻击敌方单位/建筑</td>
+<td>4</td>
+<td>战斗单位</td>
+</tr>
+<tr>
+<td>玩家间资源交易</td>
+<td>0</td>
+<td>双方同意（见外交章节）</td>
+</tr>
+<tr>
+<td>地精商人交易</td>
+<td>0</td>
+<td>商人出现期间</td>
+</tr>
+<tr>
+<td>结束回合（手动）</td>
+<td>0</td>
+<td>随时</td>
+</tr>
+</table></div>
+<hr class="section-divider">
+<h3 class="section-title" id="五资源体系">五、资源体系</h3>
+<h4 class="subsection-title" id="51-设计原则">5.1 设计原则</h4>
+<p><strong>九种资源，全阵营通用。</strong> 阵营差异不在&quot;能不能用&quot;，而在&quot;获取效率&quot;。</p>
+<h4 class="subsection-title" id="52-T1-初级资源">5.2 T1 初级资源</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>资源</th>
+<th>产地</th>
+<th>采集建筑</th>
+<th>用途</th>
+</tr>
+<tr>
+<td>木材 🪵</td>
+<td>森林、伐木场</td>
+<td>伐木场 +3/回合</td>
+<td>建筑基础材料</td>
+</tr>
+<tr>
+<td>石料 🪨</td>
+<td>山地、采石场</td>
+<td>采石场 +3/回合</td>
+<td>建筑基础材料</td>
+</tr>
+<tr>
+<td>食物 🍞</td>
+<td>平原、农场</td>
+<td>农场 +3/回合</td>
+<td>单位维护费；招募消耗</td>
+</tr>
+</table></div>
+<p><strong>阵营采集效率</strong>（影响建筑产出和地块自然产出）：</p>
+<div class="table-wrap"><table>
+<tr>
+<th>资源</th>
+<th>人类</th>
+<th>精灵</th>
+<th>兽人</th>
+</tr>
+<tr>
+<td>木材</td>
+<td>100%</td>
+<td><strong>130%</strong></td>
+<td>80%</td>
+</tr>
+<tr>
+<td>石料</td>
+<td><strong>130%</strong></td>
+<td>80%</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>食物</td>
+<td>100%</td>
+<td>100%</td>
+<td><strong>130%</strong></td>
+</tr>
+</table></div>
+<blockquote class="blockquote blockquote-example">
+<p>效率 100% = 标准产量。130% = ×1.3 向上取整。80% = ×0.8 向上取整。示例：伐木场标准产 3 木/回合，人类=3，精灵=4(3×1.3=3.9↑)，兽人=3(3×0.8=2.4↑)。</p>
+</blockquote>
+<h4 class="subsection-title" id="53-T2-中级资源">5.3 T2 中级资源</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>资源</th>
+<th>产地</th>
+<th>采集建筑</th>
+<th>用途</th>
+</tr>
+<tr>
+<td>铁矿 ⛏</td>
+<td>山地</td>
+<td>矿井 +2/回合</td>
+<td>T2 科技；中级建筑；军事单位</td>
+</tr>
+<tr>
+<td>魔力尘 ✦</td>
+<td>遗迹</td>
+<td>萃取塔 +2/回合</td>
+<td>T2 科技；科技加速；特殊建筑</td>
+</tr>
+<tr>
+<td>古木 🌲</td>
+<td>森林</td>
+<td>古木采集场 +2/回合</td>
+<td>T2 科技；高级建筑</td>
+</tr>
+</table></div>
+<p><strong>阵营采集效率</strong>：</p>
+<div class="table-wrap"><table>
+<tr>
+<th>资源</th>
+<th>人类</th>
+<th>精灵</th>
+<th>兽人</th>
+</tr>
+<tr>
+<td>铁矿</td>
+<td><strong>130%</strong></td>
+<td>80%</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>魔力尘</td>
+<td>80%</td>
+<td><strong>130%</strong></td>
+<td>80%</td>
+</tr>
+<tr>
+<td>古木</td>
+<td>80%</td>
+<td><strong>130%</strong></td>
+<td>100%</td>
+</tr>
+</table></div>
+<h4 class="subsection-title" id="54-T3-高级资源">5.4 T3 高级资源</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>资源</th>
+<th>天然矿脉</th>
+<th>采集建筑</th>
+<th>用途</th>
+</tr>
+<tr>
+<td>星晶 💎</td>
+<td>中央高原×3</td>
+<td>深矿井(需T2科技) +1/3回合</td>
+<td>科技胜利；T3 科技；终极建筑</td>
+</tr>
+<tr>
+<td>世界树之心 🌍</td>
+<td>古老森林×3</td>
+<td>世界树祭坛(需T2科技) +1/3回合</td>
+<td>科技胜利；T3 科技；终极建筑</td>
+</tr>
+<tr>
+<td>龙晶 🔮</td>
+<td>火山带×3、亚龙掉落</td>
+<td>龙晶熔炉(需T2科技) +1/3回合</td>
+<td>科技胜利；龙族科技；终极建筑</td>
+</tr>
+</table></div>
+<p><strong>天然矿脉产出</strong>：占领后自动 +1/4 回合，不需要建筑。</p>
+<p><strong>T3 资源稀缺性</strong>：</p>
+<ul>
+<li>天然矿脉：全图 3 处/T3 类型，每 4 回合产 1 个 → 60 回合共产约 15 个/类型</li>
+<li>建筑产出：需要 T2 科技 + 龙族 T1 前置，每 2 回合产 1 个 → 约在第 25 回合后建造，25 回合共产约 12 个</li>
+<li>亚龙掉落：3 只亚龙，各掉龙晶×2 → 共 6 个龙晶可抢</li>
+<li>地精商人：每 5-7 回合出现，偶尔刷 T3 → 不可依赖</li>
+<li>掠夺：可从其他玩家处获取 → 高风险高回报</li>
+</ul>
+<h4 class="subsection-title" id="55-领地自然产出">5.5 领地自然产出</h4>
+<p>除建筑产出外，每个领地格（无论是否建造）提供基础产出：</p>
+<div class="table-wrap"><table>
+<tr>
+<th>领地地形</th>
+<th>自然产出/回合</th>
+</tr>
+<tr>
+<td>平原</td>
+<td>食物 +1</td>
+</tr>
+<tr>
+<td>森林</td>
+<td>木材 +1</td>
+</tr>
+<tr>
+<td>山地</td>
+<td>石料 +1</td>
+</tr>
+<tr>
+<td>沼泽</td>
+<td>无</td>
+</tr>
+<tr>
+<td>遗迹</td>
+<td>魔力尘 +0.5（每 2 回合 1 个）</td>
+</tr>
+</table></div>
+<blockquote class="blockquote">
+<p>此产出受阵营效率影响。如精灵的森林格产出 = 1×1.3 = 1.3↑ = 2 木/回合。</p>
+</blockquote>
+<hr class="section-divider">
+<h3 class="section-title" id="六科技树">六、科技树</h3>
+<h4 class="subsection-title" id="61-研究机制">6.1 研究机制</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>规则</th>
+<th>说明</th>
+</tr>
+<tr>
+<td>推进方式</td>
+<td>消耗 2AP → 研究进度 +1 回合</td>
+</tr>
+<tr>
+<td>工人协助</td>
+<td>可额外消耗 2AP → 进度再 +1 回合（最多 1 名工人协助）</td>
+</tr>
+<tr>
+<td>并行限制</td>
+<td>同时只能研究 1 项</td>
+</tr>
+<tr>
+<td>中断保留</td>
+<td>切换目标后原进度不丢失</td>
+</tr>
+<tr>
+<td>T3 特殊要求</td>
+<td>需消耗对应 T3 资源作为&quot;研究材料&quot;方可开始</td>
+</tr>
+</table></div>
+<h4 class="subsection-title" id="62-人类科技树">6.2 人类科技树</h4>
+<pre class="code-block diagram"><code>
+        ┌── T3 星晶裂解 ──┐     ┌── T3 钢铁要塞 ──┐     ┌── T3 远程感应 ──┐
+        │   (资源采集)      │     │   (防御工程)      │     │   (探索扩张)      │
+     T2 富矿勘探          T2 堡垒化            T2 地质测绘
+        │                   │                   │
+     T1 深层开采          T1 筑城术            T1 制图学
+</code></pre>
+<div class="table-wrap"><table>
+<tr>
+<th>等级</th>
+<th>分支 A：矿业工程</th>
+<th>回合</th>
+<th>消耗</th>
+<th>效果</th>
+</tr>
+<tr>
+<td>T1</td>
+<td>深层开采</td>
+<td>3</td>
+<td>200金 + 铁矿×3</td>
+<td>石料/铁矿采集效率 → 130%；矿井产量额外 +1</td>
+</tr>
+<tr>
+<td>T2</td>
+<td>富矿勘探</td>
+<td>5</td>
+<td>400金 + 铁矿×5</td>
+<td>揭示全图已探索区域内的隐藏矿脉（+2处新矿井位，建矿后产量+50%）；山地矿场产量翻倍</td>
+</tr>
+<tr>
+<td>T3</td>
+<td>星晶裂解</td>
+<td>8</td>
+<td>800金 + 星晶×3</td>
+<td>星晶产量翻倍（1/2→1/1 回合）；解锁深矿井建造</td>
+</tr>
+</table></div>
+<div class="table-wrap"><table>
+<tr>
+<th>等级</th>
+<th>分支 B：防御工程</th>
+<th>回合</th>
+<th>消耗</th>
+<th>效果</th>
+</tr>
+<tr>
+<td>T1</td>
+<td>筑城术</td>
+<td>3</td>
+<td>200金 + 石料×5</td>
+<td>建筑生命 +50%；解锁城墙</td>
+</tr>
+<tr>
+<td>T2</td>
+<td>堡垒化</td>
+<td>5</td>
+<td>400金 + 铁矿×5</td>
+<td>城墙升级要塞（防+3→+6）；驻防单位使建筑免掠夺</td>
+</tr>
+<tr>
+<td>T3</td>
+<td>钢铁要塞</td>
+<td>8</td>
+<td>800金 + 星晶×2</td>
+<td>解锁不落城：完全免掠夺、范围敌移-1</td>
+</tr>
+</table></div>
+<div class="table-wrap"><table>
+<tr>
+<th>等级</th>
+<th>分支 C：测绘勘探</th>
+<th>回合</th>
+<th>消耗</th>
+<th>效果</th>
+</tr>
+<tr>
+<td>T1</td>
+<td>制图学</td>
+<td>3</td>
+<td>200金 + 古木×3</td>
+<td>全单位视野 +1；解锁侦察哨</td>
+</tr>
+<tr>
+<td>T2</td>
+<td>地质测绘</td>
+<td>5</td>
+<td>400金 + 魔力尘×3</td>
+<td>占领资源点 AP-1（3→2）；全图山地位置揭示</td>
+</tr>
+<tr>
+<td>T3</td>
+<td>远程感应</td>
+<td>8</td>
+<td>800金 + 世界树之心×2</td>
+<td>2 格内可远程占领资源点；全图矿脉位置揭示</td>
+</tr>
+</table></div>
+<h4 class="subsection-title" id="63-精灵科技树">6.3 精灵科技树</h4>
+<pre class="code-block diagram"><code>
+        ┌── T3 世界树觉醒 ─┐     ┌── T3 翡翠迷雾 ──┐     ┌── T3 万物洞悉 ──┐
+        │   (资源采集)      │     │   (防御隐蔽)      │     │   (探索侦察)      │
+     T2 生命共鸣          T2 森林护卫          T2 星界投影
+        │                   │                   │
+     T1 森林亲和          T1 荆棘缠绕          T1 鹰眼视野
+</code></pre>
+<div class="table-wrap"><table>
+<tr>
+<th>等级</th>
+<th>分支 A：自然采集</th>
+<th>回合</th>
+<th>消耗</th>
+<th>效果</th>
+</tr>
+<tr>
+<td>T1</td>
+<td>森林亲和</td>
+<td>3</td>
+<td>200金 + 古木×3</td>
+<td>木材/古木采集效率 → 130%；森林格采集翻倍</td>
+</tr>
+<tr>
+<td>T2</td>
+<td>生命共鸣</td>
+<td>5</td>
+<td>400金 + 魔力尘×5</td>
+<td>森林格额外 +1 魔力尘/回合；揭示已探索区域内隐藏古木（+2处新采集场位，建场后产量+50%）</td>
+</tr>
+<tr>
+<td>T3</td>
+<td>世界树觉醒</td>
+<td>8</td>
+<td>800金 + 世界树之心×3</td>
+<td>世界树之心产量翻倍；解锁世界树祭坛</td>
+</tr>
+</table></div>
+<div class="table-wrap"><table>
+<tr>
+<th>等级</th>
+<th>分支 B：自然屏障</th>
+<th>回合</th>
+<th>消耗</th>
+<th>效果</th>
+</tr>
+<tr>
+<td>T1</td>
+<td>荆棘缠绕</td>
+<td>3</td>
+<td>200金 + 古木×3</td>
+<td>敌方进入领地 +1AP；解锁荆棘屏障</td>
+</tr>
+<tr>
+<td>T2</td>
+<td>森林护卫</td>
+<td>5</td>
+<td>400金 + 古木×5</td>
+<td>边界森林自动生成树人守卫（攻4命7）；敌在森林中视野 -1</td>
+</tr>
+<tr>
+<td>T3</td>
+<td>翡翠迷雾</td>
+<td>8</td>
+<td>800金 + 世界树之心×2</td>
+<td>领地内森林对敌方灰显（不可实时见）；免掠夺</td>
+</tr>
+</table></div>
+<div class="table-wrap"><table>
+<tr>
+<th>等级</th>
+<th>分支 C：星界感知</th>
+<th>回合</th>
+<th>消耗</th>
+<th>效果</th>
+</tr>
+<tr>
+<td>T1</td>
+<td>鹰眼视野</td>
+<td>3</td>
+<td>200金 + 魔力尘×3</td>
+<td>斥候视野 +2（3→5）；森林中视野穿透；解锁瞭望树</td>
+</tr>
+<tr>
+<td>T2</td>
+<td>星界投影</td>
+<td>5</td>
+<td>400金 + 魔力尘×5</td>
+<td>每回合可揭示地图上任意 1 个未探索地块</td>
+</tr>
+<tr>
+<td>T3</td>
+<td>万物洞悉</td>
+<td>8</td>
+<td>800金 + 星晶×2</td>
+<td>全图森林视为己方视野；任意两森林间可传送单位（3AP）</td>
+</tr>
+</table></div>
+<h4 class="subsection-title" id="64-兽人科技树">6.4 兽人科技树</h4>
+<pre class="code-block diagram"><code>
+        ┌── T3 龙晶淬炼 ──┐     ┌── T3 战争化身 ──┐     ┌── T3 掠食者直觉 ─┐
+        │   (资源获取)      │     │   (军事进攻)      │     │   (探索侦察)      │
+     T2 战利品精炼        T2 闪电掠夺          T2 猎物感知
+        │                   │                   │
+     T1 狩猎采集          T1 奇袭训练          T1 血迹追踪
+</code></pre>
+<div class="table-wrap"><table>
+<tr>
+<th>等级</th>
+<th>分支 A：战利品加工</th>
+<th>回合</th>
+<th>消耗</th>
+<th>效果</th>
+</tr>
+<tr>
+<td>T1</td>
+<td>狩猎采集</td>
+<td>3</td>
+<td>200金 + 食物×5</td>
+<td>食物采集效率 → 130%；讨伐中立生物额外掉落资源（+50%奖励）</td>
+</tr>
+<tr>
+<td>T2</td>
+<td>战利品精炼</td>
+<td>5</td>
+<td>400金 + 铁矿×5</td>
+<td>战斗胜利后获得敌方损失单位造价 30% 的等值资源</td>
+</tr>
+<tr>
+<td>T3</td>
+<td>龙晶淬炼</td>
+<td>8</td>
+<td>800金 + 龙晶×3</td>
+<td>龙晶产量翻倍；解锁龙晶熔炉</td>
+</tr>
+</table></div>
+<div class="table-wrap"><table>
+<tr>
+<th>等级</th>
+<th>分支 B：掠夺战术</th>
+<th>回合</th>
+<th>消耗</th>
+<th>效果</th>
+</tr>
+<tr>
+<td>T1</td>
+<td>奇袭训练</td>
+<td>3</td>
+<td>200金 + 食物×5</td>
+<td>掠夺 AP -1（4→3）；解锁掠夺营地</td>
+</tr>
+<tr>
+<td>T2</td>
+<td>闪电掠夺</td>
+<td>5</td>
+<td>400金 + 铁矿×5</td>
+<td>掠夺后保留剩余移动力；掠夺冷却 5→3 回合</td>
+</tr>
+<tr>
+<td>T3</td>
+<td>战争化身</td>
+<td>8</td>
+<td>800金 + 星晶×2</td>
+<td>掠夺比例 +20%；解锁战争图腾</td>
+</tr>
+</table></div>
+<div class="table-wrap"><table>
+<tr>
+<th>等级</th>
+<th>分支 C：荒野追踪</th>
+<th>回合</th>
+<th>消耗</th>
+<th>效果</th>
+</tr>
+<tr>
+<td>T1</td>
+<td>血迹追踪</td>
+<td>3</td>
+<td>200金 + 食物×5</td>
+<td>揭示 2 格内敌方移动痕迹（上回合路径）；解锁瞭望塔</td>
+</tr>
+<tr>
+<td>T2</td>
+<td>猎物感知</td>
+<td>5</td>
+<td>400金 + 古木×3</td>
+<td>全图中立生物位置揭示；对中立伤害 +25%</td>
+</tr>
+<tr>
+<td>T3</td>
+<td>掠食者直觉</td>
+<td>8</td>
+<td>800金 + 龙晶×2</td>
+<td>发现敌方资源储量最高位置；掠夺时可选择优先掠夺的资源类型</td>
+</tr>
+</table></div>
+<hr class="section-divider">
+<h3 class="section-title" id="七龙族科技">七、龙族科技</h3>
+<blockquote class="blockquote">
+<p>独立于常规科技树的特殊科技线。讨伐亚龙获得&quot;亚龙鳞片&quot;后解锁。</p>
+</blockquote>
+<h4 class="subsection-title" id="71-机制">7.1 机制</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>规则</th>
+<th>说明</th>
+</tr>
+<tr>
+<td>解锁条件</td>
+<td>获得至少 1 个亚龙鳞片</td>
+</tr>
+<tr>
+<td>研究方式</td>
+<td>消耗材料 + 金币直接完成（不消耗 AP，不占用科技槽）</td>
+</tr>
+<tr>
+<td>生效范围</td>
+<td>建筑增益 + 族群全局 BUFF</td>
+</tr>
+<tr>
+<td>继承性</td>
+<td>已建和未建建筑均享受建筑增益；已招募和未招募单位均享受 BUFF</td>
+</tr>
+</table></div>
+<h4 class="subsection-title" id="72-三级龙族科技">7.2 三级龙族科技</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>等级</th>
+<th>科技</th>
+<th>消耗</th>
+<th>建筑增益</th>
+<th>族群全局 BUFF</th>
+</tr>
+<tr>
+<td>T1</td>
+<td>龙鳞建筑学</td>
+<td>亚龙鳞片×1 + 500金</td>
+<td>所有建筑生命值 +5</td>
+<td>所有单位生命 +1</td>
+</tr>
+<tr>
+<td>T2</td>
+<td>龙息产能</td>
+<td>亚龙鳞片×2 + 800金</td>
+<td>所有生产建筑产量 +20%</td>
+<td>每回合额外 +1 AP（上限同步+1）</td>
+</tr>
+<tr>
+<td>T3</td>
+<td>龙魂觉醒</td>
+<td>亚龙之心×1 + 1200金</td>
+<td>军事建筑可招募龙裔守卫（攻7命12，限2）</td>
+<td>所有单位攻击 +2</td>
+</tr>
+</table></div>
+<h4 class="subsection-title" id="73-战略意义">7.3 战略意义</h4>
+<ul>
+<li>T1 容易达成（第 1 只亚龙必定掉落 3 鳞片）→ 建筑变肉、单位变肉，防御力普遍提升</li>
+<li>T2 需要 2 片（跨亚龙积累或市场购买）→ 产能质变</li>
+<li>T3 需要亚龙之心（30% 掉落率）→ 全游戏最稀缺资源，得之可翻盘</li>
+<li>龙族科技不占用常规研究槽 → 不影响主线科技进度</li>
+</ul>
+<hr class="section-divider">
+<h3 class="section-title" id="八建筑系统">八、建筑系统</h3>
+<h4 class="subsection-title" id="81-建造规则">8.1 建造规则</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>规则</th>
+<th>说明</th>
+</tr>
+<tr>
+<td>每格 1 座</td>
+<td>每个领地格最多 1 座建筑</td>
+</tr>
+<tr>
+<td>工人执行</td>
+<td>工人就位 + 消耗 3AP</td>
+</tr>
+<tr>
+<td>建造周期</td>
+<td>放置后 1 回合完成（当回合不计）</td>
+</tr>
+<tr>
+<td>拆除</td>
+<td>返还造价 30%</td>
+</tr>
+<tr>
+<td>被毁修复</td>
+<td>消耗原造价 50%，需工人</td>
+</tr>
+</table></div>
+<h4 class="subsection-title" id="82-建筑数量上限">8.2 建筑数量上限</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>建筑类型</th>
+<th>上限/阵营</th>
+</tr>
+<tr>
+<td>伐木场</td>
+<td>7</td>
+</tr>
+<tr>
+<td>采石场</td>
+<td>7</td>
+</tr>
+<tr>
+<td>农场</td>
+<td>7</td>
+</tr>
+<tr>
+<td>矿井</td>
+<td>6</td>
+</tr>
+<tr>
+<td>萃取塔</td>
+<td>6</td>
+</tr>
+<tr>
+<td>古木采集场</td>
+<td>6</td>
+</tr>
+<tr>
+<td>深矿井 / 高级萃取塔 / 古木林场（T2）</td>
+<td>各 3</td>
+</tr>
+<tr>
+<td>T3 资源建筑</td>
+<td>各 1</td>
+</tr>
+<tr>
+<td>仓库</td>
+<td>4</td>
+</tr>
+<tr>
+<td>兵营类</td>
+<td>无硬限（受领地格数制约）</td>
+</tr>
+<tr>
+<td>城墙/屏障类</td>
+<td>边界格数量 = 上限</td>
+</tr>
+<tr>
+<td>侦察建筑</td>
+<td>4</td>
+</tr>
+<tr>
+<td>阵营终极建筑</td>
+<td>各 1</td>
+</tr>
+</table></div>
+<h4 class="subsection-title" id="83-地形建筑兼容表">8.3 地形-建筑兼容表</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>建筑</th>
+<th>平原</th>
+<th>森林</th>
+<th>山地</th>
+<th>遗迹</th>
+</tr>
+<tr>
+<td>伐木场</td>
+<td>✓</td>
+<td>✓</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>采石场</td>
+<td>✓</td>
+<td>—</td>
+<td>✓</td>
+<td>—</td>
+</tr>
+<tr>
+<td>农场</td>
+<td>✓</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>矿井</td>
+<td>—</td>
+<td>—</td>
+<td>✓</td>
+<td>—</td>
+</tr>
+<tr>
+<td>萃取塔</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>古木采集场</td>
+<td>—</td>
+<td>✓</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>仓库</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>—</td>
+</tr>
+<tr>
+<td>兵营</td>
+<td>✓</td>
+<td>✓</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>城墙/屏障</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>—</td>
+</tr>
+<tr>
+<td>侦察建筑</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>—</td>
+</tr>
+</table></div>
+<blockquote class="blockquote">
+<p>沼泽和水域不可建造任何建筑。</p>
+</blockquote>
+<h4 class="subsection-title" id="84-基础设施通用无科技要求">8.4 基础设施（通用，无科技要求）</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>建筑</th>
+<th>造价</th>
+<th>产量</th>
+<th>上限</th>
+</tr>
+<tr>
+<td>伐木场</td>
+<td>50 金</td>
+<td>木材 +3/回合</td>
+<td>7</td>
+</tr>
+<tr>
+<td>采石场</td>
+<td>50 金</td>
+<td>石料 +3/回合</td>
+<td>7</td>
+</tr>
+<tr>
+<td>农场</td>
+<td>50 金</td>
+<td>食物 +3/回合</td>
+<td>7</td>
+</tr>
+<tr>
+<td>仓库</td>
+<td>100 金 + 30 木 + 30 石</td>
+<td>被掠夺比例 -5%（可叠加，最多 4 座 -20%）</td>
+<td>4</td>
+</tr>
+</table></div>
+<h4 class="subsection-title" id="85-T1-资源建筑">8.5 T1 资源建筑</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>建筑</th>
+<th>造价</th>
+<th>标准产量</th>
+<th>占地</th>
+<th>上限</th>
+</tr>
+<tr>
+<td>矿井</td>
+<td>80金 + 30木 + 20石</td>
+<td>铁矿 +2/回合</td>
+<td>山地</td>
+<td>6</td>
+</tr>
+<tr>
+<td>萃取塔</td>
+<td>80金 + 30木 + 20石</td>
+<td>魔力尘 +2/回合</td>
+<td>遗迹</td>
+<td>6</td>
+</tr>
+<tr>
+<td>古木采集场</td>
+<td>80金 + 30木 + 20石</td>
+<td>古木 +2/回合</td>
+<td>森林</td>
+<td>6</td>
+</tr>
+</table></div>
+<blockquote class="blockquote">
+<p>实际产量 = 标准产量 × 阵营效率（1.3/1.0/0.8），向上取整。</p>
+</blockquote>
+<h4 class="subsection-title" id="86-T2-资源建筑">8.6 T2 资源建筑</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>建筑</th>
+<th>前置</th>
+<th>造价</th>
+<th>标准产量</th>
+<th>占地</th>
+<th>上限</th>
+</tr>
+<tr>
+<td>深矿井</td>
+<td>T1 矿业/自然/战利品科技</td>
+<td>200金 + 50木 + 40石</td>
+<td>铁矿 +4/回合</td>
+<td>山地</td>
+<td>3</td>
+</tr>
+<tr>
+<td>高级萃取塔</td>
+<td>T1 矿业/自然/战利品科技</td>
+<td>200金 + 50木 + 40石</td>
+<td>魔力尘 +4/回合</td>
+<td>遗迹</td>
+<td>3</td>
+</tr>
+<tr>
+<td>古木林场</td>
+<td>T1 矿业/自然/战利品科技</td>
+<td>200金 + 50木 + 40石</td>
+<td>古木 +4/回合</td>
+<td>森林</td>
+<td>3</td>
+</tr>
+</table></div>
+<h4 class="subsection-title" id="87-T3-资源建筑">8.7 T3 资源建筑</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>建筑</th>
+<th>前置</th>
+<th>造价</th>
+<th>产量</th>
+<th>占地</th>
+<th>上限</th>
+</tr>
+<tr>
+<td>深矿井(星晶升级)</td>
+<td>T2 科技 + 龙鳞建筑学</td>
+<td>400金 + 星晶×1</td>
+<td>星晶 +1/2 回合</td>
+<td>山地</td>
+<td>1</td>
+</tr>
+<tr>
+<td>世界树祭坛</td>
+<td>T2 科技 + 龙鳞建筑学</td>
+<td>400金 + 世界树之心×1</td>
+<td>世界树之心 +1/2 回合</td>
+<td>古森林</td>
+<td>1</td>
+</tr>
+<tr>
+<td>龙晶熔炉</td>
+<td>T2 科技 + 龙鳞建筑学</td>
+<td>400金 + 龙晶×1</td>
+<td>龙晶 +1/2 回合</td>
+<td>任意</td>
+<td>1</td>
+</tr>
+</table></div>
+<h4 class="subsection-title" id="88-军事建筑">8.8 军事建筑</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>建筑</th>
+<th>前置</th>
+<th>造价</th>
+<th>功能</th>
+<th>占地</th>
+</tr>
+<tr>
+<td>兵营</td>
+<td>无</td>
+<td>100金 + 50木 + 30石</td>
+<td>招募守卫（80金 + 30石）</td>
+<td>任意</td>
+</tr>
+<tr>
+<td>城墙</td>
+<td>T1 防御科技</td>
+<td>120金 + 100石</td>
+<td>边界防+3</td>
+<td>边界</td>
+</tr>
+<tr>
+<td>要塞（升级城墙）</td>
+<td>T2 防御科技</td>
+<td>250金 + 150石</td>
+<td>防+3→+6；驻防免掠夺</td>
+<td>边界（覆盖）</td>
+</tr>
+<tr>
+<td>弩炮工坊</td>
+<td>T2 堡垒化（人）</td>
+<td>200金 + 铁矿×3</td>
+<td>招募弩炮（攻6命10固定）</td>
+<td>任意</td>
+</tr>
+<tr>
+<td>巡林营地</td>
+<td>无（精）</td>
+<td>100金 + 50木</td>
+<td>招募巡林者</td>
+<td>森林</td>
+</tr>
+<tr>
+<td>生命祭坛</td>
+<td>T2 生命共鸣（精）</td>
+<td>180金 + 魔力尘×3</td>
+<td>招募生命使者</td>
+<td>任意</td>
+</tr>
+<tr>
+<td>掠夺者巢穴</td>
+<td>T1 奇袭训练（兽）</td>
+<td>120金 + 60木</td>
+<td>招募掠夺者</td>
+<td>边界</td>
+</tr>
+<tr>
+<td>战鼓营地</td>
+<td>无（兽）</td>
+<td>100金 + 50木</td>
+<td>招募狂战士</td>
+<td>任意</td>
+</tr>
+<tr>
+<td>机动图腾</td>
+<td>T2 闪电掠夺（兽）</td>
+<td>150金 + 80木</td>
+<td>范围2格内己方移+1</td>
+<td>任意</td>
+</tr>
+</table></div>
+<h4 class="subsection-title" id="89-侦察建筑">8.9 侦察建筑</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>建筑</th>
+<th>前置</th>
+<th>造价</th>
+<th>功能</th>
+<th>占地</th>
+</tr>
+<tr>
+<td>侦察哨（人）</td>
+<td>T1 制图学</td>
+<td>80金 + 30木</td>
+<td>视野+2；招募斥候</td>
+<td>任意</td>
+</tr>
+<tr>
+<td>瞭望树（精）</td>
+<td>T1 鹰眼视野</td>
+<td>80金 + 30木</td>
+<td>森林中视野+3；招募斥候</td>
+<td>森林</td>
+</tr>
+<tr>
+<td>瞭望塔（兽）</td>
+<td>T1 血迹追踪</td>
+<td>80金 + 30木</td>
+<td>视野+2；显示敌移动痕迹</td>
+<td>任意</td>
+</tr>
+<tr>
+<td>鸟瞰哨站（精）</td>
+<td>T2 星界投影</td>
+<td>120金 + 魔力尘×2</td>
+<td>每回合揭示 1 远处地块</td>
+<td>任意</td>
+</tr>
+<tr>
+<td>矿脉探测仪（人）</td>
+<td>T2 地质测绘</td>
+<td>150金 + 80石</td>
+<td>揭示周围 3 格隐藏矿脉</td>
+<td>任意</td>
+</tr>
+<tr>
+<td>狩猎标记（兽）</td>
+<td>T2 猎物感知</td>
+<td>100金 + 50木</td>
+<td>全图中立生物永久揭示；对中立伤+15%</td>
+<td>任意</td>
+</tr>
+</table></div>
+<h4 class="subsection-title" id="810-特殊建筑阵营终极">8.10 特殊建筑（阵营终极）</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>建筑</th>
+<th>阵营</th>
+<th>前置</th>
+<th>造价</th>
+<th>效果</th>
+</tr>
+<tr>
+<td>不落城</td>
+<td>人类</td>
+<td>T3 钢铁要塞</td>
+<td>600金 + 星晶×2</td>
+<td>防+12；免掠夺；范围2格敌方移-1</td>
+</tr>
+<tr>
+<td>翡翠结界</td>
+<td>精灵</td>
+<td>T3 翡翠迷雾</td>
+<td>500金 + 世界树之心×2</td>
+<td>领地内森林对敌方灰显；免掠夺</td>
+</tr>
+<tr>
+<td>战争图腾</td>
+<td>兽人</td>
+<td>T3 战争化身</td>
+<td>500金 + 龙晶×2</td>
+<td>范围2格已方每回合攻2次；掠夺比例+10%</td>
+</tr>
+</table></div>
+<hr class="section-divider">
+<h3 class="section-title" id="九单位系统">九、单位系统</h3>
+<h4 class="subsection-title" id="91-通用规则">9.1 通用规则</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>规则</th>
+<th>说明</th>
+</tr>
+<tr>
+<td>招募</td>
+<td>在对应建筑处消耗 2AP + 资源</td>
+</tr>
+<tr>
+<td>维护费</td>
+<td>每回合自动消耗食物</td>
+</tr>
+<tr>
+<td>食物不足</td>
+<td>当食物库存不足以支付全部单位维护费时，按食物消耗从高到低的顺序，每个未支付单位 -1 HP；食物库存最低为 0（不出现负数）</td>
+</tr>
+<tr>
+<td>治疗</td>
+<td>驻防在己方领地每回合恢复 1 HP；生命使者额外治疗</td>
+</tr>
+<tr>
+<td>阵亡</td>
+<td>单位从地图移除，需重新招募</td>
+</tr>
+<tr>
+<td>堆叠</td>
+<td>主地图每格最多 1 个己方单位；战斗中每格也最多 1 个单位</td>
+</tr>
+</table></div>
+<h4 class="subsection-title" id="911-驻防机制">9.1.1 驻防机制</h4>
+<p>单位在当前回合<strong>未进行任何移动</strong>即自动进入&quot;驻防状态&quot;，持续到该玩家下回合开始。驻防效果：</p>
+<ul>
+<li>守卫：驻防时 ATK 翻倍（3→6）</li>
+<li>任何单位驻防在己方领地：每回合恢复 1 HP</li>
+<li>驻防在要塞中：所在建筑免疫掠夺</li>
+<li>驻防状态在单位移动、攻击、或使用主动技能时立即解除</li>
+</ul>
+<h4 class="subsection-title" id="92-通用单位">9.2 通用单位</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>单位</th>
+<th>招募处</th>
+<th>造价</th>
+<th>移</th>
+<th>攻</th>
+<th>命</th>
+<th>视野</th>
+<th>食物</th>
+<th>特殊</th>
+</tr>
+<tr>
+<td>工人</td>
+<td>主城</td>
+<td>50金</td>
+<td>1</td>
+<td>0</td>
+<td>3</td>
+<td>1</td>
+<td>1</td>
+<td>建造(3AP)；协助研究(+1AP/回合)</td>
+</tr>
+<tr>
+<td>斥候</td>
+<td>侦察建筑</td>
+<td>60金</td>
+<td>3</td>
+<td>1</td>
+<td>3</td>
+<td>3</td>
+<td>1</td>
+<td>占领资源点(3AP)；探索遗迹(2AP)</td>
+</tr>
+<tr>
+<td>守卫</td>
+<td>兵营</td>
+<td>80金+30石</td>
+<td>1</td>
+<td>3</td>
+<td>6</td>
+<td>1</td>
+<td>2</td>
+<td>驻防时攻击翻倍(→6)</td>
+</tr>
+</table></div>
+<h4 class="subsection-title" id="93-人类专属单位">9.3 人类专属单位</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>单位</th>
+<th>招募处</th>
+<th>造价</th>
+<th>移</th>
+<th>攻</th>
+<th>命</th>
+<th>视野</th>
+<th>食物</th>
+<th>特殊</th>
+</tr>
+<tr>
+<td>工程师</td>
+<td>侦察哨</td>
+<td>120金+铁矿×2</td>
+<td>2</td>
+<td>1</td>
+<td>4</td>
+<td>2</td>
+<td>1</td>
+<td>建造-1AP；修复免费</td>
+</tr>
+<tr>
+<td>重甲骑士</td>
+<td>要塞</td>
+<td>180金+铁矿×3</td>
+<td>2</td>
+<td>6</td>
+<td>9</td>
+<td>1</td>
+<td>2</td>
+<td>驻防免掠夺；受伤-1(最低1)</td>
+</tr>
+<tr>
+<td>弩炮(固定)</td>
+<td>弩炮工坊</td>
+<td>200金+铁矿×4</td>
+<td>0</td>
+<td>6</td>
+<td>10</td>
+<td>2</td>
+<td>0</td>
+<td>射程2；无视地形防</td>
+</tr>
+<tr>
+<td>钢铁军团</td>
+<td>不落城</td>
+<td>350金+星晶×2</td>
+<td>2</td>
+<td>8</td>
+<td>14</td>
+<td>2</td>
+<td>3</td>
+<td>1格友军+2防；对建筑×2伤</td>
+</tr>
+</table></div>
+<h4 class="subsection-title" id="94-精灵专属单位">9.4 精灵专属单位</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>单位</th>
+<th>招募处</th>
+<th>造价</th>
+<th>移</th>
+<th>攻</th>
+<th>命</th>
+<th>视野</th>
+<th>食物</th>
+<th>特殊</th>
+</tr>
+<tr>
+<td>巡林者</td>
+<td>巡林营地</td>
+<td>100金+古木×2</td>
+<td>3</td>
+<td>2</td>
+<td>4</td>
+<td>4</td>
+<td>1</td>
+<td>森林隐身；不留移动痕迹</td>
+</tr>
+<tr>
+<td>生命使者</td>
+<td>生命祭坛</td>
+<td>150金+魔力尘×3</td>
+<td>2</td>
+<td>1</td>
+<td>5</td>
+<td>2</td>
+<td>2</td>
+<td>每回合治疗相邻友军 2HP；可复活 1 阵亡友军(消耗世界树之心×1)</td>
+</tr>
+<tr>
+<td>树人守卫</td>
+<td>森林护卫(自动)</td>
+<td>—</td>
+<td>1</td>
+<td>4</td>
+<td>7</td>
+<td>1</td>
+<td>0</td>
+<td>自动驻防森林边界；拦截入侵者</td>
+</tr>
+<tr>
+<td>翡翠守护者</td>
+<td>翡翠结界</td>
+<td>300金+世界树之心×2</td>
+<td>2</td>
+<td>7</td>
+<td>11</td>
+<td>3</td>
+<td>3</td>
+<td>缠绕 1 敌方跳过其下回合(2AP，3回合冷却)</td>
+</tr>
+</table></div>
+<h4 class="subsection-title" id="95-兽人专属单位">9.5 兽人专属单位</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>单位</th>
+<th>招募处</th>
+<th>造价</th>
+<th>移</th>
+<th>攻</th>
+<th>命</th>
+<th>视野</th>
+<th>食物</th>
+<th>特殊</th>
+</tr>
+<tr>
+<td>掠夺者</td>
+<td>掠夺者巢穴</td>
+<td>100金+食物×3</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>2</td>
+<td>2</td>
+<td>可掠夺；掠夺后保留移动</td>
+</tr>
+<tr>
+<td>狂战士</td>
+<td>战鼓营地</td>
+<td>150金+铁矿×2</td>
+<td>2</td>
+<td>7</td>
+<td>5</td>
+<td>1</td>
+<td>2</td>
+<td>HP&lt;50% 时攻+3；阵亡反伤 2</td>
+</tr>
+<tr>
+<td>战鼓手</td>
+<td>机动图腾</td>
+<td>120金+食物×5</td>
+<td>3</td>
+<td>1</td>
+<td>4</td>
+<td>2</td>
+<td>1</td>
+<td>光环：1格友军+1攻+1移</td>
+</tr>
+<tr>
+<td>战争之王</td>
+<td>战争图腾</td>
+<td>300金+龙晶×2</td>
+<td>3</td>
+<td>9</td>
+<td>13</td>
+<td>2</td>
+<td>3</td>
+<td>每回合攻击 2 次；击杀回 2HP</td>
+</tr>
+</table></div>
+<h4 class="subsection-title" id="96-龙裔单位">9.6 龙裔单位</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>单位</th>
+<th>解锁</th>
+<th>造价</th>
+<th>移</th>
+<th>攻</th>
+<th>命</th>
+<th>视野</th>
+<th>食物</th>
+<th>特殊</th>
+</tr>
+<tr>
+<td>龙裔守卫</td>
+<td>龙族 T3</td>
+<td>400金+龙晶×1</td>
+<td>2</td>
+<td>7</td>
+<td>12</td>
+<td>2</td>
+<td>3</td>
+<td>全场限 2；龙息(锥形 2 格 4 伤/3回合冷却)</td>
+</tr>
+</table></div>
+<hr class="section-divider">
+<h3 class="section-title" id="十中立生物">十、中立生物</h3>
+<h4 class="subsection-title" id="101-哥布林部落">10.1 哥布林部落</h4>
+<p>分布在全图各处的 PvE 目标，前期主要资源来源之一。</p>
+<h5 class="subsubsection-title" id="哥布林单位属性">哥布林单位属性</h5>
+<div class="table-wrap"><table>
+<tr>
+<th>单位</th>
+<th>攻</th>
+<th>命</th>
+<th>移</th>
+<th>特殊</th>
+</tr>
+<tr>
+<td>哥布林斥候</td>
+<td>2</td>
+<td>3</td>
+<td>3</td>
+<td>HP&lt;50% 时 30% 概率逃跑</td>
+</tr>
+<tr>
+<td>哥布林战士</td>
+<td>3</td>
+<td>5</td>
+<td>2</td>
+<td>相邻友军 +1 攻</td>
+</tr>
+<tr>
+<td>哥布林弓手</td>
+<td>3(射程2)</td>
+<td>3</td>
+<td>2</td>
+<td>不被近战反击</td>
+</tr>
+<tr>
+<td>哥布林萨满</td>
+<td>4(魔法)</td>
+<td>4</td>
+<td>2</td>
+<td>治疗 1 友军 2HP/回合</td>
+</tr>
+<tr>
+<td>哥布林酋长</td>
+<td>6</td>
+<td>12</td>
+<td>2</td>
+<td>范围 1 格哥布林 +1 攻；掉落翻倍</td>
+</tr>
+</table></div>
+<h5 class="subsubsection-title" id="遭遇类型">遭遇类型</h5>
+<div class="table-wrap"><table>
+<tr>
+<th>类型</th>
+<th>组成</th>
+<th>数量</th>
+<th>难度</th>
+<th>掉落</th>
+</tr>
+<tr>
+<td>流浪斥候</td>
+<td>斥候×1</td>
+<td>7</td>
+<td>★</td>
+<td>食物×3、金币×30</td>
+</tr>
+<tr>
+<td>小型营地</td>
+<td>战士×2 + 弓手×1</td>
+<td>8</td>
+<td>★★</td>
+<td>随机 T1 资源×5、金币×50</td>
+</tr>
+<tr>
+<td>中型哨站</td>
+<td>战士×3 + 弓手×2 + 萨满×1</td>
+<td>5</td>
+<td>★★★</td>
+<td>随机 T2 资源×3、金币×100</td>
+</tr>
+<tr>
+<td>酋长部落</td>
+<td>酋长 + 战士×3 + 弓手×2 + 萨满×1</td>
+<td>3</td>
+<td>★★★★</td>
+<td>随机 T2 资源×5、金币×200、亚龙鳞片×1(30%)</td>
+</tr>
+</table></div>
+<p><strong>刷新</strong>：斥候 8 回合 / 营地 12 回合 / 哨站 15 回合 / 酋长<strong>不刷新</strong>。</p>
+<h4 class="subsection-title" id="102-亚龙">10.2 亚龙</h4>
+<p>地图中央高原 3 只，讨伐后 25 回合刷新。不主动离开巢穴 3 格范围。</p>
+<div class="table-wrap"><table>
+<tr>
+<th>属性</th>
+<th>数值</th>
+</tr>
+<tr>
+<td>攻击</td>
+<td>8</td>
+</tr>
+<tr>
+<td>生命</td>
+<td>25</td>
+</tr>
+<tr>
+<td>护甲</td>
+<td>2（物理伤害 -2，最低 1）</td>
+</tr>
+<tr>
+<td>移动</td>
+<td>3 格</td>
+</tr>
+<tr>
+<td>技能</td>
+<td>龙息：每 3 回合，前方锥形 2 格 5 点伤害（无视护甲）</td>
+</tr>
+</table></div>
+<div class="table-wrap"><table>
+<tr>
+<th>掉落</th>
+<th>概率</th>
+<th>数量</th>
+</tr>
+<tr>
+<td>亚龙鳞片</td>
+<td>100%</td>
+<td>×3</td>
+</tr>
+<tr>
+<td>亚龙之心</td>
+<td>30%</td>
+<td>×1</td>
+</tr>
+<tr>
+<td>龙晶</td>
+<td>100%</td>
+<td>×2</td>
+</tr>
+<tr>
+<td>金币</td>
+<td>100%</td>
+<td>×400</td>
+</tr>
+</table></div>
+<p><strong>讨伐参考</strong>：</p>
+<div class="table-wrap"><table>
+<tr>
+<th>阶段</th>
+<th>所需配置</th>
+<th>预计损失</th>
+</tr>
+<tr>
+<td>T1 期（1-20 回合）</td>
+<td>不推荐</td>
+<td>全灭</td>
+</tr>
+<tr>
+<td>T2 初期（21-28 回合）</td>
+<td>2 战斗单位 + 1 辅助</td>
+<td>1-2 单位</td>
+</tr>
+<tr>
+<td>T2 后期（29-38 回合）</td>
+<td>3 战斗单位</td>
+<td>1 单位</td>
+</tr>
+<tr>
+<td>T3 期（39+ 回合）</td>
+<td>终极单位或龙裔守卫</td>
+<td>无损或轻损</td>
+</tr>
+</table></div>
+<hr class="section-divider">
+<h3 class="section-title" id="十一PvP-对战系统">十一、PvP 对战系统</h3>
+<h4 class="subsection-title" id="111-触发条件">11.1 触发条件</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>行动</th>
+<th>AP</th>
+<th>触发</th>
+</tr>
+<tr>
+<td>移动到敌方单位格</td>
+<td>4</td>
+<td>战斗</td>
+</tr>
+<tr>
+<td>移动到敌方建筑格</td>
+<td>4</td>
+<td>战斗</td>
+</tr>
+<tr>
+<td>移动到敌方资源点格</td>
+<td>4</td>
+<td>战斗</td>
+</tr>
+<tr>
+<td>掠夺（在敌方边界）</td>
+<td>4（兽 3）</td>
+<td>战斗</td>
+</tr>
+</table></div>
+<h4 class="subsection-title" id="112-战术地图">11.2 战术地图</h4>
+<ul>
+<li>大小：7 列 × 5 行六边形网格</li>
+<li>地形：继承主地图冲突格及周围地形</li>
+<li>攻方部署：左侧 2 列</li>
+<li>守方部署：右侧 2 列</li>
+<li>建筑存在时：置于守方部署区中央，守方 +2 防御</li>
+<li>上限：8 回合，超时自动裁决</li>
+</ul>
+<h4 class="subsection-title" id="113-战斗流程">11.3 战斗流程</h4>
+<pre class="code-block diagram"><code>
+部署 → 按速度决定行动顺序(高→低) → 每单位移动+攻击/技能 → 循环
+                                                                ↓
+                                              8回合或一方全灭/全撤 → 结算
+</code></pre>
+<h4 class="subsection-title" id="114-行动规则">11.4 行动规则</h4>
+<p>每单位每回合可：</p>
+<ul>
+<li>移动最多 <code>速度</code> 格</li>
+<li>攻击 1 次（或用技能替代攻击）</li>
+<li>撤退（移到己方部署区边缘 → 存活退场）</li>
+</ul>
+<h4 class="subsection-title" id="115-伤害公式">11.5 伤害公式</h4>
+<pre class="code-block"><code>
+基础伤害 = 攻击方 ATK - 防御方(DEF + 地形加成 + 建筑加成)
+最终伤害 = max(基础伤害, 1) × 暴击倍率
+
+暴击率: 10%，倍率: 1.3
+</code></pre>
+<p><strong>防御加成速查</strong>：</p>
+<div class="table-wrap"><table>
+<tr>
+<th>地形</th>
+<th>加成</th>
+</tr>
+<tr>
+<td>平原/遗迹</td>
+<td>+0</td>
+</tr>
+<tr>
+<td>森林</td>
+<td>+1</td>
+</tr>
+<tr>
+<td>山地</td>
+<td>+2</td>
+</tr>
+<tr>
+<td>沼泽</td>
+<td>-1</td>
+</tr>
+<tr>
+<td>建筑所在格</td>
+<td>+2（与地形叠加）</td>
+</tr>
+<tr>
+<td>渡河攻击</td>
+<td>攻方 ATK -1</td>
+</tr>
+</table></div>
+<h4 class="subsection-title" id="116-战术规则">11.6 战术规则</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>规则</th>
+<th>效果</th>
+</tr>
+<tr>
+<td>夹击</td>
+<td>两友军相邻夹同一目标 → 各自 ATK +1</td>
+</tr>
+<tr>
+<td>高地</td>
+<td>山地格攻击低地 → ATK +1</td>
+</tr>
+<tr>
+<td>远程</td>
+<td>射程 2 攻击不被反击</td>
+</tr>
+<tr>
+<td>魔法</td>
+<td>无视地形防御加成</td>
+</tr>
+<tr>
+<td>治疗</td>
+<td>恢复 HP = 技能值，不消耗攻击</td>
+</tr>
+</table></div>
+<h4 class="subsection-title" id="117-结局">11.7 结局</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>结果</th>
+<th>条件</th>
+<th>战后</th>
+</tr>
+<tr>
+<td>攻方胜</td>
+<td>守方全灭/全撤</td>
+<td>攻方占格；有建筑则摧毁</td>
+</tr>
+<tr>
+<td>守方胜</td>
+<td>攻方全灭/全撤</td>
+<td>守方留格；攻方撤至相邻己方格</td>
+</tr>
+<tr>
+<td>超时</td>
+<td>8 回合未分胜负</td>
+<td>剩余总 HP 高者胜；相同则守方胜</td>
+</tr>
+</table></div>
+<h4 class="subsection-title" id="118-战斗示例">11.8 战斗示例</h4>
+<blockquote class="blockquote">
+<p><strong>场景</strong>：人类 2 单位进攻兽人边界资源点</p>
+</blockquote>
+<pre class="code-block"><code>
+攻方: 重甲骑士(攻6命9速2) + 守卫(攻3命6速1)
+守方: 掠夺者(攻4命5速3) + 狂战士(攻7命5速2)
+地形: 资源点在森林中(防+1)，守方均站在森林格上
+</code></pre>
+<p><strong>部署</strong>：攻方左侧 2 列，守方右侧 2 列，中间是森林地形。</p>
+<p><strong>第 1 回合</strong>（行动顺序：掠夺者 3→骑士 2→狂战士 2→守卫 1）：</p>
+<ul>
+<li>掠夺者前移 3 格，躲入森林中，等待</li>
+<li>骑士前移 2 格，逼近狂战士</li>
+<li>狂战士前移 2 格，与骑士相邻，攻击：7 - 0 = <strong>7 伤</strong>。骑士 HP 9→2</li>
+<li>守卫前移 1 格，与掠夺者相距 2 格</li>
+</ul>
+<p><strong>第 2 回合</strong>：</p>
+<ul>
+<li>掠夺者从森林冲出，绕到守卫侧翼，攻击：4 - 0 = <strong>4 伤</strong>。守卫 HP 6→2</li>
+<li>骑士攻击狂战士：6 - (0 + 森林 1) = <strong>5 伤</strong>。狂战士 HP 5→0。💀狂战士阵亡！</li>
+<li>~~狂战士（已阵亡）~~</li>
+<li>守卫攻击掠夺者：3 - (0 + 森林 1) = <strong>2 伤</strong>。掠夺者 HP 5→3</li>
+</ul>
+<p><strong>第 3 回合</strong>：</p>
+<ul>
+<li>掠夺者攻击守卫：4 - 0 = <strong>4 伤</strong>。守卫 HP 2→0。💀守卫阵亡！</li>
+<li>骑士攻击掠夺者：6 - (0 + 森林 1) = <strong>5 伤</strong>。掠夺者 HP 3→0。💀掠夺者阵亡！</li>
+</ul>
+<p><strong>结果</strong>：攻方胜（骑士存活，HP 2/9）。人类占领该资源点。</p>
+<hr class="section-divider">
+<h3 class="section-title" id="十二资源点与掠夺">十二、资源点与掠夺</h3>
+<h4 class="subsection-title" id="121-地图资源点">12.1 地图资源点</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>资源点</th>
+<th>数量</th>
+<th>产出/回合</th>
+<th>地形</th>
+</tr>
+<tr>
+<td>金矿</td>
+<td>6</td>
+<td>金币 +5</td>
+<td>山地</td>
+</tr>
+<tr>
+<td>古树林</td>
+<td>6</td>
+<td>木材 +4</td>
+<td>森林</td>
+</tr>
+<tr>
+<td>石场</td>
+<td>6</td>
+<td>石料 +4</td>
+<td>山地</td>
+</tr>
+<tr>
+<td>肥沃平原</td>
+<td>6</td>
+<td>食物 +4</td>
+<td>平原</td>
+</tr>
+<tr>
+<td>铁矿脉</td>
+<td>5</td>
+<td>铁矿 +2</td>
+<td>山地</td>
+</tr>
+<tr>
+<td>魔力节点</td>
+<td>5</td>
+<td>魔力尘 +2</td>
+<td>遗迹</td>
+</tr>
+<tr>
+<td>古木巨树</td>
+<td>5</td>
+<td>古木 +2</td>
+<td>森林</td>
+</tr>
+<tr>
+<td>远古符文碑</td>
+<td>5</td>
+<td>每回合自动获得 0.3 回合研究进度（不消耗AP，3回合约推进1回合，多个可叠加）</td>
+<td>遗迹</td>
+</tr>
+<tr>
+<td>废弃商站</td>
+<td>2</td>
+<td>金币 +8</td>
+<td>平原</td>
+</tr>
+<tr>
+<td>星晶矿脉</td>
+<td>3</td>
+<td>星晶 +1/4 回合</td>
+<td>中央高原</td>
+</tr>
+<tr>
+<td>世界树根脉</td>
+<td>3</td>
+<td>世界树之心 +1/4 回合</td>
+<td>古老森林</td>
+</tr>
+<tr>
+<td>龙晶火山口</td>
+<td>3</td>
+<td>龙晶 +1/4 回合</td>
+<td>火山带</td>
+</tr>
+</table></div>
+<p><strong>占领条件</strong>：斥候在资源点上消耗 3AP。已占领的资源点可被敌方攻击易主。</p>
+<h4 class="subsection-title" id="122-掠夺">12.2 掠夺</h4>
+<pre class="code-block"><code>
+掠夺收益 = 目标资源总储量 × 掠夺比例 × 随机系数(0.8 ~ 1.2)
+
+掠夺比例:
+  兽人: 基础 25% + 掠夺营地×5%(上限3座+15%) + T3战争化身+20% + 战争图腾+10% = 最大 70%
+  人类: 15%（需 T1 筑城术解锁）
+  精灵: 15%（需 T1 荆棘缠绕解锁）
+
+防御减免:
+  城墙 -5% | 要塞 -10% | 荆棘屏障 -5% | 树人 -5% | 仓库×N -5%×N
+  不落城/翡翠结界: 完全免疫
+
+冷却: 5 回合（兽人 T2 闪电掠夺 → 3 回合）
+</code></pre>
+<hr class="section-divider">
+<h3 class="section-title" id="十三地精商人">十三、地精商人</h3>
+<h4 class="subsection-title" id="131-出现规则">13.1 出现规则</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>阶段</th>
+<th>规律</th>
+</tr>
+<tr>
+<td>首次</td>
+<td>第 5 回合必定出现，持续 2 回合，首位到访者获&quot;商人凭证&quot;×1</td>
+</tr>
+<tr>
+<td>5-30 回合</td>
+<td>每 5 回合出现，持续 2 回合</td>
+</tr>
+<tr>
+<td>31 回合起</td>
+<td>每 7 回合出现，持续 2 回合</td>
+</tr>
+<tr>
+<td>位置</td>
+<td>中央商站或随机公共区域</td>
+</tr>
+</table></div>
+<h4 class="subsection-title" id="132-商品">13.2 商品</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>商品</th>
+<th>价格</th>
+<th>库存/次</th>
+</tr>
+<tr>
+<td>木材 ×10</td>
+<td>40 金</td>
+<td>8</td>
+</tr>
+<tr>
+<td>石料 ×10</td>
+<td>40 金</td>
+<td>8</td>
+</tr>
+<tr>
+<td>食物 ×10</td>
+<td>40 金</td>
+<td>8</td>
+</tr>
+<tr>
+<td>铁矿 ×5</td>
+<td>60 金</td>
+<td>5</td>
+</tr>
+<tr>
+<td>魔力尘 ×5</td>
+<td>60 金</td>
+<td>5</td>
+</tr>
+<tr>
+<td>古木 ×5</td>
+<td>60 金</td>
+<td>5</td>
+</tr>
+<tr>
+<td>星晶 ×1</td>
+<td>250 金</td>
+<td>1</td>
+</tr>
+<tr>
+<td>世界树之心 ×1</td>
+<td>250 金</td>
+<td>1</td>
+</tr>
+<tr>
+<td>龙晶 ×1</td>
+<td>250 金</td>
+<td>1</td>
+</tr>
+<tr>
+<td>亚龙鳞片 ×1</td>
+<td>400 金</td>
+<td>1</td>
+</tr>
+<tr>
+<td>藏宝图碎片</td>
+<td>200 金</td>
+<td>1（3 张拼合→ T3 资源×2 + 金币×600）</td>
+</tr>
+<tr>
+<td>哥布林佣兵</td>
+<td>180 金</td>
+<td>2（攻5命6，食物维护 1，不可成长）</td>
+</tr>
+<tr>
+<td>视野卷轴</td>
+<td>100 金</td>
+<td>2（揭示目标格及周围 2 格）</td>
+</tr>
+</table></div>
+<p><strong>商人凭证</strong>：该玩家在后续地精商人处享受 <strong>前 8 次交易 5 折</strong>，仅 1 份，先到先得。用完后失效。</p>
+<hr class="section-divider">
+<h3 class="section-title" id="十四玩家外交">十四、玩家外交</h3>
+<blockquote class="blockquote">
+<p>三人局的基础外交系统，所有操作不消耗 AP。</p>
+</blockquote>
+<h4 class="subsection-title" id="141-资源交易">14.1 资源交易</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>规则</th>
+<th>说明</th>
+</tr>
+<tr>
+<td>发起</td>
+<td>任意回合行动阶段，向另一玩家发起交易提议</td>
+</tr>
+<tr>
+<td>内容</td>
+<td>任意资源换任意资源（包括金币）</td>
+</tr>
+<tr>
+<td>接受</td>
+<td>对方在行动阶段确认后即时生效</td>
+</tr>
+<tr>
+<td>限制</td>
+<td>每回合每对玩家之间最多 1 次交易</td>
+</tr>
+</table></div>
+<h4 class="subsection-title" id="142-互不侵犯条约">14.2 互不侵犯条约</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>规则</th>
+<th>说明</th>
+</tr>
+<tr>
+<td>发起</td>
+<td>双方同意后生效</td>
+</tr>
+<tr>
+<td>期限</td>
+<td>10 回合</td>
+</tr>
+<tr>
+<td>约束</td>
+<td>期间不可掠夺/攻击对方领地、资源点、单位</td>
+</tr>
+<tr>
+<td>违约</td>
+<td>违约方所有单位 -2 HP（立即生效）；条约作废；10 回合内不可再与任何方签约</td>
+</tr>
+<tr>
+<td>到期</td>
+<td>自动解除，可续签</td>
+</tr>
+</table></div>
+<h4 class="subsection-title" id="143-视野共享">14.3 视野共享</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>规则</th>
+<th>说明</th>
+</tr>
+<tr>
+<td>发起</td>
+<td>一方提议，另一方接受</td>
+</tr>
+<tr>
+<td>期限</td>
+<td>5 回合</td>
+</tr>
+<tr>
+<td>效果</td>
+<td>双方视野合并（都看到对方能看到的地块）</td>
+</tr>
+<tr>
+<td>到期</td>
+<td>自动解除</td>
+</tr>
+</table></div>
+<h4 class="subsection-title" id="144-外交策略意义">14.4 外交策略意义</h4>
+<ul>
+<li>领先方会被另外两方自然结盟针对（无需系统强制）</li>
+<li>互不侵犯让两方放心对第三方施压</li>
+<li>视野共享是精灵最有力的外交筹码</li>
+<li>资源交易实现跨阵营资源互补（绕过市场、无中间商赚差价）</li>
+</ul>
+<hr class="section-divider">
+<h3 class="section-title" id="十五胜利条件">十五、胜利条件</h3>
+<h4 class="subsection-title" id="151-科技胜利">15.1 科技胜利</h4>
+<p><strong>条件</strong>：完成任意 1 条 T3 科技 + 持有 T3 资源合计 ≥ 8（星晶 + 世界树之心 + 龙晶，不要求分配比例）。</p>
+<p><strong>检查时机</strong>：T3 科技完成当回合及之后每回合开始时自动检查。</p>
+<blockquote class="blockquote">
+<p>例：人类完成 T3 钢铁要塞，同时持有星晶×5 + 龙晶×2 + 世界树之心×1 = 合计 8 → 科技胜利。</p>
+</blockquote>
+<h4 class="subsection-title" id="152-资源垄断胜利">15.2 资源垄断胜利</h4>
+<p><strong>条件</strong>（三项全部满足，连续保持 <strong>5 回合</strong>）：</p>
+<ul>
+<li>T3 资源总储量（星晶 + 世界树之心 + 龙晶）全场第一</li>
+<li>T2 资源总储量（铁矿 + 魔力尘 + 古木）全场第一</li>
+<li>两项各自 ≥ 第二名的 <strong>1.3 倍</strong></li>
+</ul>
+<p><strong>检查时机</strong>：每回合结束时自动检查。中断后重新计数。</p>
+<h4 class="subsection-title" id="153-征服胜利">15.3 征服胜利</h4>
+<p>摧毁其他两个阵营的<strong>主城</strong>（市政厅 / 树灵厅 / 酋长大厅）。</p>
+<p>主城属性：HP 25，驻防时 DEF+3，不可被掠夺（只能直接攻击）。</p>
+<p>主城被毁 → 阵营所有建筑失效，丧失胜利资格。该玩家的<strong>残余单位仍可行动 3 回合</strong>（不可交易/缔约/建造/招募），3 回合后全部移除。此规则防止被淘汰玩家无限影响局势。</p>
+<h4 class="subsection-title" id="154-分数胜利备用">15.4 分数胜利（备用）</h4>
+<p>若 65 回合无人达成以上条件：</p>
+<pre class="code-block"><code>
+综合分 = 科技分(完成科技数 × 100)
+       + 资源分(所有资源总市值 ÷ 10)
+       + 军事分(现存单位 ATK×HP 总和)
+       + 领土分(领地格数 × 50)
+</code></pre>
+<hr class="section-divider">
+<h3 class="section-title" id="十六阵营节奏与策略">十六、阵营节奏与策略</h3>
+<h4 class="subsection-title" id="161-能力雷达">16.1 能力雷达</h4>
+<pre class="code-block diagram"><code>
+              资源采集
+                 /\
+                /  \
+               / 人 \
+              /   |   \
+             / 精 | 兽 \
+            /     |     \
+   探索侦察 ─────────────── 军事战斗
+            \     |     /
+             \ 人 | 兽 /
+              \   |   /
+               \  |  /
+                \ | /
+               防御抗压
+</code></pre>
+<div class="table-wrap"><table>
+<tr>
+<th>维度</th>
+<th>人类</th>
+<th>精灵</th>
+<th>兽人</th>
+<th>说明</th>
+</tr>
+<tr>
+<td>资源采集</td>
+<td>★★★★★</td>
+<td>★★★★</td>
+<td>★★★</td>
+<td>人类 T1 双130%效率 + 矿脉发现</td>
+</tr>
+<tr>
+<td>探索侦察</td>
+<td>★★★</td>
+<td>★★★★★</td>
+<td>★★★★</td>
+<td>精灵 5 视野斥候 + 全图森林眼线</td>
+</tr>
+<tr>
+<td>军事战斗</td>
+<td>★★★★</td>
+<td>★★</td>
+<td>★★★★★</td>
+<td>兽人攻击力 + 狂战反伤 + 击杀回血</td>
+</tr>
+<tr>
+<td>防御抗压</td>
+<td>★★★★★</td>
+<td>★★★★</td>
+<td>★★</td>
+<td>人类不落城免疫；兽人无硬防</td>
+</tr>
+</table></div>
+<h4 class="subsection-title" id="162-回合节奏曲线">16.2 回合节奏曲线</h4>
+<pre class="code-block diagram"><code>
+实力
+ ↑
+ │  人类: ______¯¯¯¯¯¯¯¯¯¯¯¯¯  慢热→T2矿脉爆发→T3终极防御稳赢
+ │  精灵: ___________¯¯¯¯¯¯¯¯  均匀成长→T2信息称霸→T3全图掌控
+ │  兽人: ¯¯╲______¯¯╲_______  早强→中期瓶颈→龙晶/掠夺再起
+ │
+ └──────────────────────────────→ 回合
+     1-20      21-42      43-65
+    (前期)    (中期)     (后期)
+</code></pre>
+<h4 class="subsection-title" id="163-各阵营推荐策略">16.3 各阵营推荐策略</h4>
+<p><strong>人类 — 工业乌龟流</strong>：</p>
+<ol>
+<li>前期全力造矿井+采石场，冲 T1 深层开采</li>
+</ul>
+<ol>
+<li>中期推进 T2 富矿勘探，发现隐藏矿脉经济起飞</li>
+</ul>
+<ol>
+<li>抢先建造城墙→要塞，做好防御</li>
+</ul>
+<ol>
+<li>后期 T3 星晶裂解 + 不落城，两条 T3 线并进</li>
+</ul>
+<ol>
+<li>获胜窗口：T3 科技完成 + 市场/矿脉攒够 8 T3 资源</li>
+</ul>
+<p><strong>精灵 — 地图控制流</strong>：</p>
+<ol>
+<li>前期斥候全图探索，抢占资源点信息优势</li>
+</ul>
+<ol>
+<li>瞭望树 + 巡林者隐身侦察，掌握敌方所有动向</li>
+</ul>
+<ol>
+<li>T2 星界投影每回合掀一块迷雾，快速全图点亮</li>
+</ul>
+<ol>
+<li>中期靠森林隐身 + 荆棘屏障防御</li>
+</ul>
+<ol>
+<li>T3 万物洞悉 → 全图森林即视野，配合翡翠结界免掠夺</li>
+</ul>
+<p><strong>兽人 — 掠夺破坏流</strong>：</p>
+<ol>
+<li>前期讨伐哥布林积累食物和战斗经验</li>
+</ul>
+<ol>
+<li>T1 奇袭训练 + 掠夺者巢穴 → 开始掠夺邻国</li>
+</ul>
+<ol>
+<li>T2 闪电掠夺（冷却 3 回合 + 保留移动）→ 高频掠夺</li>
+</ul>
+<ol>
+<li>配合地精商人变现掠夺物资</li>
+</ul>
+<ol>
+<li>T3 战争化身 + 战争图腾 → 掠夺比例超 50%，经济靠抢</li>
+</ul>
+<h4 class="subsection-title" id="164-落后补偿">16.4 落后补偿</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>条件</th>
+<th>补偿</th>
+</tr>
+<tr>
+<td>科技进度最后</td>
+<td>研究速度 +15%</td>
+</tr>
+<tr>
+<td>领土最少</td>
+<td>AP 上限 +3</td>
+</tr>
+<tr>
+<td>被掠夺后</td>
+<td>下次地精商人 8 折</td>
+</tr>
+<tr>
+<td>单位总战力最低</td>
+<td>招募费用 -20%</td>
+</tr>
+<tr>
+<td>连续 3 回合无扩张</td>
+<td>获得 1 免费斥候</td>
+</tr>
+</table></div>
+<hr class="section-divider">
+<h3 class="section-title" id="十七典型对局流程">十七、典型对局流程</h3>
+<h4 class="subsection-title" id="前期120-回合探索发育">前期（1-20 回合）：探索发育</h4>
+<pre class="code-block diagram"><code>
+回合 1-5:
+  人类: 斥候向东北探索 → 建造矿井(发现铁矿脉) → 开始研究 T1 深层开采
+  精灵: 斥候全方向探索(视野大) → 抢先标记多个资源点 → 建造萃取塔
+  兽人: 斥候向南探索 → 讨伐哥布林流浪斥候 → 建造战鼓营地
+
+  第 5 回合: 地精商人首现！三方派人赶往商站。精灵靠移速先到 → 获得商人凭证。
+
+回合 6-12:
+  人类: T1 深层开采完成 → 铁矿产量 3→4/回合 → 开始建造侦察哨
+  精灵: 占领 2 个资源点(古木巨树+魔力节点) → T1 鹰眼视野完成
+  兽人: 建造掠夺者巢穴 → 招募第 2 个掠夺者 → 侦察人类边界
+
+回合 13-20:
+  人类: 发现中央高原亚龙巢穴 → 建造城墙防御
+  精灵: 瞭望树发现人类和兽人领地 → 开始绘制全图
+  兽人: 首次掠夺人类边界资源点 → 成功抢到铁矿×8 → 人类警觉建造城墙
+</code></pre>
+<h4 class="subsection-title" id="中期2142-回合冲突博弈">中期（21-42 回合）：冲突博弈</h4>
+<pre class="code-block diagram"><code>
+回合 21-28:
+  人类: T2 富矿勘探完成 → 发现隐藏矿脉 → 经济爆发
+  精灵: T2 生命共鸣完成 → 森林开始产出魔力尘 → 建造生命祭坛
+  兽人: T2 闪电掠夺完成 → 掠夺冷却 5→3 → 高频骚扰人类
+
+回合 29-38:
+  三方开始互相接触 → 人类提议与精灵互不侵犯(联手压制兽人掠夺)
+  精灵接受 → 人类专注发展、精灵专注探索、兽人被孤立
+  兽人转而讨伐哥布林酋长部落 → 获得亚龙鳞片×1 → 解锁龙族 T1
+  人类组织 3 单位讨伐第 1 只亚龙 → 成功(损失 1 守卫) → 龙晶×2 + 鳞片×3
+
+回合 39-48:
+  人类龙族 T1 解锁 → 建筑+5HP + 单位+1HP → 防御质变
+  精灵靠商人凭证大量采购 T2 资源 → T2 星界投影完成
+  兽人龙族 T1 也解锁 → 开始建造龙晶熔炉
+  三方 T3 科技竞赛启动
+</code></pre>
+<h4 class="subsection-title" id="后期4365-回合终局决胜">后期（43-65 回合）：终局决胜</h4>
+<pre class="code-block diagram"><code>
+回合 61-65:
+  人类 T3 星晶裂解完成 → 持有星晶×4 + 龙晶×2 + 世界树之心×0 = 合计 6
+  精灵 T3 万物洞悉完成 → 全图森林视野 → 看到人类星晶储量
+  兽人 T3 战争化身完成 → 掠夺比例达 50% → 瞄准人类星晶仓库
+
+回合 56-60:
+  兽人孤注一掷：倾巢而出掠夺人类主城周边 → 触发 PvP 大战
+  人类重甲骑士 + 钢铁军团坚守不出(不落城免掠夺)
+  精灵趁兽人后方空虚 → 占领兽人 3 个资源点 → T3 资源储备逼近阈值
+
+回合 61-65:
+  三家 T3 资源储备: 人类 8 / 精灵 7 / 兽人 3
+  兽人放弃科技路线，全力阻止人类 → 骚扰人类星晶矿脉
+  精灵在兽人与人类缠斗中默默攒到 T3 资源=8 → 第 60 回合触发科技胜利
+</code></pre>
+<hr class="section-divider">
+<h3 class="section-title" id="十八数值速查表">十八、数值速查表</h3>
+<h4 class="subsection-title" id="181-资源产出">18.1 资源产出</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>建筑</th>
+<th>标准产出</th>
+<th>人类(130%)</th>
+<th>精灵(130%)</th>
+<th>兽人(130%)</th>
+</tr>
+<tr>
+<td>伐木场</td>
+<td>木材 3</td>
+<td>3</td>
+<td>4</td>
+<td>3</td>
+</tr>
+<tr>
+<td>采石场</td>
+<td>石料 3</td>
+<td>4</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>农场</td>
+<td>食物 3</td>
+<td>3</td>
+<td>3</td>
+<td>4</td>
+</tr>
+<tr>
+<td>矿井</td>
+<td>铁矿 2</td>
+<td>3</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>萃取塔</td>
+<td>魔力尘 2</td>
+<td>2</td>
+<td>3</td>
+<td>2</td>
+</tr>
+<tr>
+<td>古木采集场</td>
+<td>古木 2</td>
+<td>2</td>
+<td>3</td>
+<td>2</td>
+</tr>
+<tr>
+<td>深矿井</td>
+<td>铁矿 4</td>
+<td>5</td>
+<td>3</td>
+<td>4</td>
+</tr>
+<tr>
+<td>高级萃取塔</td>
+<td>魔力尘 4</td>
+<td>3</td>
+<td>5</td>
+<td>3</td>
+</tr>
+<tr>
+<td>古木林场</td>
+<td>古木 4</td>
+<td>3</td>
+<td>5</td>
+<td>4</td>
+</tr>
+<tr>
+<td>T3 建筑</td>
+<td>各 1/2 回合</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</table></div>
+<h4 class="subsection-title" id="182-科技研究">18.2 科技研究</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>等级</th>
+<th>回合</th>
+<th>金币</th>
+<th>T2 消耗</th>
+<th>T3 消耗</th>
+</tr>
+<tr>
+<td>T1</td>
+<td>3</td>
+<td>200</td>
+<td>×3</td>
+<td>—</td>
+</tr>
+<tr>
+<td>T2</td>
+<td>5</td>
+<td>400</td>
+<td>×5</td>
+<td>—</td>
+</tr>
+<tr>
+<td>T3</td>
+<td>8</td>
+<td>800</td>
+<td>—</td>
+<td>×2~3</td>
+</tr>
+<tr>
+<td>龙族 T1</td>
+<td>即时</td>
+<td>500</td>
+<td>—</td>
+<td>鳞片×1</td>
+</tr>
+<tr>
+<td>龙族 T2</td>
+<td>即时</td>
+<td>800</td>
+<td>—</td>
+<td>鳞片×2</td>
+</tr>
+<tr>
+<td>龙族 T3</td>
+<td>即时</td>
+<td>1200</td>
+<td>—</td>
+<td>心×1</td>
+</tr>
+</table></div>
+<h4 class="subsection-title" id="183-单位速查">18.3 单位速查</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>单位</th>
+<th>攻</th>
+<th>命</th>
+<th>移</th>
+<th>食物</th>
+<th>造价简要</th>
+</tr>
+<tr>
+<td>工人</td>
+<td>0</td>
+<td>3</td>
+<td>1</td>
+<td>1</td>
+<td>50 金</td>
+</tr>
+<tr>
+<td>斥候</td>
+<td>1</td>
+<td>3</td>
+<td>3</td>
+<td>1</td>
+<td>60 金</td>
+</tr>
+<tr>
+<td>守卫</td>
+<td>3(驻6)</td>
+<td>6</td>
+<td>1</td>
+<td>2</td>
+<td>80金+30石</td>
+</tr>
+<tr>
+<td>重甲骑士</td>
+<td>6</td>
+<td>9</td>
+<td>2</td>
+<td>2</td>
+<td>180金+铁矿×3</td>
+</tr>
+<tr>
+<td>钢铁军团</td>
+<td>8</td>
+<td>14</td>
+<td>2</td>
+<td>3</td>
+<td>350金+星晶×2</td>
+</tr>
+<tr>
+<td>巡林者</td>
+<td>2</td>
+<td>4</td>
+<td>3</td>
+<td>1</td>
+<td>100金+古木×2</td>
+</tr>
+<tr>
+<td>翡翠守护者</td>
+<td>7</td>
+<td>11</td>
+<td>2</td>
+<td>3</td>
+<td>300金+树心×2</td>
+</tr>
+<tr>
+<td>掠夺者</td>
+<td>4</td>
+<td>5</td>
+<td>3</td>
+<td>2</td>
+<td>100金+食物×3</td>
+</tr>
+<tr>
+<td>战争之王</td>
+<td>9</td>
+<td>13</td>
+<td>3</td>
+<td>3</td>
+<td>300金+龙晶×2</td>
+</tr>
+<tr>
+<td>龙裔守卫</td>
+<td>7</td>
+<td>12</td>
+<td>2</td>
+<td>3</td>
+<td>400金+龙晶×1</td>
+</tr>
+</table></div>
+<h4 class="subsection-title" id="184-战斗速查">18.4 战斗速查</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>项目</th>
+<th>数值/公式</th>
+</tr>
+<tr>
+<td>伤害</td>
+<td>max(ATK - (DEF + 地形 + 建筑), 1)</td>
+</tr>
+<tr>
+<td>暴击</td>
+<td>10% ×1.3</td>
+</tr>
+<tr>
+<td>夹击</td>
+<td>两友军相邻 → 各 ATK +1</td>
+</tr>
+<tr>
+<td>高地</td>
+<td>山地攻低地 → ATK +1</td>
+</tr>
+<tr>
+<td>远程</td>
+<td>射程 2，不反击</td>
+</tr>
+<tr>
+<td>魔法</td>
+<td>无视地形防</td>
+</tr>
+<tr>
+<td>超时</td>
+<td>8 回合 → 总剩余 HP 多者胜</td>
+</tr>
+</table></div>
+<h4 class="subsection-title" id="185-胜利条件速查">18.5 胜利条件速查</h4>
+<div class="table-wrap"><table>
+<tr>
+<th>胜利类型</th>
+<th>条件</th>
+<th>检查时机</th>
+</tr>
+<tr>
+<td>科技</td>
+<td>T3 完成 + T3 资源合计 ≥ 8</td>
+<td>每回合开始</td>
+</tr>
+<tr>
+<td>资源垄断</td>
+<td>T3 总储量第一 + T2 总储量第一，各≥第二×1.3，连续 5 回合</td>
+<td>每回合结束</td>
+</tr>
+<tr>
+<td>征服</td>
+<td>摧毁另外两方主城</td>
+<td>即时</td>
+</tr>
+<tr>
+<td>分数</td>
+<td>65 回合无人胜利</td>
+<td>终局</td>
+</tr>
+</table></div>
+<hr class="section-divider">
+<blockquote class="blockquote blockquote-summary">
+<p><strong>设计总结</strong>：三人非对称策略博弈。九种通用资源驱动经济循环，三条科技分支决定发展方向，龙族科技为建筑和族群提供全局增益，哥布林→亚龙 PvE 梯度引导从发育走向对抗。建筑经营+单位战术+PvP战斗+外交博弈，在迷雾笼罩的六边形大陆上展开 50-65 回合的三方制衡。领先者永远不安，落后者始终有希望。</p>
+</blockquote>
+</main>
+
+<script>
+// Scroll progress bar
+const progressBar = document.getElementById('scroll-progress');
+window.addEventListener('scroll', () => {
+  const scrollTop = document.documentElement.scrollTop;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  progressBar.style.width = progress + '%';
+});
+
+// Active TOC highlighting
+const tocItems = document.querySelectorAll('.toc-item');
+const headings = document.querySelectorAll('.section-title');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      tocItems.forEach(item => item.classList.remove('active'));
+      const id = entry.target.id;
+      const link = document.querySelector(`.toc-item[href="#${id}"]`);
+      if (link) link.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+
+headings.forEach(h => observer.observe(h));
+</script>
+
+</body>
+</html>

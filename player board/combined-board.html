@@ -172,9 +172,9 @@ h1{color:#e8d5b7;font-size:20px;margin:0 auto 16px;text-align:center;text-shadow
 }
 .dt-item{
   background:rgba(44,24,16,.94);color:#e8d5b7;
-  border:1px solid #c9a96e;border-radius:12px;
-  padding:12px 28px;font-size:16px;line-height:1.6;
-  text-align:center;max-width:700px;
+  border:1px solid #c9a96e;border-radius:14px;
+  padding:18px 40px;font-size:24px;line-height:1.6;
+  text-align:center;max-width:750px;
   box-shadow:0 8px 32px rgba(0,0,0,.5);
   opacity:0;transform:translateY(20px);
   transition:opacity .4s ease,transform .4s ease
@@ -182,7 +182,7 @@ h1{color:#e8d5b7;font-size:20px;margin:0 auto 16px;text-align:center;text-shadow
 .dt-item.show{opacity:1;transform:translateY(0)}
 .dt-item.hide{opacity:0;transform:translateY(-10px);transition:opacity .3s,transform .3s}
 .dt-item b{color:#f0d68a}
-.dt-item .dt-title{font-size:22px;font-weight:bold;color:#f0d68a;display:block;margin-bottom:4px}
+.dt-item .dt-title{font-size:30px;font-weight:bold;color:#f0d68a;display:block;margin-bottom:6px}
 .demo-nav{
   position:fixed;bottom:30px;left:50%;transform:translateX(-50%);
   z-index:1001;display:none;align-items:center;gap:12px
@@ -198,12 +198,14 @@ h1{color:#e8d5b7;font-size:20px;margin:0 auto 16px;text-align:center;text-shadow
 .demo-nav .dn-dots{display:flex;gap:6px}
 .demo-nav .dn-dot{width:10px;height:10px;border-radius:50%;background:#5a3d2b;border:1px solid #8B7355;transition:background .3s}
 .demo-nav .dn-dot.active{background:#f0d68a;border-color:#f0d68a}
+.demo-nav .dn-counter{color:#c9a96e;font-size:12px;font-weight:bold;min-width:30px;text-align:center;font-family:Georgia,serif}
 .demo-nav .dn-close{
   background:transparent;color:#a08060;border:none;
   font-size:12px;cursor:pointer;padding:4px 8px;font-family:inherit
 }
 .demo-nav .dn-close:hover{color:#e8d5b7}
 .demo-highlight{filter:drop-shadow(0 0 12px rgba(255,215,0,.8));transition:filter .5s}
+#cb-svg .demo-highlight{filter:drop-shadow(0 0 16px rgba(255,215,0,.9));transition:filter .5s}
 </style>
 </head>
 <body>
@@ -226,6 +228,7 @@ h1{color:#e8d5b7;font-size:20px;margin:0 auto 16px;text-align:center;text-shadow
 <div class="demo-nav" id="demo-nav">
   <button class="dn-btn" id="dn-prev">← 上一步</button>
   <div class="dn-dots" id="dn-dots"></div>
+  <span class="dn-counter" id="dn-counter"></span>
   <button class="dn-btn" id="dn-next">下一步 →</button>
   <button class="dn-close" id="dn-close">✕ 关闭</button>
 </div>
@@ -370,6 +373,7 @@ wrap.innerHTML=`<div class="wrap"><svg viewBox="0 0 1140 810" id="cb-svg" xmlns=
 <g id="cb-track"></g>
 
 <!-- Phase track -->
+<g id="cb-phases">
 <text x="98" y="190" text-anchor="middle" font-family="Georgia,serif" font-size="13" font-weight="bold" fill="#5a3d2b">阶段</text>
 <rect x="68" y="204" width="55" height="54" rx="9" fill="url(#pA)" style="cursor:pointer" data-tip="&lt;b&gt;阶段 1&lt;/b&gt; · 区域奖励 +10"/>
 <text x="98" y="231" text-anchor="middle" dominant-baseline="central" font-size="24" font-weight="bold" fill="#fff" pointer-events="none">1</text>
@@ -390,9 +394,10 @@ wrap.innerHTML=`<div class="wrap"><svg viewBox="0 0 1140 810" id="cb-svg" xmlns=
 <rect x="68" y="556" width="55" height="54" rx="9" fill="url(#pE)" style="cursor:pointer" data-tip="&lt;b&gt;阶段 5&lt;/b&gt; · 最终阶段 · 区域奖励 +2"/>
 <text x="98" y="583" text-anchor="middle" dominant-baseline="central" font-size="24" font-weight="bold" fill="#fff" pointer-events="none">5</text>
 <text x="126" y="583" text-anchor="start" dominant-baseline="central" font-size="12" font-weight="bold" fill="#6c3483" font-family="Georgia,serif">+2</text>
+</g>
 
 <!-- Round -->
-<g transform="translate(-285, -49) scale(1.5)">
+<g id="cb-rounds" transform="translate(-285, -49) scale(1.5)">
 <text x="570" y="80" text-anchor="middle" font-family="Georgia,serif" font-size="11" font-weight="bold" fill="#5a3d2b">轮次</text>
 <rect x="488" y="84" width="28" height="28" rx="5" fill="#fff" stroke="#8B7355" stroke-width="1.4" style="cursor:pointer" data-tip="&lt;b&gt;第 1 轮&lt;/b&gt;"/><text x="502" y="98" text-anchor="middle" dominant-baseline="central" font-size="13" fill="#5a3d2b" pointer-events="none">1</text>
 <rect x="522" y="84" width="28" height="28" rx="5" fill="#fff" stroke="#8B7355" stroke-width="1.4" style="cursor:pointer" data-tip="&lt;b&gt;第 2 轮&lt;/b&gt;"/><text x="536" y="98" text-anchor="middle" dominant-baseline="central" font-size="13" fill="#5a3d2b" pointer-events="none">2</text>
@@ -421,7 +426,7 @@ wrap.innerHTML=`<div class="wrap"><svg viewBox="0 0 1140 810" id="cb-svg" xmlns=
 <g id="cb-hex-area"></g>
 
 <!-- Turn order -->
-<g transform="translate(43, 62)">
+<g id="cb-turn-order" transform="translate(43, 62)">
   <text x="160" y="18" text-anchor="middle" font-size="11" font-weight="bold" fill="#5a3d2b" font-family="Georgia,serif">顺位轨道 Turn Order</text>
   <rect x="25" y="26" width="54" height="24" rx="6" fill="#fff" stroke="#8B7355" stroke-width="1.2" style="cursor:pointer" data-tip="&lt;b&gt;顺位 1&lt;/b&gt;（先手）"/>
   <text x="52" y="38" text-anchor="middle" dominant-baseline="central" font-size="10" font-weight="bold" fill="#5a3d2b" pointer-events="none">1st 先手</text>
@@ -722,10 +727,14 @@ wrap.innerHTML=`<div class="wrap"><svg viewBox="0 0 1140 810" id="cb-svg" xmlns=
     },
     {
       title:'中心公共版图',
-      lines:[
-        '<b>6 个仓库</b> 对应骰子点数 1-6<br>存放城堡🏰、船只🚢、矿场⛏️、建筑🏛️、知识📚、动物🐑',
-        '<b>黑市</b> — 花费 2 银币可购买任意板块',
-        '四周 <b>得分轨道</b> — 1 分/格，顺时针递增'
+      subSteps:[
+        {lines:['中心公共版图 — 游戏的核心区域','包含 <b>仓库、黑市、得分轨道</b> 等关键要素'], hl:'.cb-wrap .wrap'},
+        {lines:['<b>得分轨道</b> — 环绕版图四周，每格 1 分，顺时针递增'], hl:'#cb-track'},
+        {lines:['<b>阶段 1-5</b> — 区域奖励逐阶段递减 (+10→+2)','每阶段 <b>5 轮</b>，共 <b>25 回合</b>'], hl:'#cb-phases,#cb-rounds'},
+        {lines:['<b>6 个仓库</b> — 对应骰子点数 1-6','每仓库 4 个板块位 + 货物区，以正六边形排列'], hl:'#cb-hex-area [data-tip*="仓库"]'},
+        {lines:['<b>黑市</b> — 8 格 3-2-3 排列','花费 <b>2 银币</b> 可购买任意板块'], hl:'#cb-hex-area g[data-tip*="黑市"]'},
+        {lines:['<b>知识展示区</b> — 4 人局展示 8 张知识板块','<b>区域奖励</b> — 率先完成对应区域获额外分数'], hl:'#cb-know-hexes,#cb-bonus-slots'},
+        {lines:['<b>顺位轨道</b> — 放置船只前移顺位，争夺先手'], hl:'#cb-turn-order'}
       ],
       zoom:{cx:1200,cy:950,s:1.5},
       hl:'.cb-wrap .wrap'
@@ -738,18 +747,43 @@ wrap.innerHTML=`<div class="wrap"><svg viewBox="0 0 1140 810" id="cb-svg" xmlns=
     },
     {
       title:'玩家版图 — P1',
-      lines:[
-        '每位玩家拥有一张 <b>6×7 六边形网格</b> 版图',
-        '左侧 <b>资源区</b>：工人 👷 和 银币 🪙',
-        '顶部 <b>货物存储格</b>：🍇 🍷 🍲',
-        '底部 <b>六角片仓库</b> 和 <b>订单卷轴</b>'
+      subSteps:[
+        {lines:['每位玩家拥有一张 <b>6×7 六边形网格</b> 版图','6 种地形：🌿牧场 🌊河流 🏙️城市 📚知识 🏰城堡 ⛏️矿坑'], hl:'.p1 .board'},
+        {lines:['<b>六边形网格</b> — 37 个格位','放置板块覆盖 → 完成相连区域 → 获得分数'], hl:'.p1 .hex-wrap'},
+        {lines:['左侧 <b>资源区</b>','👷 工人片 — 执行行动所需','🪙 银币 — 购买黑市板块等'], hl:'.p1 .left-sidebar'},
+        {lines:['顶部 <b>货物存储格</b>','🍇 🍷 🍲 三种货物对应骰子 1/2/3','放置船只时可从仓库拿取对应货物'], hl:'.p1 .goods-wrap'},
+        {lines:['<b>骰子点数</b> — 决定本回合可用仓库','<b>个人得分</b> — 记录累计游戏分数'], hl:'.p1 .score-area'},
+        {lines:['<b>仓库</b> — 最多暂存 3 个板块','<b>订单卷轴</b> — 完成订单获得额外分数'], hl:'.p1 .storage-wrap,.p1 .scroll'}
       ],
       zoom:{cx:1200,cy:1470,s:2.0},
       hl:'.p1 .board'
+    },
+    {
+      title:'游戏流程',
+      subSteps:[
+        {lines:['游戏共 <b>5 阶段</b>，每阶段 <b>5 轮</b> = 25 回合','每轮所有玩家依次行动'], hl:'#cb-phases,#cb-rounds'},
+        {lines:['每轮掷 <b>蓝绿骰子</b> 🎲 决定可用仓库','从对应点数仓库拿取板块'], hl:'#cb-hex-area [data-tip*="仓库"]'},
+        {lines:['按 <b>顺位</b> 每人执行 <b>2 次</b> 行动','拿板块 / 放板块 / 出售货物 / 拿资源'], hl:'#cb-turn-order'},
+        {lines:['将板块 <b>放置到个人版图</b> 对应地形','覆盖相连区域 → 获得分数'], hl:'#cb-hex-area'},
+        {lines:['最先完成区域获 <b>额外奖励分</b>','5 阶段结束，<b>总分最高者获胜</b> 🏆'], hl:'#cb-bonus-slots,#cb-track'}
+      ],
+      zoom:{cx:1200,cy:950,s:1.5},
+      hl:'.cb-wrap .wrap'
+    },
+    {
+      title:'总结',
+      lines:[
+        '《勃艮第城堡》— 经典策略桌游',
+        '<b>骰子驱动 · 版图拼接 · 区域控制</b>',
+        '灵活应对骰子结果，规划最优发展路径',
+        '感谢观看 🎉'
+      ],
+      zoom:{cx:1200,cy:950,s:0.8},
+      hl:''
     }
   ];
 
-  let currentStep=-1, running=false;
+  let currentStep=-1, currentSubStep=-1, running=false;
   const textEl=document.getElementById('demo-text');
   const navEl=document.getElementById('demo-nav');
   const dotsEl=document.getElementById('dn-dots');
@@ -799,23 +833,69 @@ wrap.innerHTML=`<div class="wrap"><svg viewBox="0 0 1140 810" id="cb-svg" xmlns=
     document.querySelectorAll(sel).forEach(e=>e.classList.add('demo-highlight'));
   }
 
+  function updateSubStepIndicator(){
+    const step=steps[currentStep];
+    if(!step.subSteps)return;
+    const total=step.subSteps.length;
+    const el=document.getElementById('dn-counter');
+    if(el)el.textContent=(currentSubStep+1)+'/'+total;
+    // Update dots to reflect sub-step progress (highlight current main step)
+    buildDots();
+  }
+
+  function enterSubStep(idx){
+    currentSubStep=idx;
+    const step=steps[currentStep],sub=step.subSteps[idx];
+    if(!sub)return;
+    clearHL();
+    setTimeout(()=>applyHL(sub.hl),100);
+    // Show sub-step content: lines cycling
+    textEl.innerHTML='';
+    let li=0;
+    function showLine(){
+      if(!running){navEl.classList.add('show');updateSubStepIndicator();return;}
+      if(li>=sub.lines.length){
+        navEl.classList.add('show');
+        updateSubStepIndicator();
+        return;
+      }
+      const item=document.createElement('div');
+      item.className='dt-item';
+      item.innerHTML=sub.lines[li];
+      li++;
+      textEl.appendChild(item);
+      void item.offsetHeight;
+      item.classList.add('show');
+      const stay=li>=sub.lines.length?2200:1800;
+      setTimeout(()=>{
+        item.classList.remove('show');
+        item.classList.add('hide');
+        setTimeout(()=>{item.remove();showLine();},300);
+      },stay);
+    }
+    setTimeout(showLine,400);
+  }
+
   function goToStep(i){
     if(i<0||i>=steps.length)return;
     clearHL();
     currentStep=i;
+    currentSubStep=-1;
     running=true;
     const step=steps[i];
-    // Apply highlight
-    setTimeout(()=>applyHL(step.hl),100);
-    // Zoom
     window.animateZoom(step.zoom.cx,step.zoom.cy,step.zoom.s);
-    // Show lines
-    showLines(step.title,step.lines,()=>{
-      // Lines done → show nav
-      navEl.classList.add('show');
-      buildDots();
-    });
-    // Build title item (always shown)
+    if(step.subSteps&&step.subSteps.length){
+      // Enter first sub-step
+      setTimeout(()=>applyHL(step.subSteps[0].hl),100);
+      enterSubStep(0);
+    }else{
+      // Regular step
+      setTimeout(()=>applyHL(step.hl),100);
+      showLines(step.title,step.lines,()=>{
+        navEl.classList.add('show');
+        buildDots();
+      });
+    }
   }
 
   function startDemo(){
@@ -835,17 +915,27 @@ wrap.innerHTML=`<div class="wrap"><svg viewBox="0 0 1140 810" id="cb-svg" xmlns=
     window.exitDemo();
     btn.textContent='▶ 流程演示';
     currentStep=-1;
+    currentSubStep=-1;
   }
 
   function nextStep(){
-    if(currentStep<steps.length-1){
+    const step=steps[currentStep];
+    if(step&&step.subSteps&&currentSubStep<step.subSteps.length-1){
+      // Advance sub-step
+      navEl.classList.remove('show');
+      enterSubStep(currentSubStep+1);
+    }else if(currentStep<steps.length-1){
       navEl.classList.remove('show');
       goToStep(currentStep+1);
     }
   }
 
   function prevStep(){
-    if(currentStep>0){
+    if(currentSubStep>0){
+      // Go back to previous sub-step
+      navEl.classList.remove('show');
+      enterSubStep(currentSubStep-1);
+    }else if(currentStep>0){
       navEl.classList.remove('show');
       goToStep(currentStep-1);
     }
