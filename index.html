@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>桌游交互设计调研 — 汇报演示</title>
+<style>
+/* ====================================================================
+   Design Token System — UI Designer
+   ==================================================================== */
+:root {
+  /* === Color Palette — Hades Inspired === */
+  --c-deep:       #0d0a08;
+  --c-dark:       #1a1512;
+  --c-charcoal:   #25201a;
+  --c-wood:       #3d2218;
+  --c-gold:       #d4a84b;
+  --c-gold-dark:  #b5892e;
+  --c-gold-dim:   rgba(212,168,75,0.3);
+  --c-text:       #ede4d4;
+  --c-text-dim:   rgba(237,228,212,0.75);
+  --c-text-faint: rgba(237,228,212,0.6);
+  --c-red:        #c73e3a;
+  --c-red-dark:   #8a1c1a;
+  --c-purple:     #5b2c8e;
+  --c-blue:       #4a7bb5;
+
+  /* === Typography === */
+  --font-sans: "PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
+  --font-display: "Georgia","Times New Roman","Songti SC",serif;
+
+  /* === Spacing (8px base) === */
+  --s-1: 4px;  --s-2: 8px;  --s-3: 12px;  --s-4: 16px;
+  --s-5: 20px; --s-6: 24px; --s-8: 32px;  --s-10: 40px;
+  --s-12: 48px; --s-16: 64px; --s-20: 80px;
+
+  /* === Transitions – Senior Dev "smooth" === */
+  --ease-out: cubic-bezier(0.16,1,0.3,1);
+  --ease-smooth: cubic-bezier(0.4,0,0.2,1);
+  --dur-fast: 0.3s;
+  --dur-norm: 0.6s;
+  --dur-slow: 0.9s;
+}
+/* ====================================================================
+   Reset & Base — Frontend Dev
+   ==================================================================== */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;font-family:var(--font-sans);background:var(--c-deep);color:var(--c-text);-webkit-font-smoothing:antialiased}
+/* ====================================================================
+   Accessibility — reduced motion
+   ==================================================================== */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition-duration:0.01ms!important;animation-duration:0.01ms!important;animation-iteration-count:1!important}
+}
+/* ====================================================================
+   Slide Container — UX Architect layout system
+   ==================================================================== */
+#deck{width:100%;height:100%;position:relative}
+/* === Universal CSS Background — removed per user request === */
+/* Ensure slide content sits above the background */
+.slide{z-index:1}
+.slide{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:var(--s-16) var(--s-20);overflow:hidden;
+  opacity:0;visibility:hidden;
+  transition:opacity 0.5s var(--ease-smooth),visibility 0.5s,transform 0.5s var(--ease-out);
+  transform:translateX(40px) scale(0.97);will-change:transform,opacity;
+}
+.slide.active{opacity:1;visibility:visible;transform:translateX(0) scale(1)}
+/* ====================================================================
+   Progress Bar — Visual Storyteller narrative progress
+   ==================================================================== */
+#progress-bar{
+  position:fixed;top:0;left:0;height:3px;z-index:300;
+  background:linear-gradient(90deg,var(--c-gold),#f0d68a);
+  transition:width 0.5s var(--ease-smooth);will-change:width;
+}
+/* ====================================================================
+   Navigation Dots — UI Designer
+   ==================================================================== */
+#nav-dots{
+  position:fixed;bottom:var(--s-6);left:50%;transform:translateX(-50%);
+  display:flex;gap:var(--s-2);z-index:200;padding:var(--s-2) var(--s-3);
+  background:rgba(0,0,0,0.5);border-radius:20px;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
+.dot{
+  width:10px;height:10px;border-radius:50%;
+  background:var(--c-text-faint);border:1px solid rgba(237,228,212,0.15);
+  cursor:pointer;transition:all var(--dur-fast) var(--ease-smooth);
+}
+.dot:focus-visible{outline:2px solid var(--c-gold);outline-offset:3px}
+.dot.active{background:var(--c-gold);border-color:var(--c-gold);box-shadow:0 0 10px var(--c-gold-dim);transform:scale(1.25)}
+.dot:hover{background:var(--c-text-dim)}
+/* ====================================================================
+   Common Components
+   ==================================================================== */
+.slide-num{
+  position:absolute;bottom:var(--s-8);right:var(--s-10);
+  font-size:1.05rem;color:var(--c-text-faint);letter-spacing:2px;
+  font-family:var(--font-display);
+}
+/* Gold accent text */
+.gold{color:var(--c-gold)}
+.glow{text-shadow:0 0 30px rgba(212,168,75,0.25)}
+/* Section title banner */
+.section-title{
+  position:absolute;top:var(--s-6);left:50%;transform:translateX(-50%);
+  font-family:var(--font-display);font-size:1.5rem;letter-spacing:6px;
+  color:var(--c-gold);text-transform:uppercase;
+  padding:36px 144px;min-width:1008px;text-align:center;
+  background:url('assets/section-banner.png') center/contain no-repeat;
+}
+/* Decorative divider */
+.divider{
+  width:200px;height:2px;margin:var(--s-6) auto;
+  background:linear-gradient(90deg,transparent,var(--c-gold-dim),transparent);
+}
+/* ====================================================================
+   Animation Keyframes — Senior Dev premium
+   ==================================================================== */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pulseGlow{0%,100%{box-shadow:0 0 10px rgba(212,168,75,0.2)}50%{box-shadow:0 0 25px rgba(212,168,75,0.4)}}
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+@keyframes countUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes goldPulse{0%,100%{opacity:0.6}50%{opacity:1}}
+.anim-fade{animation:fadeUp 0.8s var(--ease-out) both}
+.anim-fade-1{animation-delay:0.2s}
+.anim-fade-2{animation-delay:0.5s}
+.anim-fade-3{animation-delay:0.8s}
+/* ====================================================================
+   P1 — Cover / 封面   (Visual Storyteller — narrative entry)
+   ==================================================================== */
+#slide-0{
+  background:var(--c-deep);
+}
+#slide-0 .cover-bg{
+  position:absolute;inset:0;z-index:0;
+  background:url('assets/slide-01-cover/cover-frame.png') center/cover no-repeat;
+  opacity:0.85;
+}
+#slide-0 .cover-overlay{
+  position:absolute;inset:0;z-index:1;
+  background:radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(13,10,8,0.4) 100%);
+}
+.cover-content{position:relative;z-index:2;text-align:center;max-width:800px}
+.cover-tarot-num{
+  font-family:var(--font-display);font-size:1.1rem;letter-spacing:6px;
+  color:var(--c-gold);opacity:0.6;margin-bottom:var(--s-2);
+  animation:fadeUp 1s var(--ease-out) 0.3s both;
+}
+.cover-title{
+  font-family:var(--font-display);font-size:3.5rem;font-weight:700;
+  color:var(--c-gold);letter-spacing:6px;line-height:1.2;
+  text-shadow:0 0 40px rgba(212,168,75,0.2);
+  animation:fadeUp 1s var(--ease-out) 0.6s both;
+}
+.cover-title-sub{
+  font-size:1rem;color:var(--c-text-dim);letter-spacing:8px;margin-top:var(--s-4);
+  animation:fadeUp 1s var(--ease-out) 0.9s both;
+}
+.cover-divider{
+  width:160px;height:1px;margin:var(--s-8) auto;
+  background:linear-gradient(90deg,transparent,var(--c-gold-dim),transparent);
+  animation:fadeUp 1s var(--ease-out) 1.1s both;
+}
+.cover-footer{
+  font-size:1.15rem;color:var(--c-text-faint);letter-spacing:3px;margin-top:var(--s-4);
+  animation:fadeUp 1s var(--ease-out) 1.3s both;
+}
+/* ====================================================================
+   P2 — Market Numbers
+   ==================================================================== */
+.market-grid{display:flex;gap:var(--s-16);align-items:center;position:relative;z-index:1}
+.market-item{text-align:center}
+.market-num{
+  font-family:var(--font-display);font-size:3.2rem;font-weight:700;
+  color:var(--c-gold);letter-spacing:2px;
+  text-shadow:0 0 30px rgba(212,168,75,0.2);
+}
+.market-label{font-size:1.15rem;color:var(--c-text-dim);margin-top:var(--s-2);letter-spacing:1px}
+.market-sep{width:1px;height:80px;background:var(--c-text-faint);opacity:0.15}
+.market-tagline{
+  font-size:1.5rem;color:var(--c-text-dim);letter-spacing:2px;
+  margin-top:var(--s-10);
+}
+.market-tagline strong{color:var(--c-gold)}
+/* ====================================================================
+   P3 — Pyramid (redesigned: narrow→wide rectangles, centered)
+   ==================================================================== */
+.pyramid-wrap{
+  position:relative;z-index:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;width:100%;flex:1;
+}
+.pyramid{display:flex;flex-direction:column;gap:10px;align-items:center}
+.pyramid-tier{
+  display:flex;align-items:center;gap:var(--s-6);width:100%;justify-content:center;
+}
+.tier-label{
+  display:flex;align-items:center;gap:var(--s-4);justify-content:flex-end;
+  width:220px;flex-shrink:0;text-align:right;
+}
+.tier-text{font-size:1.15rem;color:var(--c-text-dim);letter-spacing:1px;line-height:1.5}
+.tier-text strong{font-size:1.2rem}
+.tier-arrow{font-size:1.3rem;color:var(--c-gold-dim);flex-shrink:0}
+.tier-blocks{display:flex;gap:6px;justify-content:center;flex-wrap:nowrap}
+.pyramid-tier .block{
+  border-radius:4px;transition:all var(--dur-norm) var(--ease-out);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);font-weight:700;font-size:1rem;
+  height:56px;
+}
+.pyramid-tier.l1 .block{
+  width:90px;
+  background:linear-gradient(135deg,rgba(212,168,75,0.55),rgba(212,168,75,0.25));
+  border:1px solid rgba(212,168,75,0.35);
+  box-shadow:0 0 20px rgba(212,168,75,0.2);color:var(--c-gold);
+}
+.pyramid-tier.l2 .block{
+  width:90px;
+  background:linear-gradient(135deg,rgba(74,123,181,0.45),rgba(74,123,181,0.18));
+  border:1px solid rgba(74,123,181,0.25);color:var(--c-blue);
+}
+.pyramid-tier.l3 .block{
+  width:90px;
+  background:linear-gradient(135deg,rgba(199,62,58,0.4),rgba(199,62,58,0.15));
+  border:1px solid rgba(199,62,58,0.2);color:var(--c-red);
+}
+/* ====================================================================
+   P4 — Info Decay Chain
+   ==================================================================== */
+.decay-chain{display:flex;align-items:center;gap:var(--s-6);position:relative;z-index:1}
+.decay-item{padding:var(--s-8) var(--s-10);border-radius:12px;text-align:center;min-width:120px;
+  background:rgba(255,255,255,0.03);border:1px solid rgba(237,228,212,0.06);
+}
+.decay-item .val{font-family:var(--font-display);font-size:3rem;font-weight:700}
+.decay-item .desc{font-size:1.5rem;color:var(--c-text-faint);margin-top:var(--s-2)}
+.decay-arrow{color:var(--c-text-faint);font-size:1.8rem}
+.decay-item.danger{background:rgba(199,62,58,0.08);border-color:rgba(199,62,58,0.2)}
+.decay-item.danger .val{color:var(--c-red);text-shadow:0 0 20px rgba(199,62,58,0.3)}
+.decay-item.warn .val{color:var(--c-gold)}
+.decay-foot{text-align:center;margin-top:var(--s-10);font-size:1.8rem;color:var(--c-text-dim);letter-spacing:1px}
+.decay-foot strong{color:var(--c-red)}
+/* ====================================================================
+   P5 — Style Comparison
+   ==================================================================== */
+.style-grid{display:flex;gap:var(--s-4);position:relative;z-index:1}
+.style-card{
+  width:273px;padding:calc(var(--s-8) + 20px) var(--s-6) var(--s-8);border-radius:10px;
+  background:rgba(255,255,255,0.02);border:1px solid rgba(237,228,212,0.06);
+  text-align:center;transition:all var(--dur-norm) var(--ease-out);
+}
+.style-card:hover{transform:translateY(-6px);background:rgba(255,255,255,0.05)}
+.style-card.chosen{border-color:var(--c-gold-dim);box-shadow:0 0 20px rgba(212,168,75,0.08)}
+.style-icon{width:117px;height:117px;margin-bottom:var(--s-4);display:block;margin-left:auto;margin-right:auto;object-fit:contain}
+.style-card .name{font-size:1.9rem;font-weight:700;color:var(--c-gold);margin-bottom:var(--s-3)}
+.style-card .desc{font-size:1.35rem;color:var(--c-text-dim);line-height:1.6}
+.style-card .ex{font-size:1.3rem;color:var(--c-text-faint);margin-top:var(--s-3)}
+.style-card .badge{display:inline-block;margin-top:var(--s-4);padding:4px 16px;border-radius:14px;font-size:1.3rem;background:rgba(212,168,75,0.12);color:var(--c-gold)}
+/* ====================================================================
+   P6 — Tarot Cards
+   ==================================================================== */
+#slide-5{
+  background:linear-gradient(135deg,var(--c-deep) 0%,var(--c-dark) 50%,var(--c-charcoal) 100%);
+}
+.tarot-grid{display:flex;gap:var(--s-10);align-items:center;position:relative;z-index:1}
+.tarot-card{
+  width:300px;border-radius:10px;overflow:hidden;
+  border:2px solid var(--c-charcoal);box-shadow:0 10px 40px rgba(0,0,0,0.6);
+  transition:all var(--dur-norm) var(--ease-out);
+  background:var(--c-dark);
+}
+.tarot-card:hover{transform:translateY(-10px) scale(1.03);border-color:var(--c-gold-dim);box-shadow:0 20px 60px rgba(0,0,0,0.8)}
+.tarot-card.highlight{border-color:var(--c-gold-dim)}
+.tarot-card img{width:100%;display:block}
+.tarot-label{padding:var(--s-3);text-align:center;font-size:1.05rem;color:var(--c-text-dim);border-top:1px solid var(--c-charcoal)}
+.tarot-btn{
+  display:block;width:100%;padding:var(--s-3);
+  background:linear-gradient(135deg,rgba(212,168,75,0.12),rgba(212,168,75,0.03));
+  border:none;border-top:1px solid var(--c-charcoal);
+  color:var(--c-gold);font-size:1.1rem;font-weight:600;
+  cursor:pointer;transition:all var(--dur-fast) var(--ease-smooth);
+  font-family:inherit;letter-spacing:1px;
+}
+.tarot-btn:hover{background:linear-gradient(135deg,rgba(212,168,75,0.25),rgba(212,168,75,0.08))}
+.tarot-btn:focus-visible{outline:2px solid var(--c-gold);outline-offset:-2px}
+.tarot-highlight{
+  position:absolute;top:-8px;right:-8px;
+  background:var(--c-red);color:#fff;font-size:1rem;padding:2px 10px;
+  border-radius:10px;font-weight:700;letter-spacing:1px;
+}
+/* ====================================================================
+   P7-P9 — Game Analysis (shared layout) + game character backgrounds
+   ==================================================================== */
+#slide-6::before, #slide-7::before, #slide-8::before{
+  content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+  background-size:contain;background-repeat:no-repeat;background-position:right bottom;
+  opacity:0.12;filter:grayscale(0.5);
+}
+#slide-6::before{background-image:url('assets/slide-06-cards/avalon-character.png')}
+#slide-7::before{background-image:url('assets/slide-06-cards/lifeboat-character.png')}
+#slide-8::before{background-image:url('assets/slide-06-cards/burgundy-character.png')}
+
+.analysis-wrap{display:flex;gap:var(--s-10);max-width:1100px;width:100%;position:relative;z-index:1}
+.analysis-left{flex:1.4}
+.analysis-right{flex:1}
+.analysis-name{font-family:var(--font-display);font-size:2rem;font-weight:700;color:var(--c-gold);margin-bottom:var(--s-1)}
+.analysis-meta{font-size:1.1rem;color:var(--c-text-faint);letter-spacing:1px;margin-bottom:var(--s-6)}
+.analysis-core{
+  padding:var(--s-4) var(--s-5);background:rgba(212,168,75,0.04);
+  border-left:2px solid var(--c-gold-dim);border-radius:0 8px 8px 0;
+  margin-bottom:var(--s-6);font-size:1.2rem;color:var(--c-text-dim);
+}
+.analysis-core strong{color:var(--c-gold)}
+.analysis-diagram{
+  background:rgba(255,255,255,0.02);border:1px solid rgba(237,228,212,0.06);
+  border-radius:10px;padding:var(--s-6);min-height:200px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+.analysis-list{list-style:none;padding:0}
+.analysis-list li{
+  padding:var(--s-2) 0;font-size:1.1rem;color:var(--c-text-dim);
+  padding-left:var(--s-5);position:relative;line-height:1.6;
+}
+.analysis-list li::before{content:'◆';position:absolute;left:0;color:rgba(212,168,75,0.6);font-size:1rem;top:8px}
+.analysis-list li strong{color:var(--c-gold)}
+.analysis-btn{
+  display:inline-block;margin-top:var(--s-6);padding:var(--s-3) var(--s-8);
+  background:linear-gradient(135deg,rgba(212,168,75,0.15),rgba(212,168,75,0.04));
+  border:1px solid var(--c-gold-dim);border-radius:8px;
+  color:var(--c-gold);font-size:1.15rem;font-weight:600;
+  cursor:pointer;transition:all var(--dur-fast) var(--ease-smooth);
+  font-family:inherit;letter-spacing:1px;text-decoration:none;
+}
+.analysis-btn:hover{background:linear-gradient(135deg,rgba(212,168,75,0.3),rgba(212,168,75,0.08));box-shadow:0 0 20px rgba(212,168,75,0.1)}.analysis-btn:focus-visible{outline:2px solid var(--c-gold);outline-offset:3px}
+/* Diagram inner: info tiers */
+.info-tier{display:flex;flex-direction:column;gap:var(--s-2);align-items:center}
+.info-row{display:flex;gap:var(--s-2)}
+.info-node{padding:var(--s-2) var(--s-4);border-radius:6px;font-size:1.05rem;font-weight:600}
+.info-node.t1{border-color:var(--c-gold-dim);color:var(--c-gold);border:1px solid}
+.info-node.t2{border-color:rgba(74,123,181,0.4);color:var(--c-blue);border:1px solid}
+.info-node.t3{border-color:rgba(237,228,212,0.15);color:var(--c-text-dim);border:1px solid}
+.info-node.t4{border-color:rgba(199,62,58,0.4);color:var(--c-red);border:1px solid}
+.info-vs{color:var(--c-text-faint);font-size:1rem;padding:var(--s-1) var(--s-3)}
+.flow-row{display:flex;align-items:center;gap:var(--s-2);flex-wrap:wrap;justify-content:center}
+.flow-step{padding:var(--s-2) var(--s-4);border-radius:6px;font-size:1rem;background:rgba(255,255,255,0.03);border:1px solid rgba(237,228,212,0.06)}
+.flow-arrow{color:var(--c-text-faint);font-size:1rem}
+.safety-list{width:100%;text-align:left}
+.safety-item{display:flex;align-items:center;gap:var(--s-3);padding:var(--s-2) var(--s-3);font-size:1.05rem;color:var(--c-text-dim);margin-bottom:var(--s-1)}
+.safety-item .si{font-size:1rem}
+.safety-item .sd{color:var(--c-text-faint);font-size:1rem}
+/* ====================================================================
+   P10 — Takeaways 3取3避
+   ==================================================================== */
+.takeaway-grid{display:flex;gap:var(--s-12);position:relative;z-index:1}
+.takeaway-col{min-width:300px}
+.takeaway-col h3{font-size:1.2rem;margin-bottom:var(--s-6);letter-spacing:3px;text-align:center}
+.takeaway-col h3.do{color:#64c878}
+.takeaway-col h3.dont{color:var(--c-red)}
+.takeaway-item{
+  display:flex;align-items:flex-start;gap:var(--s-3);padding:var(--s-4) var(--s-5);
+  margin-bottom:var(--s-3);border-radius:8px;
+  background:rgba(255,255,255,0.02);border:1px solid rgba(237,228,212,0.05);
+}
+.takeaway-item .ti{font-size:1.3rem}
+.takeaway-item .tt{font-size:1.2rem;color:var(--c-text)}
+.takeaway-item .tt strong{color:var(--c-gold)}
+.takeaway-item .td{font-size:1.05rem;color:var(--c-text-faint);margin-top:2px}
+/* ====================================================================
+   P13 — 批判性思维运用点
+   ==================================================================== */
+.ct-wrap{position:relative;z-index:1;max-width:1100px;width:100%}
+.ct-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:var(--s-5)}
+.ct-card{
+  padding:var(--s-5) var(--s-5);border-radius:10px;text-align:center;
+  background:rgba(255,255,255,0.02);border:1px solid rgba(237,228,212,0.06);
+  transition:all var(--dur-norm) var(--ease-out);
+}
+.ct-card:hover{transform:translateY(-4px);border-color:var(--c-gold-dim);box-shadow:0 8px 30px rgba(0,0,0,0.4)}
+.ct-icon{font-size:2.2rem;margin-bottom:var(--s-3)}
+.ct-title{font-size:1.15rem;font-weight:700;color:var(--c-gold);margin-bottom:var(--s-2)}
+.ct-desc{font-size:0.95rem;color:var(--c-text-faint);line-height:1.6}
+/* ====================================================================
+   P11 — Design Positioning Dashboard (redesigned)
+   ==================================================================== */
+#slide-10 .dp-bg, #slide-11 .dp-bg{
+  position:absolute;inset:0;z-index:0;
+  background:url('assets/slide-11-our-game/map-bg.png') center/cover no-repeat;
+  opacity:0.35;
+}
+.dp-wrap{position:relative;z-index:1;max-width:1100px;width:100%;display:flex;flex-direction:column;gap:var(--s-6)}
+.dp-header{text-align:center;margin-bottom:var(--s-2)}
+.dp-subtitle{font-family:var(--font-display);font-size:1.15rem;color:var(--c-gold-dim);letter-spacing:4px}
+.dp-factions{display:flex;gap:var(--s-5);justify-content:center}
+.dp-faction-card{
+  flex:1;max-width:320px;padding:var(--s-6) var(--s-5) var(--s-5);
+  border-radius:10px;text-align:center;position:relative;overflow:hidden;
+}
+.dp-faction-card::before{content:'';position:absolute;inset:0;opacity:0.06;z-index:0}
+.dp-faction-card.hum{background:rgba(74,123,181,0.06);border:1px solid rgba(74,123,181,0.2)}
+.dp-faction-card.elf{background:rgba(91,44,142,0.06);border:1px solid rgba(91,44,142,0.2)}
+.dp-faction-card.orc{background:rgba(199,62,58,0.06);border:1px solid rgba(199,62,58,0.2)}
+.dp-faction-card .f-emoji{font-size:2.8rem;margin-bottom:var(--s-3);position:relative;z-index:1}
+.dp-faction-card .f-title{font-size:1.3rem;font-weight:700;margin-bottom:var(--s-1);position:relative;z-index:1}
+.dp-faction-card .f-pos{font-size:1rem;margin-bottom:var(--s-2);position:relative;z-index:1}
+.dp-faction-card .f-desc{font-size:0.95rem;color:var(--c-text-faint);line-height:1.5;position:relative;z-index:1}
+.dp-faction-card.hum .f-title{color:#4a7bb5}
+.dp-faction-card.hum .f-pos{color:rgba(74,123,181,0.6)}
+.dp-faction-card.elf .f-title{color:#7b5ea7}
+.dp-faction-card.elf .f-pos{color:rgba(123,94,167,0.6)}
+.dp-faction-card.orc .f-title{color:#c73e3a}
+.dp-faction-card.orc .f-pos{color:rgba(199,62,58,0.6)}
+#slide-10 .dp-wrap{padding-top:70px}
+#slide-10 .dp-faction-card{background:none!important;border:none!important}
+#slide-10 .dp-faction-card::before{display:none}
+.f-card-img{width:195px;height:auto;display:block;margin:0 auto var(--s-3);border-radius:6px;box-shadow:0 0 24px rgba(0,0,0,0.6);position:relative;z-index:1}
+.dp-bottom{display:flex;gap:var(--s-8);align-items:stretch}
+.dp-bottom-left{flex:1.2;display:flex;flex-direction:column;gap:var(--s-4)}
+.dp-bottom-right{flex:1;display:flex;flex-direction:column;gap:var(--s-4)}
+.dp-section-label{font-size:0.85rem;color:var(--c-text-faint);letter-spacing:3px;text-transform:uppercase;margin-bottom:var(--s-3)}
+.dp-params-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-3)}
+.dp-param{
+  padding:var(--s-3) var(--s-4);background:rgba(255,255,255,0.02);border-radius:6px;
+  border:1px solid rgba(255,255,255,0.04);
+}
+.dp-param .p-val{font-size:1.15rem;font-weight:600;color:var(--c-text)}
+.dp-param .p-label{font-size:0.85rem;color:var(--c-text-faint);margin-top:2px}
+.dp-highlight{
+  padding:var(--s-4) var(--s-5);background:rgba(212,168,75,0.04);
+  border-left:2px solid var(--c-gold-dim);border-radius:0 6px 6px 0;
+  font-size:1.1rem;color:var(--c-text-dim);flex:1;
+}
+.dp-highlight strong{color:var(--c-gold)}
+.dp-tags{display:flex;flex-wrap:wrap;gap:var(--s-2)}
+.dp-tag{
+  padding:var(--s-1) var(--s-3);background:rgba(212,168,75,0.06);
+  border-radius:4px;font-size:0.95rem;color:var(--c-text-dim);
+  border:1px solid rgba(212,168,75,0.1)
+}
+/* ====================================================================
+   P12 — 设计定位 Ⅲ：世界设定图
+   ==================================================================== */
+.map-show-wrap{
+  position:relative;z-index:1;display:flex;align-items:center;justify-content:center;
+  width:100%;flex:1;padding:var(--s-6);
+}
+.map-show-img{
+  max-width:100%;max-height:100%;object-fit:contain;
+  border-radius:8px;box-shadow:0 0 40px rgba(0,0,0,0.6);
+}
+
+/* ====================================================================
+   P13 — Timeline + Ending
+   ==================================================================== */
+#slide-13 .timeline-bg{
+  position:absolute;inset:0;z-index:0;
+  background:url('assets/bg-universal/bg-universal.png') center/cover no-repeat;
+  opacity:0.3;
+}
+.timeline-wrap{position:relative;z-index:1}
+.timeline{display:flex;gap:var(--s-4);margin-bottom:var(--s-12)}
+.tl-step{text-align:center;flex:1;padding:0 var(--s-2)}
+.tl-step .num{
+  width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  margin:0 auto var(--s-2);font-weight:700;font-size:1.2rem;
+  background:rgba(212,168,75,0.08);border:1px solid rgba(212,168,75,0.15);
+  color:var(--c-gold);transition:all var(--dur-norm);
+}
+.tl-step .label{font-size:1.1rem;color:var(--c-text-dim);letter-spacing:1px}
+.tl-step .date{font-size:1rem;color:var(--c-text-faint);margin-top:var(--s-1)}
+.ending{text-align:center}
+.ending h2{font-family:var(--font-display);font-size:2.5rem;color:var(--c-gold);letter-spacing:6px;text-shadow:0 0 30px rgba(212,168,75,0.15)}
+.ending p{font-size:1rem;color:var(--c-text-faint);letter-spacing:3px;margin-top:var(--s-4)}
+/* ====================================================================
+   Responsive — UX Architect breakpoints
+   ==================================================================== */
+@media(max-width:900px){
+  .slide{padding:var(--s-8) var(--s-5)}
+  .cover-title{font-size:2.2rem}
+  .market-grid{gap:var(--s-8);flex-wrap:wrap;justify-content:center}
+  .market-num{font-size:2.2rem}
+  .market-sep{display:none}
+  .tarot-grid{gap:var(--s-4);flex-wrap:wrap;justify-content:center}
+  .tarot-card{width:240px}
+  .style-grid{flex-wrap:wrap;justify-content:center}
+  .style-card{width:234px}
+  .analysis-wrap{flex-direction:column;gap:var(--s-6)}
+  .takeaway-grid{flex-direction:column;align-items:center;gap:var(--s-6)}
+  .map-wrap{flex-direction:column}
+  .map-plot{min-width:auto;width:100%}
+  .decay-chain{flex-wrap:wrap;justify-content:center}
+  .timeline{flex-wrap:wrap;justify-content:center}
+  /* .pyramid-data removed */
+}
+@media(max-width:480px){
+  .cover-title{font-size:1.6rem;letter-spacing:3px}
+  .slide{padding:var(--s-6) var(--s-4)}
+  .tarot-card{width:195px}
+}
+</style>
+</head>
+<body>
+
+<div id="deck">
+
+<!-- ============================================================ -->
+<!-- P1: 封面 — Visual Storyteller narrative entry                 -->
+<!-- ============================================================ -->
+<div class="slide active" id="slide-0" data-index="0">
+  <div class="cover-bg"></div>
+  <div class="cover-overlay"></div>
+  <div class="cover-content">
+    <div class="cover-tarot-num">✦ 信息交互设计 ✦</div>
+    <div class="cover-title glow">桌游交互设计调研</div>
+    <div class="cover-title-sub">BOARD GAME RESEARCH</div>
+    <div class="cover-divider"></div>
+    <div class="cover-footer">信息交互设计 · 实践课程汇报</div>
+  </div>
+  <div class="slide-num">00 / 15</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- P2: 市场速览                                                  -->
+<!-- ============================================================ -->
+<div class="slide" id="slide-1" data-index="1">
+  <div class="slide-bg" style="position:absolute;inset:0;z-index:0;pointer-events:none;background:url('assets/bg-universal/bg-universal.png') center/cover no-repeat;opacity:0.25"></div>
+  <div class="section-title">I · 市场速览</div>
+  <div class="market-grid anim-fade anim-fade-1">
+    <div class="market-item">
+      <div class="market-num">273.8 亿</div>
+      <div class="market-label">全球桌游市场规模（2025）</div>
+    </div>
+    <div class="market-sep"></div>
+    <div class="market-item">
+      <div class="market-num">~30%</div>
+      <div class="market-label">年复合增长率 CAGR</div>
+    </div>
+    <div class="market-sep"></div>
+    <div class="market-item">
+      <div class="market-num">33%</div>
+      <div class="market-label">社交型玩家占比</div>
+    </div>
+  </div>
+  <div class="market-tagline anim-fade anim-fade-2">桌游吧靠 <strong>社交玩家</strong> 赚钱 → <strong>降低信息门槛</strong> 是核心</div>
+  <div class="slide-num">01 / 15</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- P3: 用户金字塔                                                -->
+<!-- ============================================================ -->
+<div class="slide" id="slide-2" data-index="2">
+  <div class="slide-bg" style="position:absolute;inset:0;z-index:0;pointer-events:none;background:url('assets/bg-universal/bg-universal.png') center/cover no-repeat;opacity:0.25"></div>
+  <div class="section-title">II · 用户分层</div>
+  <div class="pyramid-wrap anim-fade anim-fade-1">
+    <div class="pyramid">
+      <div class="pyramid-tier l1">
+        <div class="tier-label">
+          <div class="tier-text"><strong class="gold">33%</strong><br>社交型玩家 · 现金牛</div>
+          <div class="tier-arrow">▶</div>
+        </div>
+        <div class="tier-blocks">
+          <div class="block">33%</div>
+        </div>
+      </div>
+      <div class="pyramid-tier l2">
+        <div class="tier-label">
+          <div class="tier-text"><strong style="color:var(--c-blue)">21%</strong><br>核心玩家</div>
+          <div class="tier-arrow">▶</div>
+        </div>
+        <div class="tier-blocks">
+          <div class="block">21%</div><div class="block">21%</div>
+        </div>
+      </div>
+      <div class="pyramid-tier l3">
+        <div class="tier-label">
+          <div class="tier-text"><strong style="color:var(--c-red)">46%</strong><br>尝鲜型玩家 · 最大转化池</div>
+          <div class="tier-arrow">▶</div>
+        </div>
+        <div class="tier-blocks">
+          <div class="block">46%</div><div class="block">46%</div><div class="block">46%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="divider anim-fade anim-fade-3" style="margin:var(--s-4) auto;width:60%"></div>
+  <div class="anim-fade anim-fade-3" style="font-size:1.15rem;color:var(--c-text-dim);letter-spacing:1px;text-align:center">降低信息获取门槛 = <strong class="gold">核心设计方向</strong></div>
+  <div class="slide-num">02 / 15</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- P4: 信息衰减链条                                              -->
+<!-- ============================================================ -->
+<div class="slide" id="slide-3" data-index="3">
+  <div class="slide-bg" style="position:absolute;inset:0;z-index:0;pointer-events:none;background:url('assets/bg-universal/bg-universal.png') center/cover no-repeat;opacity:0.25"></div>
+  <div class="section-title">III · 信息衰减</div>
+  <div class="decay-chain anim-fade anim-fade-1">
+    <div class="decay-item"><div class="val" style="color:var(--c-text-dim)">100%</div><div class="desc">规则书</div></div>
+    <span class="decay-arrow">→</span>
+    <div class="decay-item warn"><div class="val" style="color:var(--c-gold)">85%</div><div class="desc">教学者理解</div></div>
+    <span class="decay-arrow">→</span>
+    <div class="decay-item warn"><div class="val" style="color:var(--c-gold)">55%</div><div class="desc">口头传授</div></div>
+    <span class="decay-arrow">→</span>
+    <div class="decay-item warn"><div class="val" style="color:#c98f2a">40%</div><div class="desc">新玩家接收</div></div>
+    <span class="decay-arrow">→</span>
+    <div class="decay-item danger"><div class="val">25%</div><div class="desc">实际执行</div></div>
+  </div>
+  <div class="decay-foot anim-fade anim-fade-2">
+    <div>规则传递保真度不到 <strong>30%</strong></div>
+    <div style="margin-top:4px">24% 用户因学习成本高不愿推荐桌游</div>
+  </div>
+  <div class="slide-num">03 / 15</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- P5: 风格对比                                                  -->
+<!-- ============================================================ -->
+<div class="slide" id="slide-4" data-index="4">
+  <div class="slide-bg" style="position:absolute;inset:0;z-index:0;pointer-events:none;background:url('assets/bg-universal/bg-universal.png') center/cover no-repeat;opacity:0.3"></div>
+  <div class="section-title">IV · 风格对比</div>
+  <div class="style-grid anim-fade anim-fade-1" style="padding-top:100px">
+    <div class="style-card chosen">
+      <img class="style-icon" src="assets/slide-05-styles/icons/euro.png" alt="德式">
+      <div class="name">德式</div>
+      <div class="desc">策略驱动·机制为重<br>间接交互·低运气</div>
+      <div class="ex">勃艮第城堡 · 卡坦岛</div>
+      <div class="badge">⭐ 勃艮第城堡</div>
+    </div>
+    <div class="style-card chosen">
+      <img class="style-icon" src="assets/slide-05-styles/icons/american.png" alt="美式">
+      <div class="name">美式</div>
+      <div class="desc">主题驱动·高运气<br>直接冲突·沉浸叙事</div>
+      <div class="ex">怒海求生 · 大富翁</div>
+      <div class="badge">⭐ 怒海求生</div>
+    </div>
+    <div class="style-card">
+      <img class="style-icon" src="assets/slide-05-styles/icons/party.png" alt="毛线">
+      <div class="name">毛线</div>
+      <div class="desc">极简规则·社交破冰<br>快速上手</div>
+      <div class="ex">UNO · 德国心脏病</div>
+    </div>
+    <div class="style-card chosen">
+      <img class="style-icon" src="assets/slide-05-styles/icons/social.png" alt="社交推理">
+      <div class="name">社交推理</div>
+      <div class="desc">身份隐藏·投票博弈<br>信息不对称</div>
+      <div class="ex">阿瓦隆 · 狼人杀</div>
+      <div class="badge">⭐ 阿瓦隆</div>
+    </div>
+  </div>
+  <div class="divider anim-fade anim-fade-2"></div>
+  <div style="font-size:1.5rem;color:var(--c-text-faint);position:relative;z-index:1;letter-spacing:1px" class="anim-fade anim-fade-2">我们选了 <strong style="color:var(--c-gold)">3 种风格</strong> 各 1 款代表作进行深度拆解</div>
+  <div class="slide-num">04 / 15</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- P6: 三款游戏卡片 + 跳转入口                                   -->
+<!-- ============================================================ -->
+<div class="slide" id="slide-5" data-index="5">
+  <div class="slide-bg" style="position:absolute;inset:0;z-index:0;pointer-events:none;background:url('assets/bg-universal/bg-universal.png') center/cover no-repeat;opacity:0.25"></div>
+  <div class="section-title">V · 三款代表作</div>
+  <div class="tarot-grid anim-fade anim-fade-1">
+    <div class="tarot-card">
+      <img src="assets/slide-06-cards/avalon-character.png" alt="阿瓦隆">
+      <div class="tarot-label">阿瓦隆 · 社交推理</div>
+      <button class="tarot-btn" onclick="window.open('../Board%20Game%20Research%20Report/avalondemo/avalondemo.html','_blank')" aria-label="在新标签页打开阿瓦隆演示">▶ 运行演示</button>
+    </div>
+    <div class="tarot-card">
+      <img src="assets/slide-06-cards/lifeboat-character.png" alt="怒海求生">
+      <div class="tarot-label">怒海求生 · 谈判博弈</div>
+      <button class="tarot-btn" onclick="window.open('../lifeboat-game-simulation/%E6%80%92%E6%B5%B7%E6%B1%82%E7%94%9FDemo.html','_blank')" aria-label="在新标签页打开怒海求生演示">▶ 运行演示</button>
+    </div>
+    <div class="tarot-card" style="position:relative">
+      <img src="assets/slide-06-cards/burgundy-character.png" alt="勃艮第城堡">
+      <div class="tarot-label">勃艮第城堡 · 德式策略</div>
+      <button class="tarot-btn" onclick="window.open('player%20board/combined-board.html','_blank')" aria-label="在新标签页打开勃艮第城堡演示">▶ 运行演示</button>
+    </div>
+  </div>
+  <div class="slide-num">05 / 15</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- P7: 阿瓦隆                                                    -->
+<!-- ============================================================ -->
+<div class="slide" id="slide-6" data-index="6">
+  <div class="slide-bg" style="position:absolute;inset:0;z-index:0;pointer-events:none;background:url('assets/slide-06-cards/avalon-background.png') center/cover no-repeat;opacity:0.3"></div>
+  <div class="section-title">VI · 阿瓦隆</div>
+  <div class="analysis-wrap anim-fade anim-fade-1">
+    <div class="analysis-left">
+      <div class="analysis-name">阿瓦隆</div>
+      <div class="analysis-meta">社交推理 · 5–10 人 · ≈30 分钟</div>
+      <div class="analysis-diagram" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:200px">
+        <div style="display:flex;flex-wrap:wrap;gap:var(--s-3);justify-content:center;max-width:400px">
+          <span class="dp-tag" style="font-size:1.05rem;padding:var(--s-2) var(--s-4)">信息不对称</span>
+          <span class="dp-tag" style="font-size:1.05rem;padding:var(--s-2) var(--s-4)">投票即表态</span>
+          <span class="dp-tag" style="font-size:1.05rem;padding:var(--s-2) var(--s-4)">分层信息</span>
+          <span class="dp-tag" style="font-size:1.05rem;padding:var(--s-2) var(--s-4)">逐轮推理</span>
+          <span class="dp-tag" style="font-size:1.05rem;padding:var(--s-2) var(--s-4)">无淘汰</span>
+          <span class="dp-tag" style="font-size:1.05rem;padding:var(--s-2) var(--s-4)">行为暴露</span>
+          <span class="dp-tag" style="font-size:1.05rem;padding:var(--s-2) var(--s-4)">身份隐藏</span>
+          <span class="dp-tag" style="font-size:1.05rem;padding:var(--s-2) var(--s-4)">团队博弈</span>
+        </div>
+      </div>
+    </div>
+    <div class="analysis-right">
+      <div class="analysis-core"><strong>信息流动特点</strong>：投票行为制造信息流，分层信息制造推理空间，无淘汰保证全员参与</div>
+      <div style="margin:var(--s-4) 0 var(--s-3);padding:var(--s-2) var(--s-4);background:rgba(212,168,75,0.06);border-radius:6px;border-left:2px solid var(--c-gold-dim);font-size:1.1rem;color:var(--c-text-dim)"><strong style="color:var(--c-gold)">核心驱动力</strong>：身份推理驱动投票博弈，信息差制造决策张力</div>
+      <ul class="analysis-list">
+        <li><strong>信息不对称</strong> — 好人知道部分信息但无法直接证明</li>
+        <li><strong>投票即表态</strong> — 赞成/反对暴露玩家倾向</li>
+        <li><strong>逐轮推理叠加</strong> — 每轮任务结果增加信息量</li>
+      </ul>
+      <button class="analysis-btn" onclick="window.open('../Board%20Game%20Research%20Report/avalondemo/avalondemo.html','_blank')" aria-label="在新标签页打开阿瓦隆交互演示">▶ 运行阿瓦隆演示</button>
+    </div>
+  </div>
+  <div class="slide-num">06 / 15</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- P8: 怒海求生                                                  -->
+<!-- ============================================================ -->
+<div class="slide" id="slide-7" data-index="7">
+  <div class="slide-bg" style="position:absolute;inset:0;z-index:0;pointer-events:none;background:url('assets/slide-06-cards/lifeboat-background.png') center/cover no-repeat;opacity:0.3"></div>
+  <div class="section-title">VII · 怒海求生</div>
+  <div class="analysis-wrap anim-fade anim-fade-1">
+    <div class="analysis-left">
+      <div class="analysis-name">怒海求生</div>
+      <div class="analysis-meta">谈判博弈 · 4–6 人 · ≈40–60 分钟</div>
+      <div class="analysis-diagram" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:200px">
+        <div style="display:flex;flex-wrap:wrap;gap:var(--s-3);justify-content:center;max-width:400px">
+          <span class="dp-tag" style="font-size:1.05rem;padding:var(--s-2) var(--s-4)">爱恨关系</span>
+          <span class="dp-tag" style="font-size:1.05rem;padding:var(--s-2) var(--s-4)">自驱谈判</span>
+          <span class="dp-tag" style="font-size:1.05rem;padding:var(--s-2) var(--s-4)">利益绑定</span>
+          <span class="dp-tag" style="font-size:1.05rem;padding:var(--s-2) var(--s-4)">动态关系</span>
+          <span class="dp-tag" style="font-size:1.05rem;padding:var(--s-2) var(--s-4)">谈判即玩法</span>
+          <span class="dp-tag" style="font-size:1.05rem;padding:var(--s-2) var(--s-4)">强制互动</span>
+          <span class="dp-tag" style="font-size:1.05rem;padding:var(--s-2) var(--s-4)">囚徒困境</span>
+          <span class="dp-tag" style="font-size:1.05rem;padding:var(--s-2) var(--s-4)">随机同盟</span>
+        </div>
+      </div>
+    </div>
+    <div class="analysis-right">
+      <div class="analysis-core"><strong>核心</strong>：爱恨卡创造天然谈判土壤</div>
+      <div style="margin:var(--s-4) 0 var(--s-3);padding:var(--s-2) var(--s-4);background:rgba(212,168,75,0.06);border-radius:6px;border-left:2px solid var(--c-gold-dim);font-size:1.1rem;color:var(--c-text-dim)"><strong style="color:var(--c-gold)">核心驱动力</strong>：爱恨利益绑定驱动玩家主动交互，谈判即是核心玩法</div>
+      <ul class="analysis-list">
+        <li><strong>自驱谈判</strong> — 爱恨关系迫使玩家主动寻求合作/对抗</li>
+        <li><strong>利益绑定</strong> — 你的"爱人"存活对你有直接好处</li>
+        <li><strong>谈判即玩法</strong> — 规则强制互动，无"自闭"玩法</li>
+      </ul>
+      <button class="analysis-btn" onclick="window.open('../lifeboat-game-simulation/%E6%80%92%E6%B5%B7%E6%B1%82%E7%94%9FDemo.html','_blank')" aria-label="在新标签页打开怒海求生交互演示">▶ 运行怒海求生演示</button>
+    </div>
+  </div>
+  <div class="slide-num">07 / 15</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- P9: 勃艮第城堡                                                -->
+<!-- ============================================================ -->
+<div class="slide" id="slide-8" data-index="8">
+  <div class="slide-bg" style="position:absolute;inset:0;z-index:0;pointer-events:none;background:url('assets/slide-06-cards/burgundy-background.png') center/cover no-repeat;opacity:0.3"></div>
+  <div class="section-title">VIII · 勃艮第城堡</div>
+  <div class="analysis-wrap anim-fade anim-fade-1">
+    <div class="analysis-left">
+      <div class="analysis-name">勃艮第城堡</div>
+      <div class="analysis-meta">德式策略 · 2–4 人 · ≈60–120 分钟</div>
+      <div class="analysis-diagram" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:200px">
+        <div style="display:flex;flex-wrap:wrap;gap:var(--s-3);justify-content:center;max-width:400px">
+          <span class="dp-tag" style="font-size:1.05rem;padding:var(--s-2) var(--s-4)">受控随机</span>
+          <span class="dp-tag" style="font-size:1.05rem;padding:var(--s-2) var(--s-4)">多路径策略</span>
+          <span class="dp-tag" style="font-size:1.05rem;padding:var(--s-2) var(--s-4)">安全阀机制</span>
+          <span class="dp-tag" style="font-size:1.05rem;padding:var(--s-2) var(--s-4)">信息公开</span>
+          <span class="dp-tag" style="font-size:1.05rem;padding:var(--s-2) var(--s-4)">零淘汰</span>
+          <span class="dp-tag" style="font-size:1.05rem;padding:var(--s-2) var(--s-4)">AP 经济</span>
+          <span class="dp-tag" style="font-size:1.05rem;padding:var(--s-2) var(--s-4)">网格规划</span>
+          <span class="dp-tag" style="font-size:1.05rem;padding:var(--s-2) var(--s-4)">策略深度</span>
+        </div>
+      </div>
+    </div>
+    <div class="analysis-right">
+      <div class="analysis-core"><strong>核心</strong>：将运气转化为资源管理</div>
+      <div style="margin:var(--s-4) 0 var(--s-3);padding:var(--s-2) var(--s-4);background:rgba(212,168,75,0.06);border-radius:6px;border-left:2px solid var(--c-gold-dim);font-size:1.1rem;color:var(--c-text-dim)"><strong style="color:var(--c-gold)">核心驱动力</strong>：骰子决定拿什么而非能不能拿，安全阀将运气转化为策略选择</div>
+      <ul class="analysis-list">
+        <li><strong>受控随机</strong> — 骰子决定拿什么货，而非能不能拿</li>
+        <li><strong>多路径策略</strong> — 6种地形均可得分，不存在唯一最优</li>
+        <li><strong>零淘汰 + 信息公开</strong> — 所有玩家玩满全程，分数实时可见</li>
+      </ul>
+      <button class="analysis-btn" onclick="window.open('player%20board/combined-board.html','_blank')" aria-label="在新标签页打开勃艮第城堡交互演示">▶ 运行勃艮第城堡演示</button>
+    </div>
+  </div>
+  <div class="slide-num">08 / 15</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- P10: 3取3避                                                   -->
+<!-- ============================================================ -->
+<div class="slide" id="slide-9" data-index="9">
+  <div class="section-title">IX · 精髓总结</div>
+  <div class="slide-bg" style="position:absolute;inset:0;z-index:0;pointer-events:none;background:url('assets/bg-universal/bg-universal.png') center/cover no-repeat;opacity:0.25"></div>
+  <div class="takeaway-grid anim-fade anim-fade-1">
+    <div class="takeaway-col">
+      <h3 class="do">✅ 三取</h3>
+      <div class="takeaway-item"><span class="ti">🃏</span><div><span class="tt"><strong>信息不对称</strong></span><div class="td">阿瓦隆：分层信息制造推理空间</div></div></div>
+      <div class="takeaway-item"><span class="ti">🤝</span><div><span class="tt"><strong>自驱谈判</strong></span><div class="td">怒海求生：规则强制玩家互动交易</div></div></div>
+      <div class="takeaway-item"><span class="ti">⚖️</span><div><span class="tt"><strong>安全阀机制</strong></span><div class="td">勃艮第城堡：可控随机而非纯运气</div></div></div>
+    </div>
+    <div class="takeaway-col">
+      <h3 class="dont">❌ 三避</h3>
+      <div class="takeaway-item"><span class="ti">💀</span><div><span class="tt"><strong style="color:var(--c-red)">淘汰机制</strong></span><div class="td">被淘汰玩家无事可做，体验崩塌</div></div></div>
+      <div class="takeaway-item"><span class="ti">🤯</span><div><span class="tt"><strong style="color:var(--c-red)">分析瘫痪</strong></span><div class="td">信息过载让玩家无从决策</div></div></div>
+      <div class="takeaway-item"><span class="ti">👑</span><div><span class="tt"><strong style="color:var(--c-red)">霸凌螺旋</strong></span><div class="td">滚雪球式优势导致追赶无望</div></div></div>
+    </div>
+  </div>
+  <div class="slide-num">09 / 15</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- P11: 设计定位 1 — 三大阵营                                    -->
+<!-- ============================================================ -->
+<div class="slide" id="slide-10" data-index="10">
+  <div class="dp-bg"></div>
+  <div class="section-title">X · 设计定位 Ⅰ</div>
+  <div class="dp-wrap anim-fade anim-fade-1">
+    <div class="dp-header" style="padding-top:70px">
+      <div class="dp-subtitle" style="font-weight:700;color:var(--c-text)">三人非对称沙盘策略 · 各具独特优势路线的三大阵营</div>
+    </div>
+    <div class="dp-factions" style="gap:var(--s-6);margin-top:-40px">
+      <div class="dp-faction-card hum">
+        <img class="f-card-img" src="assets/slide-11-our-game/card-dwarf.png" alt="矮人">
+        <div class="f-title">矮人 · 山地堡垒</div>
+        <div class="f-pos">西南板块 · 挖矿工程</div>
+        <div class="f-desc">采矿效率 +150%，石料/铁矿双优<br/>山地矿场产量翻倍，要塞坚不可摧<br/>适合稳健运营、后期发力型玩家</div>
+      </div>
+      <div class="dp-faction-card elf">
+        <img class="f-card-img" src="assets/slide-11-our-game/card-elf.png" alt="精灵">
+        <div class="f-title">精灵 · 森林秘境</div>
+        <div class="f-pos">西北板块 · 星界感知</div>
+        <div class="f-desc">采集效率 +150%，古木/魔力尘双优<br/>全图视野控制，森林中隐身穿行<br/>适合信息驱动、战术先手型玩家</div>
+      </div>
+      <div class="dp-faction-card orc">
+        <img class="f-card-img" src="assets/slide-11-our-game/card-orc.png" alt="兽人">
+        <div class="f-title">兽人 · 荒原战场</div>
+        <div class="f-pos">东南板块 · 掠夺战术</div>
+        <div class="f-desc">战斗掉落 +150%，以战养战<br/>掠夺效率顶级，击杀反哺经济<br/>适合激进对抗、滚雪球型玩家</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">10 / 15</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- P12: 设计定位 2 — 核心系统                                    -->
+<!-- ============================================================ -->
+<div class="slide" id="slide-11" data-index="11">
+  <div class="dp-bg"></div>
+  <div class="section-title">XI · 设计定位 Ⅱ</div>
+  <div class="dp-wrap anim-fade anim-fade-1">
+    <div class="dp-header" style="padding-top:70px">
+      <div class="dp-subtitle">中复杂度 + 高互动 —— 融合三家之长的创新策略体验</div>
+    </div>
+    <div class="dp-bottom" style="gap:var(--s-8)">
+      <div class="dp-bottom-left">
+        <div class="dp-section-label">⚙ 核心参数</div>
+        <div class="dp-params-grid">
+          <div class="dp-param"><div class="p-val">3 人</div><div class="p-label">非对称阵营对抗</div></div>
+          <div class="dp-param"><div class="p-val">28×28</div><div class="p-label">网格地图 · ~784 格</div></div>
+          <div class="dp-param"><div class="p-val">6 AP</div><div class="p-label">每回合 · 可累积 12</div></div>
+          <div class="dp-param"><div class="p-val">50-65</div><div class="p-label">回合 · ~180-280 分钟</div></div>
+          <div class="dp-param"><div class="p-val">9 种</div><div class="p-label">通用资源 · T1~T3 三级</div></div>
+          <div class="dp-param"><div class="p-val">3 条</div><div class="p-label">科技分支 · 各 3 级</div></div>
+        </div>
+        <div class="dp-highlight"><strong>设计定位</strong>：融合勃艮第的 AP 经济与网格布局、阿瓦隆的信息不对称迷雾、怒海求生的强制谈判博弈</div>
+      </div>
+      <div class="dp-bottom-right">
+        <div class="dp-section-label">🏷 设计关键词</div>
+        <div class="dp-tags">
+          <span class="dp-tag">非对称阵营</span>
+          <span class="dp-tag">同步回合制</span>
+          <span class="dp-tag">通用资源</span>
+          <span class="dp-tag">两层迷雾</span>
+          <span class="dp-tag">科技攀升</span>
+          <span class="dp-tag">建筑经营</span>
+          <span class="dp-tag">领土扩张</span>
+          <span class="dp-tag">互殴战斗</span>
+          <span class="dp-tag">战后损耗</span>
+          <span class="dp-tag">PvE 中立生物</span>
+          <span class="dp-tag">哥布林商队</span>
+          <span class="dp-tag">玩家外交</span>
+          <span class="dp-tag">暗牌技能</span>
+          <span class="dp-tag">掠夺机制</span>
+        </div>
+        <div class="dp-highlight" style="flex:none;margin-top:auto">
+          <strong>胜利条件</strong>：科技胜利 · 资源垄断 · 征服胜利 · 65 回合分数决胜
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">11 / 15</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- P12: 设计定位 Ⅲ — 世界设定图                                   -->
+<!-- ============================================================ -->
+<div class="slide" id="slide-12" data-index="12">
+  <div class="section-title">XII · 设计定位 Ⅲ</div>
+  <div class="map-show-wrap">
+    <img src="assets/slide-11-our-game/map-bg.png" alt="世界设定图" class="map-show-img">
+  </div>
+  <div class="slide-num">12 / 15</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- P13: 批判性思维运用点                                          -->
+<!-- ============================================================ -->
+<div class="slide" id="slide-13" data-index="13">
+  <div class="slide-bg" style="position:absolute;inset:0;z-index:0;pointer-events:none;background:url('assets/bg-universal/bg-universal.png') center/cover no-repeat;opacity:0.25"></div>
+  <div class="section-title">XIII · 批判性思维运用点</div>
+  <div class="ct-wrap anim-fade anim-fade-1">
+    <div class="ct-grid">
+      <div class="ct-card">
+        <div class="ct-icon">🎭</div>
+        <div class="ct-title">信息不对称推理</div>
+        <div class="ct-desc">两层迷雾 + 暗牌技能 + 手牌上限，迫使玩家在信息不完备下推断对手意图、制造 bluff 空间</div>
+      </div>
+      <div class="ct-card">
+        <div class="ct-icon">⏳</div>
+        <div class="ct-title">AP 时间策略</div>
+        <div class="ct-desc">蓄力系统让玩家权衡"即时行动"vs"攒 AP 爆发"的机会成本，每回合都是资源配置决策</div>
+      </div>
+      <div class="ct-card">
+        <div class="ct-icon">⚖️</div>
+        <div class="ct-title">非对称战略推演</div>
+        <div class="ct-desc">矮人/精灵/兽人三条截然不同的优势路线，需要根据自身阵营与对手进度动态调整长期策略</div>
+      </div>
+      <div class="ct-card">
+        <div class="ct-icon">🏆</div>
+        <div class="ct-title">多路径制胜判断</div>
+        <div class="ct-desc">科技/资源/征服/分数四种胜利路线，需实时评估对手进度切换自己的胜负策略</div>
+      </div>
+      <div class="ct-card">
+        <div class="ct-icon">🤝</div>
+        <div class="ct-title">外交博弈权衡</div>
+        <div class="ct-desc">哥布林商队的"交易 vs 抢夺"抉择、三方制衡中的合作与背叛——社会推理的博弈维度</div>
+      </div>
+      <div class="ct-card">
+        <div class="ct-icon">💥</div>
+        <div class="ct-title">战后损耗评估</div>
+        <div class="ct-desc">战斗胜利方亦损战力，每次开战前必须计算实际收益 vs 损耗成本，避免盲目冲突</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">13 / 15</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- P14: 调研路径 + 结尾                                          -->
+<!-- ============================================================ -->
+<div class="slide" id="slide-14" data-index="14">
+  <div class="timeline-bg"></div>
+  <div class="section-title">XIV · 调研路径</div>
+  <div class="timeline-wrap anim-fade anim-fade-1">
+    <div class="timeline">
+      <div class="tl-step"><div class="num">1</div><div class="label">市场调研</div><div class="date">桌面研究 · 数据采集</div></div>
+      <div class="tl-step"><div class="num">2</div><div class="label">风格对比</div><div class="date">4种风格定位</div></div>
+      <div class="tl-step"><div class="num">3</div><div class="label">深度拆解</div><div class="date">3款游戏机制分析</div></div>
+      <div class="tl-step"><div class="num">4</div><div class="label">设计提炼</div><div class="date">3取3避原则</div></div>
+      <div class="tl-step"><div class="num">5</div><div class="label">概念产出</div><div class="date">原创桌游设计</div></div>
+    </div>
+    <div class="ending">
+      <h2>感谢聆听</h2>
+      <p>—— 欢迎提问与讨论 ——</p>
+      <div style="margin-top:var(--s-6);font-size:1.15rem;color:var(--c-text-faint);letter-spacing:2px">信息交互设计 · 实践课程汇报</div>
+    </div>
+  </div>
+  <div class="slide-num">14 / 15</div>
+</div>
+
+</div><!-- /#deck -->
+
+<!-- ========== Progress Bar ========== -->
+<div id="progress-bar" style="width:6.67%"></div>
+
+<!-- ========== Navigation Dots ========== -->
+<div id="nav-dots" role="navigation" aria-label="幻灯片导航"></div>
+
+<script>
+/* ====================================================================
+   Slide Navigation — Frontend Developer: performant, accessible
+   ==================================================================== */
+(function(){
+  const slides=document.querySelectorAll('.slide'), total=slides.length;
+  const dotsEl=document.getElementById('nav-dots');
+  const bar=document.getElementById('progress-bar');
+  let cur=0, moving=false;
+
+  // Create navigation dots with ARIA
+  for(let i=0;i<total;i++){
+    const b=document.createElement('button');
+    b.className='dot'+(i===0?' active':'');
+    b.dataset.index=i;
+    b.setAttribute('aria-label','跳转到第 '+(i+1)+' 页');
+    b.addEventListener('click',function(){go(parseInt(this.dataset.index));});
+    dotsEl.appendChild(b);
+  }
+  const dots=dotsEl.querySelectorAll('.dot');
+
+  function go(idx,dir){
+    if(moving||idx===cur||idx<0||idx>=total)return;
+    moving=true;
+    const d=dir||(idx>cur?1:-1);
+    slides[cur].classList.remove('active');
+    dots[cur].classList.remove('active');
+    dots[cur].setAttribute('aria-checked','false');
+    // Reset transform and let active class handle entry direction
+    slides[idx].style.transform='';
+    slides[idx].classList.add('active');
+    dots[idx].classList.add('active');
+    dots[idx].setAttribute('aria-checked','true');
+    const prev=cur;
+    cur=idx;
+    bar.style.width=((cur+1)/total*100)+'%';
+    setTimeout(function(){moving=false;},550);
+  }
+
+  function next(){go(cur+1,1)}
+  function prev(){go(cur-1,-1)}
+
+  // Keyboard
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'||e.key===' '||e.key==='ArrowDown'){e.preventDefault();next()}
+    if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();prev()}
+    if(e.key==='Home'){e.preventDefault();go(0,-1)}
+    if(e.key==='End'){e.preventDefault();go(total-1,1)}
+  });
+
+  // Touch swipe
+  let tx=0;
+  document.addEventListener('touchstart',function(e){tx=e.changedTouches[0].screenX});
+  document.addEventListener('touchend',function(e){
+    const d=tx-e.changedTouches[0].screenX;
+    if(Math.abs(d)>50){d>0?next():prev()}
+  });
+
+  // Mouse wheel (debounced)
+  let wt=false;
+  document.addEventListener('wheel',function(e){
+    if(wt)return;wt=true;
+    e.deltaY>0?next():prev();
+    setTimeout(function(){wt=false},800);
+  },{passive:true});
+
+  window.goToSlide=go;
+})();
+</script>
+</body>
+</html>
